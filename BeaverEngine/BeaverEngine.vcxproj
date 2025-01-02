@@ -18,6 +18,48 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\BeaverEngine\Functions\components.h" />
+    <ClInclude Include="include\BeaverEngine\System\EntitySystem.h" />
+    <ClInclude Include="include\BeaverEngine\Component\Component.h" />
+    <ClInclude Include="include\BeaverEngine\DataStruct\Timing.h" />
+    <ClInclude Include="include\BeaverEngine\Entity.h" />
+    <ClInclude Include="include\BeaverEngine\Game.h" />
+    <ClInclude Include="include\BeaverEngine\System\System.h" />
+    <ClInclude Include="include\BeaverEngine\std.h" />
+    <ClInclude Include="include\BeaverEngine\TypeDef.h" />
+    <ClInclude Include="include\BeaverEngine\Scene.h" />
+    <ClInclude Include="include\BeaverEngine\Component\LogicComponent.h" />
+    <ClInclude Include="include\BeaverEngine\System\LogicSystem.h" />
+    <ClInclude Include="include\BeaverEngine\Window.h" />
+    <ClInclude Include="include\BeaverEngine\Platform\Windows\WindowsWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Component\LogicComponent.cpp" />
+    <ClCompile Include="src\System\LogicSystem.cpp" />
+    <ClCompile Include="src\System\EntitySystem.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\Component\Component.cpp" />
+    <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\System\System.cpp" />
+    <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\_deps\glfw-build\src\glfw.vcxproj">
+      <Project>{2ebbfa6f-49a2-3502-b788-a652fa921bf2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\_deps\glfw\src\glfw.vcxproj">
+      <Project>{b6906c5d-f72b-3264-bfe7-64e592eb3a29}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\_deps\yaml-cpp-build\yaml-cpp.vcxproj">
+      <Project>{0aa2cd37-54ef-3ef7-9fdd-3a589a4eb45c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\_deps\yaml\yaml-cpp.vcxproj">
+      <Project>{5ff25b51-4f94-35c9-a71a-2e222c35807f}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -40,13 +82,13 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -71,8 +113,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)\bin\out\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)\bin\interm\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)\bin\out\$(Platform)-$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)\bin\interm\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>
+    <PublicIncludeDirectories>$(ProjectDir)\include;$(PublicIncludeDirectories)</PublicIncludeDirectories>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)\bin\out\$(Platform)-$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)\bin\interm\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>
+    <PublicIncludeDirectories>$(ProjectDir)\include;$(PublicIncludeDirectories)</PublicIncludeDirectories>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -106,8 +154,10 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;YAML_CPP_STATIC_DEFINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(SolutionDir)\_deps\glfw-src\include;$(SolutionDir)\_deps\yaml-cpp-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,8 +170,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;YAML_CPP_STATIC_DEFINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(SolutionDir)\_deps\glfw-src\include;$(SolutionDir)\_deps\yaml-cpp-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,8 +182,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\gonon\Documents\Jeu perso\BeaverEngine\BeaverEngine\_deps\glfw-build\CMakeFiles\e52de10f81082730f7fc7cdd7d147d64\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{CE609CE2-DA39-3214-BFFB-CFC6FE01D1A3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

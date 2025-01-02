@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\gonon\Documents\Jeu perso\BeaverEngine\BeaverEngine\_deps\yaml-cpp-build\CMakeFiles\c6599bf66284d190acbd61a45d3c4beb\uninstall.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\gonon\Documents\Jeu perso\BeaverEngine\BeaverEngine\_deps\yaml-cpp-src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\gonon\Documents\Jeu perso\BeaverEngine\BeaverEngine\_deps\yaml-cpp-build\CMakeFiles\uninstall" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{505D04B9-A227-3289-A792-66DF415A97F0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
