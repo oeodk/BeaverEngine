@@ -1,5 +1,5 @@
 #pragma once
-#include "BeaverEngine/DataStruct/Timing.h"
+#include "BeaverEngine/Utils/Timing.h"
 
 namespace bv
 {

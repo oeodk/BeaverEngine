@@ -1,6 +1,6 @@
 #pragma once
-#include "BeaverEngine/std.h"
-#include "BeaverEngine/TypeDef.h"
+#include "BeaverEngine/Core/std.h"
+#include "BeaverEngine/Core/TypeDef.h"
 #include "BeaverEngine/System/System.h"
 
 namespace bv

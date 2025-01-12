@@ -1,7 +1,8 @@
 #include "Game.h"
+
 int main()
 {
-	sandbox::Game game({"SandBox", 1280, 720 });
+	sandbox::Game game;
 	game.run();
 	return 0;
 }

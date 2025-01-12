@@ -1,6 +1,6 @@
 #pragma once
 #include "BeaverEngine/Component/Component.h"
-#include "BeaverEngine/DataStruct/Timing.h"
+#include "BeaverEngine/Utils/Timing.h"
 
 namespace bv
 {
@@ -8,8 +8,8 @@ namespace bv
         public virtual Component
     {
     public :
-        inline LogicComponent();
-        inline ~LogicComponent();
+        LogicComponent();
+        ~LogicComponent();
         virtual void updateLogic(const Timing& timing) = 0;
     };
 }

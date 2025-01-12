@@ -1,5 +1,5 @@
 #include "BeaverEngine/system/EntitySystem.h"
-#include "BeaverEngine/Entity.h"
+#include "BeaverEngine/Core/Entity.h"
 namespace bv
 {
 	EntitySystem& EntitySystem::getInstance()

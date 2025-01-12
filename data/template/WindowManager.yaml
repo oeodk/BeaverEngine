@@ -1,0 +1,4 @@
+- name: "WindowManager"
+  param:
+    - name : "main_window"
+      value : "Sandbox;1280;720;0,0,0,1"

@@ -1,0 +1,90 @@
+- name : "Managers"
+  description:
+    chindren:
+    components:
+      - name: "WindowManager"
+        param:
+          - name : "main_window"
+            value : ["Sandbox",1280,720,0,0,0,1]
+          - name : "second_window"
+            value : ["test",250,250,0,0,0,1]
+      - name: "ViewManager"
+        param:
+          - name : "main_view.size"
+            value : [1280,720]
+          - name : "main_view.center"
+            value : [200,200]
+          - name : "main_view.elevation"
+            value : 100
+          - name : "main_view.rotation_angle"
+            value : 0
+          - name : "main_view.viewport_pos"
+            value : [0,0]
+          - name : "main_view.viewport_size"
+            value : [1,1]
+      - name: "TextureManager"
+        value:
+      - name: "InputManager"
+        value:
+- name : "TestEntity"
+  description:
+    children:
+    components:
+      - name: "Position"
+        param:
+          - name : "x"
+            value : 0
+          - name : "y"
+            value : 200
+          - name : "z"
+            value : 0
+      - name: "Sprite"
+        param:
+          - name: "texture"
+            value: "test.png"
+          - name: "color"
+            value: [1,1,1,1]
+          - name: "view"
+            value: "main_view"
+          - name: "window"
+            value: "main_window"
+          - name: "interpolate_texture"
+            value: true
+          - name: "offset"
+            value: [0,0]
+          - name: "size"
+            value: [50,100]  
+          - name: "scale"
+            value: [-1,0.5]      
+          - name: "rotation_angle"
+            value: 0         
+- name : "TestEntity2"
+  description:
+    children:
+    components:
+      - name: "Position"
+        param:
+          - name : "x"
+            value : 0
+          - name : "y"
+            value : 0
+          - name : "z"
+            value : 0
+      - name: "Sprite"
+        param:
+          - name: "texture"
+            value: "giant_spider.png"
+          - name: "color"
+            value: [1,1,1,1]
+          - name: "view"
+            value: "main_view"
+          - name: "window"
+            value: "main_window"
+          - name: "interpolate_texture"
+            value: true
+          - name: "offset"
+            value: [0,0]
+          - name: "render_rectangle"
+            value: [654,252,164,126]
+          - name: "base_animation"
+            value: "top_walk"

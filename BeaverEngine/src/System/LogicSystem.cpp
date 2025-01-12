@@ -1,5 +1,5 @@
 #include "BeaverEngine/System/LogicSystem.h"
-#include "BeaverEngine/Entity.h"
+#include "BeaverEngine/Core/Entity.h"
 namespace bv
 {
 	LogicSystem& LogicSystem::getInstance()

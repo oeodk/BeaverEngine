@@ -3,12 +3,12 @@
 
 namespace bv
 {
-	inline LogicComponent::LogicComponent()
+	LogicComponent::LogicComponent()
 	{
 		LogicSystem::getInstance().registerComponent(this);
 	}
 
-	inline LogicComponent::~LogicComponent()
+	LogicComponent::~LogicComponent()
 	{
 		LogicSystem::getInstance().removeComponent(this);
 	}

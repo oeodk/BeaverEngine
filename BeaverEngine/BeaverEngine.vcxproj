@@ -19,39 +19,88 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\BeaverEngine\Core\KeyCode.h" />
+    <ClInclude Include="include\BeaverEngine\Platform\Desktop\DesktopTexture2D.h" />
+    <ClInclude Include="include\BeaverEngine\Enums\E_RenderDimension.h" />
+    <ClInclude Include="include\BeaverEngine\Platform\Desktop\DesktopRenderer.h" />
+    <ClInclude Include="include\BeaverEngine\Core\Debug.h" />
+    <ClInclude Include="include\BeaverEngine\Utils\BufferImpl.h" />
+    <ClInclude Include="include\BeaverEngine\BeaverEngine.h" />
+    <ClInclude Include="include\BeaverEngine\Component\DisplayComponent.h" />
+    <ClInclude Include="include\BeaverEngine\Utils\Buffer.h" />
+    <ClInclude Include="include\BeaverEngine\Utils\Vertex.h" />
+    <ClInclude Include="include\BeaverEngine\System\DisplaySystem.h" />
     <ClInclude Include="include\BeaverEngine\Functions\components.h" />
     <ClInclude Include="include\BeaverEngine\System\EntitySystem.h" />
     <ClInclude Include="include\BeaverEngine\Component\Component.h" />
-    <ClInclude Include="include\BeaverEngine\DataStruct\Timing.h" />
-    <ClInclude Include="include\BeaverEngine\Entity.h" />
-    <ClInclude Include="include\BeaverEngine\Game.h" />
+    <ClInclude Include="include\BeaverEngine\Utils\Timing.h" />
+    <ClInclude Include="include\BeaverEngine\Core\Entity.h" />
+    <ClInclude Include="include\BeaverEngine\Core\Game.h" />
     <ClInclude Include="include\BeaverEngine\System\System.h" />
-    <ClInclude Include="include\BeaverEngine\std.h" />
-    <ClInclude Include="include\BeaverEngine\TypeDef.h" />
-    <ClInclude Include="include\BeaverEngine\Scene.h" />
+    <ClInclude Include="include\BeaverEngine\Core\std.h" />
+    <ClInclude Include="include\BeaverEngine\Core\TypeDef.h" />
+    <ClInclude Include="include\BeaverEngine\Core\Scene.h" />
     <ClInclude Include="include\BeaverEngine\Component\LogicComponent.h" />
     <ClInclude Include="include\BeaverEngine\System\LogicSystem.h" />
-    <ClInclude Include="include\BeaverEngine\Window.h" />
-    <ClInclude Include="include\BeaverEngine\Platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="include\BeaverEngine\Utils\Window.h" />
+    <ClInclude Include="include\BeaverEngine\Platform\Desktop\DesktopWindow.h" />
+    <ClInclude Include="include\BeaverEngine\Component\PositionComponent.h" />
+    <ClInclude Include="include\BeaverEngine\Component\SpriteComponent.h" />
+    <ClInclude Include="include\BeaverEngine\Platform\Desktop\DesktopBufferImpl.h" />
+    <ClInclude Include="include\BeaverEngine\Component\ViewManagerComponent.h" />
+    <ClInclude Include="include\BeaverEngine\Utils\View2D.h" />
+    <ClInclude Include="include\BeaverEngine\Component\WindowManagerComponent.h" />
+    <ClInclude Include="include\BeaverEngine\Core\GlobalConstants.h" />
+    <ClInclude Include="include\BeaverEngine\Core\Renderer.h" />
+    <ClInclude Include="include\BeaverEngine\Component\ManagerComponent.h" />
+    <ClInclude Include="include\BeaverEngine\System\ManagerSystem.h" />
+    <ClInclude Include="include\deps\stb_image\stb_image.h" />
+    <ClInclude Include="include\BeaverEngine\Utils\Texture.h" />
+    <ClInclude Include="include\BeaverEngine\Utils\Texture2D.h" />
+    <ClInclude Include="include\BeaverEngine\Component\TextureManagerComponent.h" />
+    <ClInclude Include="include\BeaverEngine\Utils\Math.h" />
+    <ClInclude Include="include\BeaverEngine\Component\InputManagerComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Component\InputManagerComponent.cpp" />
+    <ClCompile Include="src\Utils\Math.cpp" />
+    <ClCompile Include="src\Platform\Desktop\DesktopTexture2D.cpp" />
+    <ClCompile Include="src\System\ManagerSystem.cpp" />
+    <ClCompile Include="src\Component\WindowManagerComponent.cpp" />
+    <ClCompile Include="src\Component\ManagerComponent.cpp" />
+    <ClCompile Include="src\Platform\Desktop\DesktopRenderer.cpp" />
+    <ClCompile Include="src\Component\SpriteComponent.cpp" />
+    <ClCompile Include="src\Component\DisplayComponent.cpp" />
+    <ClCompile Include="src\System\DisplaySystem.cpp" />
+    <ClCompile Include="src\Component\PositionComponent.cpp" />
     <ClCompile Include="src\Component\LogicComponent.cpp" />
     <ClCompile Include="src\System\LogicSystem.cpp" />
     <ClCompile Include="src\System\EntitySystem.cpp" />
-    <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\Core\Scene.cpp" />
     <ClCompile Include="src\Component\Component.cpp" />
-    <ClCompile Include="src\Entity.cpp" />
-    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Core\Entity.cpp" />
+    <ClCompile Include="src\Core\Game.cpp" />
     <ClCompile Include="src\System\System.cpp" />
-    <ClCompile Include="src\Window.cpp" />
-    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\Utils\Buffer.cpp" />
+    <ClCompile Include="src\Utils\Texture2D.cpp" />
+    <ClCompile Include="src\Core\Window.cpp" />
+    <ClCompile Include="src\Platform\Desktop\DesktopWindow.cpp" />
+    <ClCompile Include="src\Platform\Desktop\DesktopBufferImpl.cpp" />
+    <ClCompile Include="src\Utils\View2D.cpp" />
+    <ClCompile Include="src\_deps\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\_deps\glad\glad.vcxproj">
+      <Project>{4fc5b62b-37f8-45b0-99f5-666782f5c466}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\_deps\glfw-build\src\glfw.vcxproj">
       <Project>{2ebbfa6f-49a2-3502-b788-a652fa921bf2}</Project>
     </ProjectReference>
     <ProjectReference Include="..\_deps\glfw\src\glfw.vcxproj">
       <Project>{b6906c5d-f72b-3264-bfe7-64e592eb3a29}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\_deps\glm-build\glm\glm.vcxproj">
+      <Project>{e320d57e-9f85-32ed-9e4a-72dc173c5256}</Project>
     </ProjectReference>
     <ProjectReference Include="..\_deps\yaml-cpp-build\yaml-cpp.vcxproj">
       <Project>{0aa2cd37-54ef-3ef7-9fdd-3a589a4eb45c}</Project>
@@ -154,9 +203,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;YAML_CPP_STATIC_DEFINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DEBUG;_CONSOLE;YAML_CPP_STATIC_DEFINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(SolutionDir)\_deps\glfw-src\include;$(SolutionDir)\_deps\yaml-cpp-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(SolutionDir)\_deps\glfw-src\include;$(SolutionDir)\_deps\yaml-cpp-src\include;$(SolutionDir)\_deps\glad\include;$(SolutionDir)\_deps\glm-src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -172,7 +221,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;YAML_CPP_STATIC_DEFINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(SolutionDir)\_deps\glfw-src\include;$(SolutionDir)\_deps\yaml-cpp-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(SolutionDir)\_deps\glfw-src\include;$(SolutionDir)\_deps\yaml-cpp-src\include;$(SolutionDir)\_deps\glad\include;$(SolutionDir)\_deps\glm-src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>

@@ -1,6 +1,6 @@
 #pragma once
-#include "BeaverEngine/std.h"
-#include "BeaverEngine/TypeDef.h"
+#include "BeaverEngine/Core/std.h"
+#include "BeaverEngine/Core/TypeDef.h"
 #include "yaml-cpp/yaml.h"
 namespace bv
 {
@@ -12,10 +12,10 @@ namespace bv
         {
             for (auto& param : descr)
             {
-                parameters.insert({ param["name"].as<std::string>(), param["value"].as<std::string>() });
+                parameters.insert({ param["name"].as<std::string>(), param["value"] });
             }
         }
-        std::map<std::string, std::string> parameters;
+        std::map<std::string, Description> parameters;
     };
 
     class  Component

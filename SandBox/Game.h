@@ -1,11 +1,11 @@
-#include <BeaverEngine/Game.h>
+#include <BeaverEngine/Core/Game.h>
 
 namespace sandbox
 {
 	class Game : public bv::Game
 	{
 	public:
-		Game(const bv::WindowProperties& props);
+		Game() = default;
 		void setupSystem() override;
 		void registerComponent() const override;
 	};

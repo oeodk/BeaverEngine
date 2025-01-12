@@ -1,0 +1,27 @@
+- animation: "top_left_walk"
+  width: 164
+  height: 126
+  frame_count: 4
+  frame_dt: 100
+  start_coordinates: [0,0]
+  
+- animation: "top_walk"
+  width: 164
+  height: 126
+  frame_count: 4
+  frame_dt: 100
+  start_coordinates: [656,0]
+  
+- animation: "top_right_walk"
+  width: 164
+  height: 126
+  frame_count: 4
+  frame_dt: 100
+  start_coordinates: [1312,0]
+  
+- animation: "left_walk"
+  width: 164
+  height: 126
+  frame_count: 4
+  frame_dt: 100
+  start_coordinates: [0,126]
