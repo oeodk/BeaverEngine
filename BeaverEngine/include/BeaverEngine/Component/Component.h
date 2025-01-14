@@ -49,6 +49,8 @@ namespace bv
 
 		static std::unique_ptr<Component> Create(std::string_view type, Entity& parent);
 
+        virtual void resolve() {}
+
 		bool enabled() const { return enabled_; }
 		Entity& owner() const { return parent_; }
 

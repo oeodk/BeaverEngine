@@ -146,6 +146,9 @@ namespace bv
 	void DesktopRenderer::begin2DRender(Window* window) const
 	{
 		window->makeCurrent();
+		glEnable(GL_DEPTH_TEST);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
 		window->clear();
 		window->beginRender2d();
 

@@ -19,6 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\BeaverEngine\Component\CircleColliderComponent.h" />
+    <ClInclude Include="include\BeaverEngine\Component\CollisionComponent.h" />
+    <ClInclude Include="include\BeaverEngine\Component\ColliderComponent.h" />
+    <ClInclude Include="include\BeaverEngine\Functions\Math.h" />
+    <ClInclude Include="include\BeaverEngine\System\ColliderSystem.h" />
     <ClInclude Include="include\BeaverEngine\Core\KeyCode.h" />
     <ClInclude Include="include\BeaverEngine\Platform\Desktop\DesktopTexture2D.h" />
     <ClInclude Include="include\BeaverEngine\Enums\E_RenderDimension.h" />
@@ -60,8 +65,13 @@
     <ClInclude Include="include\BeaverEngine\Component\TextureManagerComponent.h" />
     <ClInclude Include="include\BeaverEngine\Utils\Math.h" />
     <ClInclude Include="include\BeaverEngine\Component\InputManagerComponent.h" />
+    <ClInclude Include="include\BeaverEngine\Component\RectangleColliderComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Component\CircleColliderComponent.cpp" />
+    <ClCompile Include="src\Component\RectangleColliderComponent.cpp" />
+    <ClCompile Include="src\Component\ColliderComponent.cpp" />
+    <ClCompile Include="src\System\ColliderSystem.cpp" />
     <ClCompile Include="src\Component\InputManagerComponent.cpp" />
     <ClCompile Include="src\Utils\Math.cpp" />
     <ClCompile Include="src\Platform\Desktop\DesktopTexture2D.cpp" />

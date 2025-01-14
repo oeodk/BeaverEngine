@@ -1,7 +1,8 @@
 #include "BeaverEngine/Utils/View2D.h"
+#include "BeaverEngine/Component/WindowManagerComponent.h"
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
-#include "BeaverEngine/Component/WindowManagerComponent.h"
 
 
 namespace bv
@@ -94,10 +95,10 @@ namespace bv
 		if (update_view_)
 		{
 			glm::vec3 up_dir(0.0f, 1.0f, 0.0f); //Up dir pointing to +y
-			glm::vec3 axis(0.0f, 0.0f, 1.0f); //Rotation around the z axis
-			float angle = glm::radians(rotation_angle_);
+			const glm::vec3 axis(0.0f, 0.0f, 1.0f); //Rotation around the z axis
+			const float angle = glm::radians(rotation_angle_);
 
-			glm::quat rotation = glm::angleAxis(angle, glm::normalize(axis));
+			const glm::quat rotation = glm::angleAxis(angle, glm::normalize(axis));
 			up_dir = rotation * up_dir;
 
 			view_ = glm::lookAt(glm::vec3(center_, elevation_), glm::vec3(center_, 0), up_dir);

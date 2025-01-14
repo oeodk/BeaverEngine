@@ -141,6 +141,8 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TestColliderComponent.cpp" />
+    <ClCompile Include="TestComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BeaverEngine\BeaverEngine.vcxproj">
@@ -149,6 +151,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="TestColliderComponent.h" />
+    <ClInclude Include="TestComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

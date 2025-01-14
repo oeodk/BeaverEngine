@@ -108,51 +108,22 @@ namespace bv
 
 	void SpriteComponent::updateLogic(const Timing& timing)
 	{
-		//PositionComponent* position = owner().getComponent<PositionComponent>();
-		//glm::vec2 pos = position->getWorldPosition();
-		//if (Input::isKeyPressed(Key::UP))
-		//{
-		//	pos.y += 10;
-		//}
-		//if (Input::isKeyPressed(Key::DOWN))
-		//{
-		//	pos.y -= 10;
-		//}
-		//if (Input::isKeyPressed(Key::RIGHT))
-		//{
-		//	pos.x += 10;
-		//}
-		//if (Input::isKeyPressed(Key::LEFT))
-		//{
-		//	pos.x -= 10;
-		//}
-		//position->setPosition(pos);
-
-			auto pos = ManagerComponent::getManager<InputManagerComponent>()->getMouseScrollValue();
-			if(pos!=0)
-			std::cout << pos << std::endl;
-		
-
-		if (timing.frame_ == 300)
-		{
-			animation_name_ = "left_walk";
-		}
-		updateAnimation(timing);
-		updateMesh();
-	}
-
-	void SpriteComponent::display(Renderer* renderer, const Timing& dt)
-	{
 		if (window_to_render_.expired())
 		{
 			EntitySystem::remove(owner().shared_from_this());
 		}
 		else
 		{
-			texture_->bind();
-			renderer->setData("u_color", color_);
-			renderer->render(vertex_buffer_, index_buffer_, window_to_render_.lock().get(), view_to_render_);
+			updateAnimation(timing);
+			updateMesh();
 		}
+	}
+
+	void SpriteComponent::display(Renderer* renderer, const Timing& dt)
+	{
+		texture_->bind();
+		renderer->setData("u_color", color_);
+		renderer->render(vertex_buffer_, index_buffer_, window_to_render_.lock().get(), view_to_render_);
 	}
 	void SpriteComponent::updateAnimation(const Timing& timing)
 	{
@@ -166,10 +137,10 @@ namespace bv
 		
 		//Temporary
 		auto mapped_vertices = vertex_buffer_.mapVertices(0, 4);
-		mapped_vertices[0] = { offset_ + position->getWorldPosition() + points_[0], texture_coords_[0] };
-		mapped_vertices[1] = { offset_ + position->getWorldPosition() + points_[1], texture_coords_[1] };
-		mapped_vertices[2] = { offset_ + position->getWorldPosition() + points_[2], texture_coords_[2] };
-		mapped_vertices[3] = { offset_ + position->getWorldPosition() + points_[3], texture_coords_[3] };
+		mapped_vertices[0] = {position->getWorldPosition() + points_[0], texture_coords_[0] };
+		mapped_vertices[1] = {position->getWorldPosition() + points_[1], texture_coords_[1] };
+		mapped_vertices[2] = {position->getWorldPosition() + points_[2], texture_coords_[2] };
+		mapped_vertices[3] = {position->getWorldPosition() + points_[3], texture_coords_[3] };
 
 	}
 	void SpriteComponent::setRenderRectangle(const FloatRect& render_rect)
@@ -197,21 +168,31 @@ namespace bv
 
 	void SpriteComponent::refreshPoint()
 	{
-		points_[0].x = -scale_.x * (size_.x / 2.f);
-		points_[0].y = -scale_.y * (size_.y / 2.f);
+		points_[0].x = -scale_.x * (size_.x / 2.f) + offset_.x;
+		points_[0].y = -scale_.y * (size_.y / 2.f) + offset_.y;
 		
-		points_[1].x = -scale_.x * (size_.x / 2.f);
-		points_[1].y =  scale_.y * (size_.y / 2.f);
+		points_[1].x = -scale_.x * (size_.x / 2.f) + offset_.x;
+		points_[1].y =  scale_.y * (size_.y / 2.f) + offset_.y;
 		
+		points_[2].x =  scale_.x * (size_.x / 2.f) + offset_.x;
+		points_[2].y =  scale_.y * (size_.y / 2.f) + offset_.y;
+
+		points_[3].x =  scale_.x * (size_.x / 2.f) + offset_.x;
+		points_[3].y = -scale_.y * (size_.y / 2.f) + offset_.y;
+
 		glm::vec3 axis(0.0f, 0.0f, 1.0f);
 		float angle = glm::radians(rotation_angle_);
 
 		glm::quat rotation = glm::angleAxis(angle, glm::normalize(axis));
-		points_[0] = rotation * points_[0];
-		points_[1] = rotation * points_[1];
-
-		points_[2] = -points_[0];
-		points_[3] = -points_[1];
+		for(auto& point : points_)
+		{
+			point = rotation * point;
+		}
+		//points_[0] = rotation * points_[0];
+		//points_[1] = rotation * points_[1];
+		//
+		//points_[2] = -points_[0];
+		//points_[3] = -points_[1];
 	}
 
 	void SpriteComponent::initColor(const Description& value)

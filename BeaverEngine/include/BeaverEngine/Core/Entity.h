@@ -21,6 +21,14 @@ namespace bv
         void removeChild(EntityRef child);
         void removeChild(Entity& child) { removeChild(child.shared_from_this()); }
 
+        void resolve()
+        {
+            for (auto& component : components_)
+            {
+                component.second->resolve();
+            }
+        }
+
         Component* addComponent(std::string_view type, const ComponentDescription& init_value);
         template<typename T>
         typename T* addComponent(const typename T::init_values& initial_value)

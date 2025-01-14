@@ -25,3 +25,38 @@
   frame_count: 4
   frame_dt: 100
   start_coordinates: [0,126]
+  
+- animation: "idle"
+  width: 164
+  height: 126
+  frame_count: 4
+  frame_dt: 100
+  start_coordinates: [656,126]
+  
+- animation: "right_walk"
+  width: 164
+  height: 126
+  frame_count: 4
+  frame_dt: 100
+  start_coordinates: [1312,126]
+  
+- animation: "bottom_left_walk"
+  width: 164
+  height: 126
+  frame_count: 4
+  frame_dt: 100
+  start_coordinates: [0,252]
+  
+- animation: "bottom_walk"
+  width: 164
+  height: 126
+  frame_count: 4
+  frame_dt: 100
+  start_coordinates: [656,252]
+  
+- animation: "bottom_right_walk"
+  width: 164
+  height: 126
+  frame_count: 4
+  frame_dt: 100
+  start_coordinates: [1312,252]

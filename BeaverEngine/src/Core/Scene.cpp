@@ -39,6 +39,8 @@ namespace bv::Scene
         {
             new_entity->addComponent(component.first, component.second);
         }
+        new_entity->resolve();
+
         for (const auto& child : descr.children)
         {
             Scene::CreateChild(child.second, new_entity);

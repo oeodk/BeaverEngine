@@ -81,13 +81,13 @@ namespace bv
 
 		VertexBuffer<Vertex2D> vertex_buffer_;
 		IndexBuffer index_buffer_;
-		View2D* view_to_render_;
+		View2D* view_to_render_{};
 
-		enum E_InitValue
+		enum InitValue
 		{
 			SIZE, WINDOW, SCALE, VIEW, OFFSET, TEXTURE, COLOR, RENDER_RECT, INTERPOLATE_TEXTURE, ROTATION_ANGLE, ANIMATION
 		};
-		const std::map<std::string, E_InitValue> string_to_init_enum_map_ = { 
+		const std::map<std::string, InitValue> string_to_init_enum_map_ = { 
 			{"size"               , SIZE},
 			{"window"             , WINDOW},
 			{"scale"              , SCALE},

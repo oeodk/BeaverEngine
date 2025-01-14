@@ -13,7 +13,7 @@
           - name : "main_view.size"
             value : [1280,720]
           - name : "main_view.center"
-            value : [200,200]
+            value : [0,0]
           - name : "main_view.elevation"
             value : 100
           - name : "main_view.rotation_angle"
@@ -35,9 +35,9 @@
           - name : "x"
             value : 0
           - name : "y"
-            value : 200
-          - name : "z"
             value : 0
+          - name : "z"
+            value : 3
       - name: "Sprite"
         param:
           - name: "texture"
@@ -51,13 +51,13 @@
           - name: "interpolate_texture"
             value: true
           - name: "offset"
-            value: [0,0]
+            value: [100,0]
           - name: "size"
-            value: [50,100]  
+            value: [50,50]  
           - name: "scale"
-            value: [-1,0.5]      
+            value: [1,1]      
           - name: "rotation_angle"
-            value: 0         
+            value: 90
 - name : "TestEntity2"
   description:
     children:
@@ -65,7 +65,7 @@
       - name: "Position"
         param:
           - name : "x"
-            value : 0
+            value : -200
           - name : "y"
             value : 0
           - name : "z"
@@ -88,3 +88,92 @@
             value: [654,252,164,126]
           - name: "base_animation"
             value: "top_walk"
+    
+- name : "DemoEntity"
+  description:
+    children:
+    components:
+      - name: "Position"
+        param:
+          - name : "x"
+            value : 250
+          - name : "y"
+            value : 0
+          - name : "z"
+            value : 1
+      - name: "Sprite"
+        param:
+          - name: "texture"
+            value: "circle_hitbox_test.png"
+          - name: "color"
+            value: [1,1,1,1]
+          - name: "view"
+            value: "main_view"
+          - name: "window"
+            value: "main_window"
+          - name: "interpolate_texture"
+            value: true
+          - name: "offset"
+            value: [0,0]
+          - name: "size"
+            value: [200,200] 
+      - name: "TestComponent"
+        value:
+      - name: "CircleCollider"
+        param:
+          - name: "handler"
+            value: "TestComponent"
+          - name: "flag"
+            value: 4
+          - name: "mask"
+            value: 1
+          - name: "radius"
+            value: 100
+          - name: "offset"
+            value: [0,0]
+          - name: "rotation_angle"
+            value: 0
+- name : "ColliderDemoEntity"
+  description:
+    children:
+    components:
+      - name: "Position"
+        param:
+          - name : "x"
+            value : 0
+          - name : "y"
+            value : 0
+          - name : "z"
+            value : 0.5
+      - name: "Sprite"
+        param:
+          - name: "texture"
+            value: "rectangle_hitbox_test.png"
+          - name: "color"
+            value: [1,1,1,1]
+          - name: "view"
+            value: "main_view"
+          - name: "window"
+            value: "main_window"
+          - name: "interpolate_texture"
+            value: true
+          - name: "offset"
+            value: [100,0]
+          - name: "rotation_angle"
+            value: 45
+      - name: "ColliderTestComponent"
+        value:
+      - name: "RectangleCollider"
+        param:
+          - name: "handler"
+            value: "ColliderTestComponent"
+          - name: "flag"
+            value: 2
+          - name: "mask"
+            value: 6
+          - name: "size"
+            value: [200,100]
+          - name: "offset"
+            value: [100,0]
+          - name: "rotation_angle"
+            value: 45
