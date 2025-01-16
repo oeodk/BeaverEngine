@@ -7,6 +7,7 @@ namespace bv
 	{
 		glm::vec3 position;
 		glm::vec2 texture_coords;
+		glm::vec4 color;
 	};
 
 	struct Vertex3D

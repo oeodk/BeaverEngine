@@ -1,32 +1,31 @@
 #pragma once
 #include "BeaverEngine/Component/LogicComponent.h"
-#include "BeaverEngine/Component/DisplayComponent.h"
-#include "BeaverEngine/Utils/Buffer.h"
-#include "BeaverEngine/Utils/Vertex.h"
-#include "BeaverEngine/Utils/Texture2D.h"
+
 #include "BeaverEngine/Utils/Math.h"
+#include "BeaverEngine/Utils/Vertex.h"
+
 namespace bv
 {
-	class View2D;
-
+	class LayerComponent;
 	class SpriteComponent
-		: public LogicComponent, public DisplayComponent
+		: public LogicComponent
 	{
 	public:
 		static constexpr auto type_ = "Sprite";
 
-		SpriteComponent(Entity& owner) : Component(owner) { dimension_ = E_RenderDimension::RENDER_2D; }
+		SpriteComponent(Entity& owner) : Component(owner) {}
+		~SpriteComponent();
 		void setup(const ComponentDescription& init_value) override;
+		void resolve() override;
 
-
-		virtual void updateLogic(const Timing& timing) override;
-		virtual void display(Renderer* renderer, const Timing& dt) override;
+		void updateLogic(const Timing& timing) override;
 
 		void updateAnimation(const Timing& timing);
 		void updateMesh();
 
 		void setColor(const glm::vec4& color) { color_ = color; }
-		const glm::vec4& getColor() const { return color_; }
+		const glm::vec4& getColor() const { 
+			return color_; }
 
 		void setSize(const glm::vec2& size)
 		{ 
@@ -58,7 +57,17 @@ namespace bv
 		
 		void setAnimationName(std::string_view new_name) { animation_name_ = new_name; }
 		float resetAnimationDt(float value) { animation_dt_ = 0; }
+
+		// the new layer need to use the same spritesheet as the previous layer, or change animation accordingly
+		void setLayer(LayerComponent* layer) { layer_ = layer; }
+
+		// For internal use
+		const std::array<unsigned int, 6>& getIndices() const { return INDICES; }
+		// For internal use
+		const std::array<Vertex2D, 4>& getVertices() const { return vertices_; }
 	private:
+
+		std::string layer_name{};
 
 		glm::vec4 color_{ 1,1,1,1 };
 		glm::vec2 size_{};
@@ -68,6 +77,7 @@ namespace bv
 		FloatRect render_rect_{glm::vec2(), glm::vec2(1,1)};
 
 		bool fixed_size_{};
+		bool init_render_rect_ = true;
 
 		std::string animation_name_ = "";
 		float animation_dt_{};
@@ -75,29 +85,24 @@ namespace bv
 		std::array<glm::vec3, 4> points_{};
 		std::array<glm::vec2, 4> texture_coords_{};
 
+		std::array<Vertex2D, 4> vertices_{};
+
 		static constexpr std::array<unsigned int, 6> INDICES = { 0,1,2,0,2,3 };
 
-		std::shared_ptr<Texture2D> texture_;
-
-		VertexBuffer<Vertex2D> vertex_buffer_;
-		IndexBuffer index_buffer_;
-		View2D* view_to_render_{};
+		LayerComponent* layer_{};
 
 		enum InitValue
 		{
-			SIZE, WINDOW, SCALE, VIEW, OFFSET, TEXTURE, COLOR, RENDER_RECT, INTERPOLATE_TEXTURE, ROTATION_ANGLE, ANIMATION
+			SIZE, SCALE, LAYER, OFFSET, COLOR, RENDER_RECT, ROTATION_ANGLE, ANIMATION
 		};
-		const std::map<std::string, InitValue> string_to_init_enum_map_ = { 
+		const std::map<std::string_view, InitValue> string_to_init_enum_map_ = { 
 			{"size"               , SIZE},
-			{"window"             , WINDOW},
+			{"layer"              , LAYER},
 			{"scale"              , SCALE},
-			{"view"               , VIEW},
 			{"offset"             , OFFSET},
-			{"texture"            , TEXTURE},
 			{"color"              , COLOR},
 			{"render_rectangle"   , RENDER_RECT},
 			{"rotation_angle"     , ROTATION_ANGLE},
-			{"interpolate_texture", INTERPOLATE_TEXTURE},
 			{"base_animation"     , ANIMATION}
 		};
 
@@ -108,10 +113,8 @@ namespace bv
 		void initOffset(const Description& value);
 		void initScale(const Description& value);
 		void initRenderRect(const Description& value);
-		void initTexture(const Description& value, bool interpolate);
-		void initWindow(const Description& value);
-		void initView(const Description& value);
 		void initAngle(const Description& value);
+		void initLayer(const Description& value);
 		void initAnimation(const Description& value);
 	};
 }

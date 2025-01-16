@@ -1,0 +1,56 @@
+#pragma once
+#include "BeaverEngine/Component/LogicComponent.h"
+#include "BeaverEngine/Component/DisplayComponent.h"
+#include "BeaverEngine/Utils/Buffer.h"
+#include "BeaverEngine/Utils/Texture2D.h"
+#include "BeaverEngine/Utils/Vertex.h"
+
+namespace bv
+{
+	class View2D;
+	class SpriteComponent;
+	
+	class LayerComponent
+		: public LogicComponent, public DisplayComponent
+	{
+	public:
+		static constexpr auto type_ = "Layer";
+
+		LayerComponent(Entity& owner) : Component(owner) { dimension_ = E_RenderDimension::RENDER_2D; }
+		~LayerComponent();
+
+		void setup(const ComponentDescription& init_value) override;
+
+		void updateLogic(const Timing& timing) override;
+		void display(Renderer* renderer, const Timing& dt) override;
+		
+		void addSprite(SpriteComponent* sprite) { sprites_.insert(sprite); }
+		void removeSprite(SpriteComponent* sprite) { sprites_.erase(sprite); }
+
+		const std::weak_ptr<Texture2D> getTexture() const { return texture_; }
+	private:
+		std::set<SpriteComponent*> sprites_;
+
+		std::shared_ptr<Texture2D> texture_;
+
+		std::unique_ptr<VertexBuffer<Vertex2D>> vertex_buffer_;
+		std::unique_ptr<IndexBuffer> index_buffer_;
+		View2D* view_to_render_{};
+
+		void initTexture(const Description& value, bool interpolate);
+		void initWindow(const Description& value);
+		void initView(const Description& value);
+
+		enum InitValue
+		{
+			WINDOW, VIEW, TEXTURE, INTERPOLATE_TEXTURE
+		};
+		const std::map<std::string_view, InitValue> string_to_init_enum_map_ = {
+			{"window" , WINDOW},
+			{"view"   , VIEW},			
+			{"interpolate_texture", INTERPOLATE_TEXTURE},
+			{"texture", TEXTURE}
+		};
+	};
+}
+

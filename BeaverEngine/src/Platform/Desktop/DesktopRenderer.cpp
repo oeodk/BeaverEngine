@@ -24,8 +24,8 @@ namespace bv
 		uniforms_location_2d_.insert({ "u_projection_view", 0 });
 		uniforms_location_2d_.at("u_projection_view") = glGetUniformLocation(shader_program_2d_, "u_projection_view");
 
-		uniforms_location_2d_.insert({ "u_color", 0 });
-		uniforms_location_2d_.at("u_color") = glGetUniformLocation(shader_program_2d_, "u_color");
+		//uniforms_location_2d_.insert({ "u_color", 0 });
+		//uniforms_location_2d_.at("u_color") = glGetUniformLocation(shader_program_2d_, "u_color");
 
 		uniforms_location_2d_.insert({ "u_width", 0 });
 		uniforms_location_2d_.at("u_width") = glGetUniformLocation(shader_program_2d_, "u_width");
@@ -35,9 +35,6 @@ namespace bv
 
 		uniforms_location_2d_.insert({ "u_texture_sampler", 0 });
 		uniforms_location_2d_.at("u_texture_sampler") = glGetUniformLocation(shader_program_2d_, "u_texture_sampler");
-
-		//uniforms_location_2d_.insert({ "has_texture", 0 });
-		//uniforms_location_2d_.at("has_texture") = glGetUniformLocation(shader_program_2d_, "has_texture");
 	}
 	void DesktopRenderer::setData(std::string_view var_name, int data)
 	{

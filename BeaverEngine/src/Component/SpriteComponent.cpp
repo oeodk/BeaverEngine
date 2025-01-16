@@ -2,14 +2,10 @@
 #include "BeaverEngine/Component/PositionComponent.h"
 
 #include "BeaverEngine/Core/Entity.h"
-#include "BeaverEngine/Core/Renderer.h"
 #include "BeaverEngine/Core/Scene.h"
 #include "BeaverEngine/Core/GlobalConstants.h"
 
-#include "BeaverEngine/Component/ViewManagerComponent.h"
-#include "BeaverEngine/Component/WindowManagerComponent.h"
-#include "BeaverEngine/Component/TextureManagerComponent.h"
-#include "BeaverEngine/System/EntitySystem.h"
+#include "BeaverEngine/Component/LayerComponent.h"
 
 #include "BeaverEngine/Utils/Window.h"
 
@@ -20,13 +16,16 @@
 #include <iostream>
 namespace bv
 {
+	SpriteComponent::~SpriteComponent()
+	{
+		if(layer_ != nullptr)
+		{
+			layer_->removeSprite(this);
+		}
+	}
+
 	void SpriteComponent::setup(const ComponentDescription& init_value)
 	{
-		std::weak_ptr<Window> main_window = ManagerComponent::getManager<WindowManagerComponent>()->getMainWindow();;
-		main_window.lock()->makeCurrent();
-		bool init_window = true;
-		bool init_view = true;
-		bool init_render_rect = true;
 		for (auto& value : init_value.parameters)
 		{
 			switch (string_to_init_enum_map_.at(value.first))
@@ -35,36 +34,17 @@ namespace bv
 				initSize(value.second);
 				fixed_size_ = true;
 				break;
-			case bv::SpriteComponent::WINDOW:
-				initWindow(value.second);
-				init_window = false;
-				break;
 			case bv::SpriteComponent::SCALE:
 				initScale(value.second);
 				break;
-			case bv::SpriteComponent::VIEW:
-				initView(value.second);
-				init_view = false;
-				break;
 			case bv::SpriteComponent::OFFSET:
 				initOffset(value.second);
-				break;
-			case bv::SpriteComponent::TEXTURE:
-			{
-				bool interpolate = false;
-				
-				if(init_value.parameters.contains("interpolate_texture") && init_value.parameters.at("interpolate_texture").as<bool>() == true) 
-				{
-					interpolate = true;
-				}
-				initTexture(value.second, interpolate);
-			}
-				break;
+				break;		
 			case bv::SpriteComponent::COLOR:
 				initColor(value.second);
 				break;
 			case bv::SpriteComponent::RENDER_RECT:
-				init_render_rect = false;
+				init_render_rect_ = false;
 				initRenderRect(value.second);
 				break;
 			case bv::SpriteComponent::ROTATION_ANGLE:
@@ -73,80 +53,65 @@ namespace bv
 			case bv::SpriteComponent::ANIMATION:
 				initAnimation(value.second);
 				break;
+			case bv::SpriteComponent::LAYER:
+				initLayer(value.second);
+				break;
 			}
 		}
-		if (init_window)
+	}
+
+	void SpriteComponent::resolve()
+	{
+		auto layer_entity = Scene::findObject(layer_name);
+		layer_ = layer_entity->getComponent<LayerComponent>();
+
+		layer_->addSprite(this);
+
+		if (!fixed_size_)
 		{
-			window_to_render_ = ManagerComponent::getManager<WindowManagerComponent>()->getMainWindow();
+			auto texture = layer_->getTexture().lock();
+			size_.x = texture->getWidth();
+			size_.y = texture->getHeight();
 		}
-		if (init_view)
+		if (init_render_rect_)
 		{
-			view_to_render_ = ManagerComponent::getManager<ViewManagerComponent>()->getMainView();
+			auto texture = layer_->getTexture().lock();
+			render_rect_.size.x = texture->getWidth();
+			render_rect_.size.y = texture->getHeight();
 		}
-		if(!fixed_size_)
-		{
-			size_.x = texture_->getWidth();
-			size_.y = texture_->getHeight();
-		}
-		if (init_render_rect)
-		{
-			render_rect_.size.x = texture_->getWidth();
-			render_rect_.size.y = texture_->getHeight();
-		}
+
 		refreshPoint();
 		setRenderRectangle(render_rect_);
-
-		auto mapped_indices = index_buffer_.mapIndices(0, 6);
-		std::copy(INDICES.begin(), INDICES.end(), mapped_indices.begin());
-		index_buffer_.setup();
-
 		updateMesh();
-		vertex_buffer_.setup();
-
-		//texture stuff
 	}
 
 	void SpriteComponent::updateLogic(const Timing& timing)
 	{
-		if (window_to_render_.expired())
-		{
-			EntitySystem::remove(owner().shared_from_this());
-		}
-		else
-		{
-			updateAnimation(timing);
-			updateMesh();
-		}
+		updateAnimation(timing);
+		updateMesh();
 	}
 
-	void SpriteComponent::display(Renderer* renderer, const Timing& dt)
-	{
-		texture_->bind();
-		renderer->setData("u_color", color_);
-		renderer->render(vertex_buffer_, index_buffer_, window_to_render_.lock().get(), view_to_render_);
-	}
 	void SpriteComponent::updateAnimation(const Timing& timing)
 	{
 		animation_dt_ += timing.dt_.count();
-		setRenderRectangle(FloatRect(texture_->getSpriteCoordinate(animation_name_, animation_dt_), texture_->getSpriteSize(animation_name_)));
+		const auto texture = layer_->getTexture().lock();
+		setRenderRectangle(FloatRect(texture->getSpriteCoordinate(animation_name_, animation_dt_), texture->getSpriteSize(animation_name_)));
 	}
 
 	void SpriteComponent::updateMesh()
 	{
 		const PositionComponent* position = owner().getComponent<PositionComponent>();
 		
-		//Temporary
-		auto mapped_vertices = vertex_buffer_.mapVertices(0, 4);
-		mapped_vertices[0] = {position->getWorldPosition() + points_[0], texture_coords_[0] };
-		mapped_vertices[1] = {position->getWorldPosition() + points_[1], texture_coords_[1] };
-		mapped_vertices[2] = {position->getWorldPosition() + points_[2], texture_coords_[2] };
-		mapped_vertices[3] = {position->getWorldPosition() + points_[3], texture_coords_[3] };
-
+		vertices_[0] = { position->getWorldPosition() + points_[0], texture_coords_[0] };
+		vertices_[1] = { position->getWorldPosition() + points_[1], texture_coords_[1] };
+		vertices_[2] = { position->getWorldPosition() + points_[2], texture_coords_[2] };
+		vertices_[3] = { position->getWorldPosition() + points_[3], texture_coords_[3] };
 	}
 	void SpriteComponent::setRenderRectangle(const FloatRect& render_rect)
 	{
-		const unsigned int texture_width = texture_->getWidth();
-		const unsigned int texture_height = texture_->getHeight();
+		const auto texture = layer_->getTexture().lock();
+		const unsigned int texture_width = texture->getWidth();
+		const unsigned int texture_height = texture->getHeight();
 		render_rect_ = render_rect;
 		texture_coords_[0].x = render_rect_.pos.x / texture_width;
 		texture_coords_[1].y = 1 - render_rect_.pos.y / texture_height;
@@ -188,11 +153,6 @@ namespace bv
 		{
 			point = rotation * point;
 		}
-		//points_[0] = rotation * points_[0];
-		//points_[1] = rotation * points_[1];
-		//
-		//points_[2] = -points_[0];
-		//points_[3] = -points_[1];
 	}
 
 	void SpriteComponent::initColor(const Description& value)
@@ -228,34 +188,16 @@ namespace bv
 		render_rect_.size.y = value[3].as<float>();
 	}
 
-	void SpriteComponent::initTexture(const Description& value, bool interpolate)
-	{
-		texture_ = ManagerComponent::getManager<TextureManagerComponent>()->getTexture2D(constants::SPRITE_PATH + value.as<std::string>(), interpolate);
-	}
-
-	void SpriteComponent::initWindow(const Description& value)
-	{
-
-		window_to_render_ = ManagerComponent::getManager<WindowManagerComponent>()->getWindow(value.as<std::string>());
-		if(window_to_render_.expired())
-		{
-			window_to_render_ = ManagerComponent::getManager<WindowManagerComponent>()->getMainWindow();
-		}
-	}
-
-	void SpriteComponent::initView(const Description& value)
-	{
-		view_to_render_ = ManagerComponent::getManager<ViewManagerComponent>()->getView(value.as<std::string>());
-	
-		if(view_to_render_ == nullptr)
-		{
-			view_to_render_ = ManagerComponent::getManager<ViewManagerComponent>()->getMainView();
-		}
-	}
 	void SpriteComponent::initAngle(const Description& value)
 	{
 		rotation_angle_ = value.as<float>();
 	}
+
+	void SpriteComponent::initLayer(const Description& value)
+	{
+		layer_name = value.as<std::string>();
+	}
+
 	void SpriteComponent::initAnimation(const Description& value)
 	{
 		animation_name_ = value.as<std::string>();

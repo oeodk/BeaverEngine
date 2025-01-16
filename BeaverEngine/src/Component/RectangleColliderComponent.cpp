@@ -83,7 +83,7 @@ namespace bv
 		{
 			for (int j = 0; j < 4; j++)
 			{
-				point = rectangles_perpendicular_edge_vector_ref[i]->x * (points_[j].x + center.x) + rectangles_perpendicular_edge_vector_ref[i]->y * (points_[j].y + center.y);
+				point = glm::dot(*rectangles_perpendicular_edge_vector_ref[i], (points_[j] + center));
 				if (j == 0)
 				{
 					amax = point;
@@ -104,7 +104,7 @@ namespace bv
 
 			for (int j = 0; j < 4; j++)
 			{
-				point = rectangles_perpendicular_edge_vector_ref[i]->x * (other.points_[j].x + other_center.x) + rectangles_perpendicular_edge_vector_ref[i]->y * (other.points_[j].y + other_center.y);
+				point = glm::dot(*rectangles_perpendicular_edge_vector_ref[i], (other.points_[j] + other_center));
 				if (j == 0)
 				{
 					bmax = point;

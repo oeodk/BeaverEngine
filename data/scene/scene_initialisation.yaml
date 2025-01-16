@@ -1,6 +1,6 @@
 - name : "Managers"
   description:
-    chindren:
+    children:
     components:
       - name: "WindowManager"
         param:
@@ -23,9 +23,53 @@
           - name : "main_view.viewport_size"
             value : [1,1]
       - name: "TextureManager"
-        value:
+        param:
       - name: "InputManager"
-        value:
+        param:
+- name : "EntityLayerEntity"
+  description:
+    children:
+    components:
+      - name: "Position"
+        param:
+          - name : "x"
+            value : 0
+          - name : "y"
+            value : 0
+          - name : "z"
+            value : 3
+      - name: "Layer"
+        param: 
+          - name: "view"
+            value: "main_view"
+          - name: "window"
+            value: "main_window"
+          - name: "interpolate_texture"
+            value: false
+          - name: "texture"
+            value: "giant_spider.png"
+- name : "DecorationLayerEntity"
+  description:
+    children:
+    components:
+      - name: "Position"
+        param:
+          - name : "x"
+            value : 0
+          - name : "y"
+            value : 0
+          - name : "z"
+            value : 0
+      - name: "Layer"
+        param: 
+          - name: "view"
+            value: "main_view"
+          - name: "window"
+            value: "main_window"
+          - name: "interpolate_texture"
+            value: false
+          - name: "texture"
+            value: "test.png"
 - name : "TestEntity"
   description:
     children:
@@ -40,16 +84,8 @@
             value : 3
       - name: "Sprite"
         param:
-          - name: "texture"
-            value: "test.png"
           - name: "color"
             value: [1,1,1,1]
-          - name: "view"
-            value: "main_view"
-          - name: "window"
-            value: "main_window"
-          - name: "interpolate_texture"
-            value: true
           - name: "offset"
             value: [100,0]
           - name: "size"
@@ -58,6 +94,8 @@
             value: [1,1]      
           - name: "rotation_angle"
             value: 90
+          - name: "layer"
+            value: "DecorationLayerEntity"
 - name : "TestEntity2"
   description:
     children:
@@ -72,108 +110,40 @@
             value : 0
       - name: "Sprite"
         param:
-          - name: "texture"
-            value: "giant_spider.png"
           - name: "color"
             value: [1,1,1,1]
-          - name: "view"
-            value: "main_view"
-          - name: "window"
-            value: "main_window"
-          - name: "interpolate_texture"
-            value: true
           - name: "offset"
             value: [0,0]
           - name: "render_rectangle"
             value: [654,252,164,126]
           - name: "base_animation"
             value: "top_walk"
-    
-- name : "DemoEntity"
+          - name: "layer"
+            value: "EntityLayerEntity"
+- name : "TestEntity0"
   description:
     children:
     components:
       - name: "Position"
         param:
           - name : "x"
-            value : 250
+            value : 0
           - name : "y"
             value : 0
           - name : "z"
-            value : 1
+            value : 0
       - name: "Sprite"
         param:
-          - name: "texture"
-            value: "circle_hitbox_test.png"
           - name: "color"
-            value: [1,1,1,1]
-          - name: "view"
-            value: "main_view"
-          - name: "window"
-            value: "main_window"
-          - name: "interpolate_texture"
-            value: true
+            value: [1,0,0,1]
           - name: "offset"
             value: [0,0]
-          - name: "size"
-            value: [200,200] 
+          - name: "render_rectangle"
+            value: [654,252,164,126]
+          - name: "base_animation"
+            value: "top_walk"
+          - name: "layer"
+            value: "EntityLayerEntity"
       - name: "TestComponent"
-        value:
-      - name: "CircleCollider"
         param:
-          - name: "handler"
-            value: "TestComponent"
-          - name: "flag"
-            value: 4
-          - name: "mask"
-            value: 1
-          - name: "radius"
-            value: 100
-          - name: "offset"
-            value: [0,0]
-          - name: "rotation_angle"
-            value: 0
-- name : "ColliderDemoEntity"
-  description:
-    children:
-    components:
-      - name: "Position"
-        param:
-          - name : "x"
-            value : 0
-          - name : "y"
-            value : 0
-          - name : "z"
-            value : 0.5
-      - name: "Sprite"
-        param:
-          - name: "texture"
-            value: "rectangle_hitbox_test.png"
-          - name: "color"
-            value: [1,1,1,1]
-          - name: "view"
-            value: "main_view"
-          - name: "window"
-            value: "main_window"
-          - name: "interpolate_texture"
-            value: true
-          - name: "offset"
-            value: [100,0]
-          - name: "rotation_angle"
-            value: 45
-      - name: "ColliderTestComponent"
-        value:
-      - name: "RectangleCollider"
-        param:
-          - name: "handler"
-            value: "ColliderTestComponent"
-          - name: "flag"
-            value: 2
-          - name: "mask"
-            value: 6
-          - name: "size"
-            value: [200,100]
-          - name: "offset"
-            value: [100,0]
-          - name: "rotation_angle"
-            value: 45
+    

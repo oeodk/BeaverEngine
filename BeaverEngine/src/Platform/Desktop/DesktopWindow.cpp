@@ -109,6 +109,11 @@ namespace bv
 		glEnableVertexAttribArray(1);
 		glVertexAttribFormat(1, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex2D, texture_coords));
 		glVertexAttribBinding(1, 0); // Link attribute 1 to binding index 0
+		
+		// Attribute 2: Color (vec4)
+		glEnableVertexAttribArray(2);
+		glVertexAttribFormat(2, 4, GL_FLOAT, GL_FALSE, offsetof(Vertex2D, color));
+		glVertexAttribBinding(2, 0); // Link attribute 2 to binding index 0
 
 		// Unbind the VAO (optional)
 		glBindVertexArray(0);

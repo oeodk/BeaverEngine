@@ -66,8 +66,10 @@
     <ClInclude Include="include\BeaverEngine\Utils\Math.h" />
     <ClInclude Include="include\BeaverEngine\Component\InputManagerComponent.h" />
     <ClInclude Include="include\BeaverEngine\Component\RectangleColliderComponent.h" />
+    <ClInclude Include="include\BeaverEngine\Component\LayerComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Component\LayerComponent.cpp" />
     <ClCompile Include="src\Component\CircleColliderComponent.cpp" />
     <ClCompile Include="src\Component\RectangleColliderComponent.cpp" />
     <ClCompile Include="src\Component\ColliderComponent.cpp" />

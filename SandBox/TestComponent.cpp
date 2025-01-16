@@ -80,7 +80,7 @@ namespace sandbox
 		}
 		else
 		{
-			sprite->setColor({ 1,1,1,1 });
+			//sprite->setColor({ 1,1,1,1 });
 
 		}
 	}
