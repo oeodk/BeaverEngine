@@ -1,7 +1,7 @@
-prefix=C:/Program Files (x86)/GLFW
+prefix=C:/Program Files (x86)/BeaverEngine
 exec_prefix=${prefix}
-includedir=C:/Program Files (x86)/GLFW/include
-libdir=C:/Program Files (x86)/GLFW/lib
+includedir=C:/Program Files (x86)/BeaverEngine/include
+libdir=C:/Program Files (x86)/BeaverEngine/lib
 
 Name: GLFW
 Description: A multi-platform library for OpenGL, window and input

@@ -1307,25 +1307,25 @@
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core Files">
-      <UniqueIdentifier>{B98790DA-B1D9-3C33-8384-EFCBC1A20AB9}</UniqueIdentifier>
+      <UniqueIdentifier>{AC98A59D-FA78-36E4-AEFE-B0F0A9B655D8}</UniqueIdentifier>
     </Filter>
     <Filter Include="EXT Files">
-      <UniqueIdentifier>{C3C254A6-ADF8-3188-A54C-8ED4F298ED35}</UniqueIdentifier>
+      <UniqueIdentifier>{B00F419D-2BA3-3718-9BF5-C43BED83AABD}</UniqueIdentifier>
     </Filter>
     <Filter Include="GTC Files">
-      <UniqueIdentifier>{FB61B564-34B0-353F-99B5-22085C49E854}</UniqueIdentifier>
+      <UniqueIdentifier>{E9FA4BCC-A131-3AFF-8457-0B76056F40DF}</UniqueIdentifier>
     </Filter>
     <Filter Include="GTX Files">
-      <UniqueIdentifier>{5835D56F-8AA4-36F2-AB8C-449320F02B12}</UniqueIdentifier>
+      <UniqueIdentifier>{1D5E8167-9992-3FEB-A35C-C6837AEDE60A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{EA6AD251-7EA1-39AF-ABDF-4D1854DBFB55}</UniqueIdentifier>
+      <UniqueIdentifier>{60FDBFAD-95A2-3A4B-9DE4-5B343A6C054B}</UniqueIdentifier>
     </Filter>
     <Filter Include="SIMD Files">
-      <UniqueIdentifier>{2691FE55-BB4B-32FA-B9D3-7FA61B64D781}</UniqueIdentifier>
+      <UniqueIdentifier>{8230F84D-9E80-3CB3-AD96-C05A505518A6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Text Files">
-      <UniqueIdentifier>{BFE09A82-A2EC-3AB6-969E-438867A72E76}</UniqueIdentifier>
+      <UniqueIdentifier>{92C50C65-5183-3F51-B7AA-05D66015C304}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

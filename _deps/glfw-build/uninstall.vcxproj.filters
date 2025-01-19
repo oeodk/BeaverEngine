@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="C:\Users\gonon\Documents\Jeu perso\BeaverEngine\BeaverEngine\_deps\glfw-build\CMakeFiles\adfd3e8e71d28dfd25f185d72bb289ea\uninstall.rule">
+    <CustomBuild Include="C:\Users\gonon\Documents\Jeu perso\BeaverEngine\BeaverEngine\build\CMakeFiles\adfd3e8e71d28dfd25f185d72bb289ea\uninstall.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
     <CustomBuild Include="C:\Users\gonon\Documents\Jeu perso\BeaverEngine\BeaverEngine\_deps\glfw-src\CMakeLists.txt" />
@@ -11,7 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CMake Rules">
-      <UniqueIdentifier>{CE609CE2-DA39-3214-BFFB-CFC6FE01D1A3}</UniqueIdentifier>
+      <UniqueIdentifier>{B68AA10A-E479-3164-B470-B2B8A7F9BB5A}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

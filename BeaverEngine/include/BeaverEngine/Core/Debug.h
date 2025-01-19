@@ -10,8 +10,8 @@ namespace bv
 
 #else
 
-#define DEBUG_PRINT_STRING(str) ()
-#define DEBUG_PRINT_INT(str) ()
+#define DEBUG_PRINT_STRING(str) 1
+#define DEBUG_PRINT_INT(str) 1
 
 #endif // DEBUG
 }

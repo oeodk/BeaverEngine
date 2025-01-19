@@ -1,3 +1,5 @@
 .vs/
 bin/
 *.user
+_deps/*-build/
+build/

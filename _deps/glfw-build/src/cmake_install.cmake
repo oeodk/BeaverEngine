@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/GLFW")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/BeaverEngine")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -37,10 +37,8 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/gonon/Documents/Jeu perso/BeaverEngine/BeaverEngine/_deps/glfw-build/src/Debug/glfw3.lib")
   elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
     file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/gonon/Documents/Jeu perso/BeaverEngine/BeaverEngine/_deps/glfw-build/src/Release/glfw3.lib")
-  elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Mm][Ii][Nn][Ss][Ii][Zz][Ee][Rr][Ee][Ll])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/gonon/Documents/Jeu perso/BeaverEngine/BeaverEngine/_deps/glfw-build/src/MinSizeRel/glfw3.lib")
-  elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ww][Ii][Tt][Hh][Dd][Ee][Bb][Ii][Nn][Ff][Oo])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/gonon/Documents/Jeu perso/BeaverEngine/BeaverEngine/_deps/glfw-build/src/RelWithDebInfo/glfw3.lib")
+  elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Ss][Hh][Ii][Pp][Pp][Ii][Nn][Gg])$")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/gonon/Documents/Jeu perso/BeaverEngine/BeaverEngine/_deps/glfw-build/src/Shipping/glfw3.lib")
   endif()
 endif()
 
