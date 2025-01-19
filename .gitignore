@@ -1,6 +1,6 @@
 .vs/
 bin/
 *.user
-_deps/
-!_deps/glad/*
+_deps/*
+!_deps/glad/
 build/
