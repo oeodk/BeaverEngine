@@ -65,8 +65,6 @@ namespace bv
 		auto layer_entity = Scene::findObject(layer_name);
 		layer_ = layer_entity->getComponent<LayerComponent>();
 
-		layer_->addSprite(this);
-
 		if (!fixed_size_)
 		{
 			auto texture = layer_->getTexture().lock();
@@ -83,6 +81,8 @@ namespace bv
 		refreshPoint();
 		setRenderRectangle(render_rect_);
 		updateMesh();
+
+		layer_->addSprite(this);
 	}
 
 	void SpriteComponent::updateLogic(const Timing& timing)
@@ -201,5 +201,14 @@ namespace bv
 	void SpriteComponent::initAnimation(const Description& value)
 	{
 		animation_name_ = value.as<std::string>();
+	}
+
+	bool SpriteComponent::compareSpritesPosition(const SpriteComponent* c1, const SpriteComponent* c2)
+	{
+		const glm::vec3& s1_pos = c1->owner().getComponent<PositionComponent>()->getWorldPosition();
+		const glm::vec3& s2_pos = c2->owner().getComponent<PositionComponent>()->getWorldPosition();
+		if (s1_pos.y != s2_pos.y)
+			return s1_pos.y < s2_pos.y;
+		return s1_pos.x < s2_pos.x;
 	}
 }

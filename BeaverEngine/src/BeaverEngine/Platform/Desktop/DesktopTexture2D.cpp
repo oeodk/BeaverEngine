@@ -1,4 +1,5 @@
 #include "BeaverEngine/Platform/Desktop/DesktopTexture2D.h"
+#include "BeaverEngine/Core/TypeDef.h"
 #include "deps/stb_image/stb_image.h"
 #include "yaml-cpp/yaml.h"
 namespace bv
@@ -113,7 +114,7 @@ namespace bv
 			data_path += +".yaml";
 			if (std::filesystem::exists(data_path))
 			{
-				YAML::Node texture_data = YAML::LoadFile(data_path);
+				Description texture_data = Descr::load(data_path);
 				for (const auto& sprite_data : texture_data)
 				{
 					texture_animations_.insert({ sprite_data["animation"].as<std::string>(), AnimationData(sprite_data["width"].as<unsigned int>(), sprite_data["height"].as<unsigned int>(), sprite_data["frame_count"].as<unsigned int>(), sprite_data["frame_dt"].as<float>(), glm::vec2(sprite_data["start_coordinates"][0].as<unsigned int>(), sprite_data["start_coordinates"][1].as<unsigned int>()))});

@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "TestComponent.h"
 #include "TestColliderComponent.h"
+#include "TestEntitySpawnerComponent.h"
 namespace sandbox
 {
 	void Game::setupSystem()
@@ -13,6 +14,7 @@ namespace sandbox
 	{
 		bv::Component::Register<TestComponent>();
 		bv::Component::Register<TestColliderComponent>();
+		bv::Component::Register<TestEntitySpawnerComponent>();
 	}
 }
 

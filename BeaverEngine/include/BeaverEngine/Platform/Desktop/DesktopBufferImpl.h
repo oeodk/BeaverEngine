@@ -31,13 +31,20 @@ namespace bv
 
         void setup() override
         {
+            if (created_)
+            {
+                glDeleteBuffers(1, &vbo_);
+            }
             glCreateBuffers(1, &vbo_);
             glNamedBufferData(vbo_, VertexBufferImpl<V>::vertices_.size() * sizeof(V), VertexBufferImpl<V>::vertices_.data(), GL_DYNAMIC_DRAW);
+            
+            created_ = true;
             //glGenBuffers(1, &vbo_);
             //glBindBuffer(GL_ARRAY_BUFFER, vbo_);
             //glBufferData(GL_ARRAY_BUFFER, , nullptr, GL_DYNAMIC_DRAW);
         }
     private:
+        bool created_{};
         GLuint vbo_;
     };
 

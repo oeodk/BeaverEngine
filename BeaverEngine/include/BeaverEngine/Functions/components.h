@@ -9,11 +9,13 @@
 #include "BeaverEngine/Component/RectangleColliderComponent.h"
 #include "BeaverEngine/Component/CircleColliderComponent.h"
 #include "BeaverEngine/Component/LayerComponent.h"
+#include "BeaverEngine/Component/AudioManagerComponent.h"
 
 namespace bv
 {
 	inline void registerBasicComponent()
 	{
+		Component::Register<AudioManagerComponent>();
 		Component::Register<CircleColliderComponent>();
 		Component::Register<InputManagerComponent>();
 		Component::Register<LayerComponent>();

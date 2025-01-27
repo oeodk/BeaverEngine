@@ -1,5 +1,6 @@
 #pragma once
 #include "BeaverEngine/Component/LogicComponent.h"
+#include "BeaverEngine/Component/SpriteComponent.h"
 #include "BeaverEngine/Component/DisplayComponent.h"
 #include "BeaverEngine/Utils/Buffer.h"
 #include "BeaverEngine/Utils/Texture2D.h"
@@ -8,8 +9,7 @@
 namespace bv
 {
 	class View2D;
-	class SpriteComponent;
-	
+
 	class LayerComponent
 		: public LogicComponent, public DisplayComponent
 	{
@@ -24,17 +24,20 @@ namespace bv
 		void updateLogic(const Timing& timing) override;
 		void display(Renderer* renderer, const Timing& dt) override;
 		
-		void addSprite(SpriteComponent* sprite) { sprites_.insert(sprite); }
-		void removeSprite(SpriteComponent* sprite) { sprites_.erase(sprite); }
+		void addSprite(SpriteComponent* sprite) { sprites_.push_back(sprite); }
+		void removeSprite(SpriteComponent* sprite) { sprites_.erase(std::remove(sprites_.begin(), sprites_.end(), sprite), sprites_.end()); }
 
 		const std::weak_ptr<Texture2D> getTexture() const { return texture_; }
 	private:
-		std::set<SpriteComponent*> sprites_;
+		
+		
+
+		std::vector<SpriteComponent*> sprites_;
 
 		std::shared_ptr<Texture2D> texture_;
 
-		std::unique_ptr<VertexBuffer<Vertex2D>> vertex_buffer_;
-		std::unique_ptr<IndexBuffer> index_buffer_;
+		VertexBuffer<Vertex2D> vertex_buffer_;
+		IndexBuffer index_buffer_;
 		View2D* view_to_render_{};
 
 		void initTexture(const Description& value, bool interpolate);

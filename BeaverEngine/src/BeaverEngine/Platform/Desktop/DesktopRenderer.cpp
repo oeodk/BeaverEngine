@@ -174,7 +174,7 @@ namespace bv
 		int err = glGetError();
 		if (err != GL_NO_ERROR)
 		{
-			DEBUG_PRINT_INT(err);
+			DEBUG_PRINT_NUMBER(err);
 		}
 	}
 

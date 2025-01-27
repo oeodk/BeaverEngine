@@ -91,13 +91,13 @@ namespace bv
 			mouse_scroll_value_ = value;
 		}
 	private:
-		std::unordered_map<Key::Key, State> keys_state_;
-		std::unordered_map<Mouse::Button, State> mouse_buttons_state_;
+		std::unordered_map<Key::Key, State> keys_state_{};
+		std::unordered_map<Mouse::Button, State> mouse_buttons_state_{};
 
-		std::vector<Key::Key> updated_keys_;
-		std::vector<Mouse::Button> updated_mouse_buttons_;
+		std::vector<Key::Key> updated_keys_{};
+		std::vector<Mouse::Button> updated_mouse_buttons_{};
 
-		float mouse_scroll_value_;
+		float mouse_scroll_value_{};
 	};
 }
 

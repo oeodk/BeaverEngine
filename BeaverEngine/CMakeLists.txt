@@ -57,13 +57,19 @@ target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/glfw-s
 
 target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/glad/include)
 
+target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/openal-soft-src/include)
+
+target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/libsndfile-src/include)
+
 # Link external libraries
 target_link_libraries(BeaverEngine
-    PRIVATE
+    PUBLIC
         glfw
         glm
         yaml-cpp
 		glad
+		OpenAL::OpenAL
+		sndfile
 )
 
 # Specify output directories

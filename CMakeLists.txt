@@ -40,6 +40,7 @@ FetchContent_Declare(
     SOURCE_DIR ${DEPS_DIR}/yaml-cpp-src
     BINARY_DIR ${DEPS_DIR}/yaml-cpp-build
 )
+
 # Disable contrib and tools
 set(YAML_CPP_BUILD_CONTRIB OFF CACHE BOOL "Disable contrib in yaml-cpp")
 set(YAML_CPP_BUILD_TOOLS OFF CACHE BOOL "Disable tools in yaml-cpp")
@@ -49,6 +50,49 @@ set(YAML_BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared library for yaml-cpp")
 
 
 FetchContent_MakeAvailable(yaml-cpp)
+
+# OPENAL-SOFT
+FetchContent_Declare(
+    openal
+    GIT_REPOSITORY https://github.com/kcat/openal-soft.git
+    GIT_TAG master
+    SOURCE_DIR ${DEPS_DIR}/openal-soft-src
+    BINARY_DIR ${DEPS_DIR}/openal-soft-build
+)
+
+# Disable unnecessary components
+set(ALSOFT_EXAMPLES OFF CACHE BOOL "Disable examples in OpenAL Soft")
+set(ALSOFT_TESTS OFF CACHE BOOL "Disable tests in OpenAL Soft")
+set(ALSOFT_UTILS OFF CACHE BOOL "Disable utilities in OpenAL Soft")
+set(ALSOFT_INSTALL OFF CACHE BOOL "Disable installation in OpenAL Soft")
+set(ALSOFT_INSTALL_EXAMPLES OFF CACHE BOOL "Disable installation in OpenAL Soft")
+
+# Enable required components
+set(OPENAL_BUILD_STATIC_LIBS ON CACHE BOOL "Build static libraries for OpenAL")
+set(OPENAL_BUILD_SHARED_LIBS OFF CACHE BOOL "Disable shared libraries for OpenAL")
+
+# Build only the core components
+set(OPENAL_BUILD_COMMON ON CACHE BOOL "Build the common components")
+set(OPENAL_BUILD_VERSION ON CACHE BOOL "Build the versioning components")
+
+FetchContent_MakeAvailable(openal)
+
+# LIBSNDFILE
+FetchContent_Declare(
+    sndfile
+    GIT_REPOSITORY https://github.com/libsndfile/libsndfile.git
+    GIT_TAG master
+    SOURCE_DIR ${DEPS_DIR}/sndfile-src
+    BINARY_DIR ${DEPS_DIR}/sndfile-build
+)
+set(BUILD_PROGRAMS OFF CACHE BOOL "Disable building command-line programs for libsndfile")
+set(BUILD_EXAMPLES OFF CACHE BOOL "Disable building example programs for libsndfile")
+set(BUILD_TESTING OFF CACHE BOOL "Disable building testing for libsndfile")
+
+FetchContent_MakeAvailable(sndfile)
+
+get_property(OPENAL_TARGETS DIRECTORY ${openal_SOURCE_DIR} PROPERTY BUILDSYSTEM_TARGETS)
+message(STATUS "OpenAL Targets: ${OPENAL_TARGETS}")
 
 # Define the base output directory
 set(BASE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin)
@@ -62,9 +106,9 @@ file(MAKE_DIRECTORY ${INTERM_OUTPUT_DIR})
 file(MAKE_DIRECTORY ${OUT_OUTPUT_DIR})
 
 # Set the output directory for static libraries (INTERMEDIATE files)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${INTERM_OUTPUT_DIR})
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${INTERM_OUTPUT_DIR}/release)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${INTERM_OUTPUT_DIR}/debug)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${INTERM_OUTPUT_DIR}/$<CONFIG>)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OUT_OUTPUT_DIR}/$<CONFIG>)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUT_OUTPUT_DIR}/$<CONFIG>)
 
 # Set the output directory for shared libraries (if you have them)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OUT_OUTPUT_DIR})
@@ -83,10 +127,15 @@ set(DATA_SOURCE_DIR ${CMAKE_SOURCE_DIR}/data)
 set(CMAKE_CONFIGURATION_TYPES Debug Release Shipping CACHE STRING "Available build types" FORCE)
 
 # Define flags for the Shipping configuration
-set(CMAKE_CXX_FLAGS_SHIPPING "-O3 -DNDEBUG -DSHIPPING_BUILD")
-set(CMAKE_C_FLAGS_SHIPPING "-O3 -DNDEBUG -DSHIPPING_BUILD")
-set(CMAKE_EXE_LINKER_FLAGS_SHIPPING "")
-set(CMAKE_SHARED_LINKER_FLAGS_SHIPPING "")
+#set(CMAKE_CXX_FLAGS_SHIPPING "-O3 -DNDEBUG -DSHIPPING_BUILD")
+#set(CMAKE_C_FLAGS_SHIPPING "-O3 -DNDEBUG -DSHIPPING_BUILD")
+#set(CMAKE_EXE_LINKER_FLAGS_SHIPPING "")
+#set(CMAKE_SHARED_LINKER_FLAGS_SHIPPING "-O3 -DNDEBUG -DSHIPPING_BUILD" CACHE STRING "Linker flags for shipping configuration")
+
+set(CMAKE_CXX_FLAGS_SHIPPING "${CMAKE_CXX_FLAGS_RELEASE}")
+set(CMAKE_C_FLAGS_SHIPPING "${CMAKE_C_FLAGS_RELEASE}")
+set(CMAKE_EXE_LINKER_FLAGS_SHIPPING "${CMAKE_EXE_LINKER_FLAGS_RELEASE}")
+set(CMAKE_SHARED_LINKER_FLAGS_SHIPPING "${CMAKE_SHARED_LINKER_FLAGS_RELEASE}")
 
 # Set global definitions for all configurations
 add_compile_definitions(
@@ -100,4 +149,5 @@ add_subdirectory(_deps/glad)
 
 # Add subdirectories
 add_subdirectory(BeaverEngine)
+
 add_subdirectory(SandBox)

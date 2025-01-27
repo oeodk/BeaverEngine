@@ -14,8 +14,10 @@ target_include_directories(SandBox PUBLIC include)
 # Specify GLM include directory (since it's a header-only library)
 target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/glm-src)
 
+target_include_directories(BeaverEngine PUBLIC ${yaml-cpp_SOURCE_DIR}/include)
+
 # Link with BeaverEngine
-target_link_libraries(SandBox BeaverEngine glm)
+target_link_libraries(SandBox PUBLIC BeaverEngine glm yaml-cpp)
 
 # Specify output directories
 set_target_properties(SandBox PROPERTIES

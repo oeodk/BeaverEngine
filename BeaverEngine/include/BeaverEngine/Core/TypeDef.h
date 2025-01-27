@@ -12,4 +12,8 @@ namespace bv
 	typedef std::shared_ptr<Entity> EntityRef;
 
 	typedef YAML::Node Description;
+	namespace Descr
+	{
+		bv::Description load(const std::string& path);
+	}
 }

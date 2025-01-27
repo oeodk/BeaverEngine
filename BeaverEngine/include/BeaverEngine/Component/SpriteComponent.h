@@ -65,6 +65,8 @@ namespace bv
 		const std::array<unsigned int, 6>& getIndices() const { return INDICES; }
 		// For internal use
 		const std::array<Vertex2D, 4>& getVertices() const { return vertices_; }
+		
+		static bool compareSpritesPosition(const SpriteComponent* c1, const SpriteComponent* c2);
 	private:
 
 		std::string layer_name{};
@@ -117,5 +119,6 @@ namespace bv
 		void initLayer(const Description& value);
 		void initAnimation(const Description& value);
 	};
+
 }
 

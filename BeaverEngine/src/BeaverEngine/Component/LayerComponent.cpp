@@ -77,53 +77,63 @@ namespace bv
 		}
 	}
 
+	void addSpriteToLayer(int i, float layer_z, int sprite_count, std::vector<const SpriteComponent*>& sorted_sprite, std::span<Vertex2D>& mapped_vertices, std::span<unsigned int>& mapped_indices)
+	{
+		std::transform(sorted_sprite[i]->getVertices().begin(), sorted_sprite[i]->getVertices().end(), mapped_vertices.begin() + i * 4,
+			[i, sprite_count, layer_z, &sorted_sprite](const Vertex2D& v) {
+				Vertex2D vert(v);
+				vert.position.z = layer_z + i / static_cast<float>(sprite_count);
+
+				vert.color = sorted_sprite[i]->getColor();
+
+				return vert; });
+		std::transform(sorted_sprite[i]->getIndices().begin(), sorted_sprite[i]->getIndices().end(), mapped_indices.begin() + i * 6,
+			[i](unsigned int index) {return index + i * 4; });
+	}
+
 	void LayerComponent::display(Renderer* renderer, const Timing& dt)
 	{
 		std::vector<const SpriteComponent*> sorted_sprite;
 		sorted_sprite.reserve(std::size(sprites_));
+
+		std::sort(std::execution::par, sprites_.begin(), sprites_.end(),
+			[](const SpriteComponent* s1, const SpriteComponent* s2) {
+				return SpriteComponent::compareSpritesPosition(s2, s1); 
+			});
 		std::copy_if(sprites_.begin(), sprites_.end(), std::back_inserter(sorted_sprite),
 			[](const SpriteComponent* sprite) {return sprite->enabled() && sprite->owner().active(); });
 
-		std::sort(sorted_sprite.begin(), sorted_sprite.end(),
-			[](const SpriteComponent* s1, const SpriteComponent* s2) {
-				const glm::vec3& s1_pos = s1->owner().getComponent<PositionComponent>()->getWorldPosition();
-				const glm::vec3& s2_pos = s2->owner().getComponent<PositionComponent>()->getWorldPosition();
-				return (s1_pos.y > s2_pos.y && s1_pos.y != s2_pos.y) || (s1_pos.x < s2_pos.x && s1_pos.y == s2_pos.y);
-			});
+		vertex_buffer_ = VertexBuffer<Vertex2D>();
+		index_buffer_ = IndexBuffer();
 
-		vertex_buffer_ = std::make_unique<VertexBuffer<Vertex2D>>();
-		index_buffer_ = std::make_unique<IndexBuffer>();
-
-		auto mapped_vertices = vertex_buffer_->mapVertices(0, 4 * sorted_sprite.size());
-		auto mapped_indices = index_buffer_->mapIndices(0, 6 * sorted_sprite.size());
+		auto mapped_vertices = vertex_buffer_.mapVertices(0, 4 * sorted_sprite.size());
+		auto mapped_indices = index_buffer_.mapIndices(0, 6 * sorted_sprite.size());
 
 		const size_t sprite_count = std::size(sorted_sprite);
 		float layer_z = owner().getComponent<PositionComponent>()->getWorldPosition().z;
+
+		std::vector<std::future<void>> threads;
+		threads.reserve(sprite_count);
 		for (size_t i = 0; i < sprite_count; i++)
 		{
-			std::transform(sorted_sprite[i]->getVertices().begin(), sorted_sprite[i]->getVertices().end(), mapped_vertices.begin() + i * 4,
-				[i, sprite_count, layer_z, &sorted_sprite](const Vertex2D& v) {
-					Vertex2D vert(v);
-					vert.position.z = layer_z + i / static_cast<float>(sprite_count);
-
-					vert.color = sorted_sprite[i]->getColor();
-
-					return vert; });
-			std::transform(sorted_sprite[i]->getIndices().begin(), sorted_sprite[i]->getIndices().end(), mapped_indices.begin() + i * 6,
-				[i](unsigned int index) {return index + i * 4; });	
+			threads.push_back(std::async(std::launch::async, &addSpriteToLayer, i, layer_z, sprite_count, std::ref(sorted_sprite), std::ref(mapped_vertices), std::ref(mapped_indices)));
 		}
-		vertex_buffer_->setup();
-		index_buffer_->setup();
+		for (size_t i = 0; i < sprite_count; i++)
+		{
+			threads[i].wait();
+		}
+		vertex_buffer_.setup();
+		index_buffer_.setup();
 
 		texture_->bind();
-		renderer->render(*vertex_buffer_.get(), *index_buffer_.get(), window_to_render_.lock().get(), view_to_render_);
+		renderer->render(vertex_buffer_, index_buffer_, window_to_render_.lock().get(), view_to_render_);
 		
 	}
 
 
 	void LayerComponent::initTexture(const Description& value, bool interpolate)
 	{
-		texture_ = ManagerComponent::getManager<TextureManagerComponent>()->getTexture2D(constants::SPRITE_PATH + value.as<std::string>(), interpolate);
+		texture_ = ManagerComponent::getManager<TextureManagerComponent>()->getTexture2D(constants::SPRITES_PATH + value.as<std::string>(), interpolate);
 	}
 	
 	void LayerComponent::initWindow(const Description& value)

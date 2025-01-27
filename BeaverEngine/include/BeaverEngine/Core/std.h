@@ -1,11 +1,15 @@
 #pragma once
 #include <algorithm>
+#include <array>
 #include <chrono>
+#include <execution>
 #include <filesystem>
 #include <fstream>
 #include <functional>
+#include <future>
 #include <map>
 #include <memory>
+#include <mutex>
 #include <span>
 #include <sstream>
 #include <string>

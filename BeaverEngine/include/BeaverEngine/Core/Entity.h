@@ -15,7 +15,7 @@ namespace bv
         std::map<std::string, std::weak_ptr<Entity>> children_by_name_;
         std::unordered_map<std::string, std::unique_ptr<Component>> components_;
     public :
-        ~Entity() {}
+        ~Entity() { components_.clear(); children_by_name_.clear(); }
         static EntityRef create() { return std::make_shared<Entity>(); }
         void addChild(std::string_view name, const EntityRef& child);
         void removeChild(EntityRef child);
@@ -61,6 +61,10 @@ namespace bv
 
         EntityRef getChild(std::string_view name) const
         {
+            if (children_by_name_.size() == 0)
+            {
+                return nullptr;
+            }
             auto child = children_by_name_.find((std::string)name);
             if (child == children_by_name_.end())
             {
