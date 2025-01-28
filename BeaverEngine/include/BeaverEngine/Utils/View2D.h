@@ -2,6 +2,7 @@
 #include "BeaverEngine/Core/std.h"
 #include "BeaverEngine/Core/TypeDef.h"
 #include <glm/glm.hpp>
+#include "yaml-cpp/yaml.h"
 
 namespace bv
 {
@@ -90,7 +91,7 @@ namespace bv
 			{"center", CENTER},
 			{"elevation", ELEVATION},
 			{"rotation_angle", ROTATION_ANGLE},
-			{"viewport_pos", VIEWPORT_POS},
+			{"viewport_position", VIEWPORT_POS},
 			{"viewport_size", VIEWPORT_SIZE}
 		};
 	};

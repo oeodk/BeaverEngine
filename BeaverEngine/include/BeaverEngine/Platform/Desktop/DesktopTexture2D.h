@@ -29,7 +29,7 @@ namespace bv
 		unsigned int width_{}, height_{};
 		unsigned int texture_id_;
 
-		GLenum international_format_, data_format_;;
+		GLenum international_format_, data_format_;
 	};
 }
 

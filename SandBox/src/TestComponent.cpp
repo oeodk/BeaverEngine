@@ -1,5 +1,5 @@
 #include "TestComponent.h"
-#include <BeaverEngine/Component/InputManagerComponent.h>
+#include "BeaverEngine/System/InputSystem.h"
 #include <BeaverEngine/Core/Entity.h>
 #include <BeaverEngine/Component/PositionComponent.h>
 #include <BeaverEngine/Component/SpriteComponent.h>
@@ -43,25 +43,26 @@ namespace sandbox
 			break;
 
 		}
+		return "";
 	}
 
 	void TestComponent::updateLogic(const bv::Timing& timing)
 	{
-		auto input = bv::ManagerComponent::getManager<bv::InputManagerComponent>();
+		auto& input = bv::InputSystem::getInstance();
 		float x = 0, y = 0;
-		if (input->isKeyHeld(bv::Key::W))
+		if (input.isKeyHeld(bv::Key::W))
 		{
 			y += 1;
 		}
-		if (input->isKeyHeld(bv::Key::S))
+		if (input.isKeyHeld(bv::Key::S))
 		{
 			y -= 1;
 		}
-		if (input->isKeyHeld(bv::Key::D))
+		if (input.isKeyHeld(bv::Key::D))
 		{
 			x += 1;
 		}
-		if (input->isKeyHeld(bv::Key::A))
+		if (input.isKeyHeld(bv::Key::A))
 		{
 			x -= 1;
 		}

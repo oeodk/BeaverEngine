@@ -18,9 +18,8 @@ namespace bv
 		setupSystem();
 
 		addSystem<bv::EntitySystem>();
-		addSystem<bv::ManagerSystem>();
 
-		Scene::load(Descr::load("./data/scene/scene_initialisation.yaml"));
+		Scene::load(Descr::load("./data/scene/default_scene.yaml"));
 
 		for (auto& system : systems_)
 		{

@@ -1,15 +1,14 @@
 #include "BeaverEngine/Utils/View2D.h"
-#include "BeaverEngine/Component/WindowManagerComponent.h"
+#include "BeaverEngine/System/WindowSystem.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
-
 
 namespace bv
 {
 	View2D::View2D()
 	{
-		setSize(WindowManagerComponent::getBaseWindowSize());
+		setSize(WindowSystem::getBaseWindowSize());
 	}
 
 	void View2D::setupParameter(std::string_view parameter_name, const Description& descr)

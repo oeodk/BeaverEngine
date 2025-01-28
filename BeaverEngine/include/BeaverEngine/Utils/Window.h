@@ -5,7 +5,6 @@
 
 namespace bv
 {
-    class InputManagerComponent;
     class Window;
     struct WindowProperties
     {
@@ -24,7 +23,7 @@ namespace bv
 
     class Window 
     {
-        friend class InputManagerComponent;
+        friend class InputSystem;
     public :
         virtual ~Window(){}
         

@@ -1,12 +1,11 @@
 #include "BeaverEngine/Platform/Desktop/DesktopTexture2D.h"
+#include "BeaverEngine/System/TextureSystem.h"
+
 #include "BeaverEngine/Core/TypeDef.h"
 #include "deps/stb_image/stb_image.h"
 #include "yaml-cpp/yaml.h"
 namespace bv
 {
-	Texture2D::~Texture2D()
-	{
-	}
 	std::shared_ptr<Texture2D> Texture2D::create(const TextureSpecification& specification)
 	{
 		return std::make_shared<DesktopTexture2D>(specification);
@@ -125,6 +124,8 @@ namespace bv
 
 	DesktopTexture2D::~DesktopTexture2D()
 	{
+		TextureSystem::getInstance().texture2dRemoved(getPath());
+
 		glDeleteTextures(1, &texture_id_);
 	}
 

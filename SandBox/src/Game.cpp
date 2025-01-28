@@ -6,9 +6,14 @@ namespace sandbox
 {
 	void Game::setupSystem()
 	{
+		addSystem<bv::WindowSystem>();
+		addSystem<bv::ViewSystem>();
+		addSystem<bv::TextureSystem>();
+		addSystem<bv::AudioSystem>();
 		addSystem<bv::ColliderSystem>();
 		addSystem<bv::LogicSystem>();
 		addSystem<bv::DisplaySystem>();
+		addSystem<bv::InputSystem>();
 	}
 	void Game::registerComponent() const
 	{

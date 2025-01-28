@@ -1,13 +1,13 @@
 #pragma once
-#include "BeaverEngine/Component/ManagerComponent.h"
+#include "BeaverEngine/System/System.h"
 
 #include "BeaverEngine/Core/KeyCode.h"
 #include "BeaverEngine/Core/std.h"
 #include <glm/glm.hpp>
 namespace bv
 {
-	class InputManagerComponent
-		: public ManagerComponent
+	class InputSystem
+		: public System
 	{
 	public:
 		struct State
@@ -21,10 +21,17 @@ namespace bv
 			State(Value value = NONE) : state(value){}
 		};
 
-		static constexpr auto type_ = "InputManager";
-		InputManagerComponent(Entity& owner) : ManagerComponent(owner) {}
-		void setup(const ComponentDescription& init_value) override {}
-		void update(const Timing& dt) override
+		InputSystem() = default;
+		InputSystem(const InputSystem&) = default;
+		InputSystem(InputSystem&&) = default;
+		InputSystem& operator=(const InputSystem&) = default;
+		InputSystem& operator=(InputSystem&&) = default;
+
+		~InputSystem() = default;
+
+		static InputSystem& getInstance();
+
+		void iterate(const Timing& dt) override
 		{
 			for (auto& key : updated_keys_)
 			{

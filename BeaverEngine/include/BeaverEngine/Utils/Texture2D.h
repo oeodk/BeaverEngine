@@ -17,7 +17,7 @@ namespace bv
         public Texture
     {
 	public:
-        ~Texture2D();
+        virtual ~Texture2D();
 		static std::shared_ptr<Texture2D> create(const TextureSpecification& specification);
 		static std::shared_ptr<Texture2D> create(std::string_view path, bool interpolate = false);
 

@@ -11,6 +11,7 @@
 #include <memory>
 #include <mutex>
 #include <span>
+#include <set>
 #include <sstream>
 #include <string>
 #include <unordered_map>

@@ -1,18 +1,26 @@
 #pragma once
-#include "BeaverEngine/Component/ManagerComponent.h"
-#include "BeaverEngine/Utils/Texture.h"
+#include "BeaverEngine/System/System.h"
 #include "BeaverEngine/Utils/Texture2D.h"
+#include "BeaverEngine/Utils/Texture.h"
+#include "BeaverEngine/Core/std.h"
+
 namespace bv
 {
-    class TextureManagerComponent :
-        public ManagerComponent
+    class TextureSystem :
+        public System
     {
     public:
-        static constexpr auto type_ = "TextureManager";
+        TextureSystem() = default;
+        TextureSystem(const TextureSystem&) = default;
+        TextureSystem(TextureSystem&&) = default;
+        TextureSystem& operator=(const TextureSystem&) = default;
+        TextureSystem& operator=(TextureSystem&&) = default;
 
-        TextureManagerComponent(Entity& owner) : ManagerComponent(owner) {}
-        void setup(const ComponentDescription& init_value) override{}
-        void update(const Timing& dt) override
+        ~TextureSystem() = default;
+
+        static TextureSystem& getInstance();
+
+        void iterate(const Timing& dt) override
         {
             for (auto& texture : texture_2d_to_check_)
             {

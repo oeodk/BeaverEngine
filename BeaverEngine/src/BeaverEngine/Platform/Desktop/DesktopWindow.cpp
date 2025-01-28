@@ -1,9 +1,9 @@
 #include "BeaverEngine/Platform/Desktop/DesktopWindow.h"
-#include "BeaverEngine/Component/WindowManagerComponent.h"
+#include "BeaverEngine/System/WindowSystem.h"
 #include "BeaverEngine/Core/Scene.h"
 #include "BeaverEngine/Core/Entity.h"
 #include "BeaverEngine/Utils/Vertex.h"
-#include "BeaverEngine/Component/InputManagerComponent.h"
+#include "BeaverEngine/System/InputSystem.h"
 
 namespace bv
 {
@@ -25,7 +25,7 @@ namespace bv
 	{
 		DesktopWindow::Properties* properties = static_cast<DesktopWindow::Properties*>(glfwGetWindowUserPointer(window));
 
-		ManagerComponent::getManager<WindowManagerComponent>()->closeWindow(properties->self->getName());
+		WindowSystem::getInstance().closeWindow(properties->self->getName());
 	}
 
 	void resizeEventCallback(GLFWwindow* window, int width, int height)
@@ -39,7 +39,7 @@ namespace bv
 	{
 		if(action == GLFW_RELEASE || action == GLFW_PRESS)
 		{
-			ManagerComponent::getManager<InputManagerComponent>()->setKeyState(Key::Key(key), action);
+			InputSystem::getInstance().setKeyState(Key::Key(key), action);
 		}
 	}
 
@@ -47,13 +47,13 @@ namespace bv
 	{
 		if (action == GLFW_RELEASE || action == GLFW_PRESS)
 		{
-			ManagerComponent::getManager<InputManagerComponent>()->setMouseButtonState(Mouse::Button(button), action != GLFW_RELEASE);
+			InputSystem::getInstance().setMouseButtonState(Mouse::Button(button), action != GLFW_RELEASE);
 		}
 	}
 
 	void scrollEventCallback(GLFWwindow* window, double xoffset, double yoffset)
 	{
-		ManagerComponent::getManager<InputManagerComponent>()->setMouseScrollValue(yoffset);
+		InputSystem::getInstance().setMouseScrollValue(yoffset);
 	}
 
 	void DesktopWindow::init(const WindowProperties& props)

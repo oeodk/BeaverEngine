@@ -1,20 +1,17 @@
 #include "BeaverEngine/Utils/Sound.h"
-#include "BeaverEngine/Component/AudioManagerComponent.h"
+#include "BeaverEngine/System/AudioSystem.h"
 
 namespace bv
 {
 	void Sound::setup(std::string_view path)
 	{
 		path_ = std::string(path);
-		ManagerComponent::getManager<AudioManagerComponent>()->registerSound(this);
+		AudioSystem::getInstance().registerSound(this);
 	}
 
 	Sound::~Sound()
 	{
-		if(auto* AudioManager = ManagerComponent::getManager<AudioManagerComponent>())
-		{
-			AudioManager->soundRemoved(this);
-		}
+		AudioSystem::getInstance().soundRemoved(this);
 	}
 }
 

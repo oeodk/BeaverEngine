@@ -12,7 +12,7 @@
 #include <glad/glad.h>
 #include <glm/gtc/quaternion.hpp>
 
-#include "BeaverEngine/Component/InputManagerComponent.h"
+#include "BeaverEngine/System/InputSystem.h"
 #include <iostream>
 namespace bv
 {

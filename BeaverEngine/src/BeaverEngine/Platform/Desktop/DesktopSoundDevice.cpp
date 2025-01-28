@@ -1,5 +1,5 @@
 #include "BeaverEngine/Platform/Desktop/DesktopSoundDevice.h"
-#include "BeaverEngine/Component/AudioManagerComponent.h"
+#include "BeaverEngine/System/AudioSystem.h"
 #include <AL/al.h>
 namespace bv
 {
@@ -23,16 +23,14 @@ namespace bv
 			name = alcGetString(ALCDevice_, ALC_DEVICE_SPECIFIER);
 	}
 
-	DesktopSoundDevice::~DesktopSoundDevice()
+	void DesktopSoundDevice::destroy()
 	{
-		ManagerComponent::getManager<AudioManagerComponent>()->clean();
+		AudioSystem::getInstance().clean();
 
-		if (!alcMakeContextCurrent(nullptr))
-			throw("failed to set context to nullptr");
+		alcMakeContextCurrent(nullptr);
 
 		alcDestroyContext(ALCContext_);
 
-		if (!alcCloseDevice(ALCDevice_))
-			throw("failed to close sound device");
+		alcCloseDevice(ALCDevice_);
 	}
 }

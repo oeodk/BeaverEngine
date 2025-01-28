@@ -1,16 +1,16 @@
 #pragma once
-#include "BeaverEngine/Utils/AudioManagerImpl.h"
+#include "BeaverEngine/System/AudioSystemImpl.h"
 #include "BeaverEngine/Platform/Desktop/DesktopSoundBuffer.h">
 #include "BeaverEngine/Platform/Desktop/DesktopSoundSource.h">
 #include "BeaverEngine/Platform/Desktop/DesktopSoundDevice.h">
 #include "BeaverEngine/Utils/Sound.h"
 namespace bv
 {
-	class DesktopAudioManagerComponent
-		: public AudioManagerImpl
+	class DesktopAudioSystemImpl
+		: public AudioSystemImpl
 	{
 	public:
-		DesktopAudioManagerComponent()
+		DesktopAudioSystemImpl()
 		{
 			context_ = DesktopSoundDevice::getInstance();
 			sounds_.reserve(SOUND_COUNT);
@@ -21,7 +21,7 @@ namespace bv
 			}
 		}
 
-		void update(const Timing& dt) override
+		void iterate(const Timing& dt) override
 		{
 			for (size_t i = 0; i < first_available_sound_index_; i++)
 			{

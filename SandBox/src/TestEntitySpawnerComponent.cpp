@@ -2,8 +2,8 @@
 #include "BeaverEngine/BeaverEngine.h"
 #include "yaml-cpp/yaml.h"
 #include <BeaverEngine/Core/GlobalConstants.h>
-#include <BeaverEngine/Component/AudioManagerComponent.h>
-#include <BeaverEngine/Component/InputManagerComponent.h>
+#include <BeaverEngine/System/AudioSystem.h>
+#include <BeaverEngine/System/InputSystem.h>
 
 void sandbox::TestEntitySpawnerComponent::setup(const bv::ComponentDescription& init_value)
 {
@@ -21,12 +21,12 @@ void sandbox::TestEntitySpawnerComponent::resolve()
 
 		bv::Scene::CreateChild(component_template_[0], owner().shared_from_this());
 	}
-	player_ = bv::ManagerComponent::getManager<bv::AudioManagerComponent>()->playSound(sound_, this);
+	player_ = bv::AudioSystem::getInstance().playSound(sound_, this);
 }
 
 void sandbox::TestEntitySpawnerComponent::updateLogic(const bv::Timing& dt)
 {
-	if (bv::ManagerComponent::getManager<bv::InputManagerComponent>()->isKeyPressed(bv::Key::SPACE))
+	if (bv::InputSystem::getInstance().isKeyPressed(bv::Key::SPACE))
 	{
 		switch (player_->getState())
 		{
@@ -37,7 +37,7 @@ void sandbox::TestEntitySpawnerComponent::updateLogic(const bv::Timing& dt)
 			player_->resume(this);
 			break;
 		case bv::SoundPlayer::STOPPED:
-			player_ = bv::ManagerComponent::getManager<bv::AudioManagerComponent>()->playSound(sound_, this);
+			player_ = bv::AudioSystem::getInstance().playSound(sound_, this);
 			break;
 		default:
 			break;

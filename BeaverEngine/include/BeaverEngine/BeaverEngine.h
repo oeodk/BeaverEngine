@@ -8,8 +8,14 @@
 #include "BeaverEngine/Utils/Window.h"
 
 #include "BeaverEngine/System/System.h"
+
+#include <BeaverEngine/System/AudioSystem.h>
 #include <BeaverEngine/System/ColliderSystem.h>
 #include <BeaverEngine/System/DisplaySystem.h>
 #include <BeaverEngine/System/EntitySystem.h>
+#include <BeaverEngine/System/InputSystem.h>
 #include <BeaverEngine/System/LogicSystem.h>
-#include <BeaverEngine/System/ManagerSystem.h>
+#include <BeaverEngine/System/TextureSystem.h>
+#include <BeaverEngine/System/ViewSystem.h>
+#include <BeaverEngine/System/WindowSystem.h>
+

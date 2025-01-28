@@ -2,28 +2,22 @@
 
 #include "BeaverEngine/Component/PositionComponent.h"
 #include "BeaverEngine/Component/SpriteComponent.h"
-#include "BeaverEngine/Component/WindowManagerComponent.h"
-#include "BeaverEngine/Component/ViewManagerComponent.h"
-#include "BeaverEngine/Component/TextureManagerComponent.h"
-#include "BeaverEngine/Component/InputManagerComponent.h"
 #include "BeaverEngine/Component/RectangleColliderComponent.h"
 #include "BeaverEngine/Component/CircleColliderComponent.h"
 #include "BeaverEngine/Component/LayerComponent.h"
-#include "BeaverEngine/Component/AudioManagerComponent.h"
+#include "BeaverEngine/Component/View2DComponent.h"
+#include "BeaverEngine/Component/WindowComponent.h"
 
 namespace bv
 {
 	inline void registerBasicComponent()
 	{
-		Component::Register<AudioManagerComponent>();
 		Component::Register<CircleColliderComponent>();
-		Component::Register<InputManagerComponent>();
 		Component::Register<LayerComponent>();
 		Component::Register<PositionComponent>();
 		Component::Register<RectangleColliderComponent>();
 		Component::Register<SpriteComponent>();
-		Component::Register<TextureManagerComponent>();
-		Component::Register<ViewManagerComponent>();
-		Component::Register<WindowManagerComponent>();
+		Component::Register<View2DComponent>();
+		Component::Register<WindowComponent>();
 	}
 }

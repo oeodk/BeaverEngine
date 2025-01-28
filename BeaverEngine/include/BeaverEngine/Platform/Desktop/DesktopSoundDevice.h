@@ -12,7 +12,8 @@ namespace bv
 		}
 
 		DesktopSoundDevice();
-		~DesktopSoundDevice();
+		void destroy();
+		~DesktopSoundDevice() = default;
 	private:
 		
 		ALCdevice* ALCDevice_;

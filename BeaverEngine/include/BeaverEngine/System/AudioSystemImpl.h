@@ -5,18 +5,18 @@
 #include "BeaverEngine/Utils/SoundPLayer.h"
 namespace bv
 {
-	class AudioManagerImpl
+	class AudioSystemImpl
 	{
 	public:
-        AudioManagerImpl() = default;
-        AudioManagerImpl(const AudioManagerImpl&) = default;
-        AudioManagerImpl(AudioManagerImpl&&) = default;
-        AudioManagerImpl& operator=(const AudioManagerImpl&) = default;
-        AudioManagerImpl& operator=(AudioManagerImpl&&) = default;
+        AudioSystemImpl() = default;
+        AudioSystemImpl(const AudioSystemImpl&) = default;
+        AudioSystemImpl(AudioSystemImpl&&) = default;
+        AudioSystemImpl& operator=(const AudioSystemImpl&) = default;
+        AudioSystemImpl& operator=(AudioSystemImpl&&) = default;
 
-        virtual ~AudioManagerImpl() = default;
+        virtual ~AudioSystemImpl() = default;
 
-        virtual void update(const Timing& dt) = 0;
+        virtual void iterate(const Timing& dt) = 0;
 
         // owner : object owning the sound
         virtual SoundPlayer* playSound(const Sound& sound, const void* owner) = 0;
@@ -24,6 +24,6 @@ namespace bv
         virtual void soundRemoved(const Sound* sound) = 0;
         virtual void clean() = 0;
 
-        static std::unique_ptr<AudioManagerImpl> create();
+        static std::unique_ptr<AudioSystemImpl> create();
 	};
 }

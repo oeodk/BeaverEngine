@@ -6,10 +6,10 @@
 
 #include "BeaverEngine/Component/PositionComponent.h"
 #include "BeaverEngine/Component/SpriteComponent.h"
-#include "BeaverEngine/Component/TextureManagerComponent.h"
-#include "BeaverEngine/Component/ViewManagerComponent.h"
-#include "BeaverEngine/Component/WindowManagerComponent.h"
 
+#include "BeaverEngine/System/TextureSystem.h"
+#include "BeaverEngine/System/ViewSystem.h"
+#include "BeaverEngine/System/WindowSystem.h"
 #include "BeaverEngine/System/EntitySystem.h"
 
 namespace bv
@@ -24,7 +24,7 @@ namespace bv
 
 	void LayerComponent::setup(const ComponentDescription& init_value)
 	{
-		std::weak_ptr<Window> main_window = ManagerComponent::getManager<WindowManagerComponent>()->getMainWindow();
+		std::weak_ptr<Window> main_window = WindowSystem::getInstance().getMainWindow();
 		main_window.lock()->makeCurrent();
 
 		bool init_window = true;
@@ -58,11 +58,11 @@ namespace bv
 
 		if (init_window)
 		{
-			window_to_render_ = ManagerComponent::getManager<WindowManagerComponent>()->getMainWindow();
+			window_to_render_ = WindowSystem::getInstance().getMainWindow();
 		}
 		if (init_view)
 		{
-			view_to_render_ = ManagerComponent::getManager<ViewManagerComponent>()->getMainView();
+			view_to_render_ = ViewSystem::getInstance().getMainView();
 		}
 	}
 	void LayerComponent::updateLogic(const Timing& timing)
@@ -133,26 +133,26 @@ namespace bv
 
 	void LayerComponent::initTexture(const Description& value, bool interpolate)
 	{
-		texture_ = ManagerComponent::getManager<TextureManagerComponent>()->getTexture2D(constants::SPRITES_PATH + value.as<std::string>(), interpolate);
+		texture_ = TextureSystem::getInstance().getTexture2D(constants::SPRITES_PATH + value.as<std::string>(), interpolate);
 	}
 	
 	void LayerComponent::initWindow(const Description& value)
 	{
 	
-		window_to_render_ = ManagerComponent::getManager<WindowManagerComponent>()->getWindow(value.as<std::string>());
+		window_to_render_ = WindowSystem::getInstance().getWindow(value.as<std::string>());
 		if(window_to_render_.expired())
 		{
-			window_to_render_ = ManagerComponent::getManager<WindowManagerComponent>()->getMainWindow();
+			window_to_render_ = WindowSystem::getInstance().getMainWindow();
 		}
 	}
 	
 	void LayerComponent::initView(const Description& value)
 	{
-		view_to_render_ = ManagerComponent::getManager<ViewManagerComponent>()->getView(value.as<std::string>());
+		view_to_render_ = ViewSystem::getInstance().getView(value.as<std::string>());
 	
 		if(view_to_render_ == nullptr)
 		{
-			view_to_render_ = ManagerComponent::getManager<ViewManagerComponent>()->getMainView();
+			view_to_render_ = ViewSystem::getInstance().getMainView();
 		}
 	}
 }
