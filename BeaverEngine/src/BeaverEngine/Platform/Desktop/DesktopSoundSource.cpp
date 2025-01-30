@@ -1,6 +1,6 @@
 #include "BeaverEngine/Platform/Desktop/DesktopSoundSource.h"
 #include "BeaverEngine/Platform/Desktop/DesktopSoundBuffer.h"
-#include "BeaverEngine/Utils/Sound.h"
+#include "BeaverEngine/Utils/AudioData.h"
 namespace bv
 {
 	void DesktopSoundSource::setup()
@@ -13,7 +13,7 @@ namespace bv
 		alDeleteSources(1, &source_);
 	}
 
-	void DesktopSoundSource::play(const DesktopSoundBuffer* buffer, const Sound& sound, const void* owner)
+	void DesktopSoundSource::play(const DesktopSoundBuffer* buffer, const AudioData& sound, const void* owner)
 	{
 		owner_ = owner;
 

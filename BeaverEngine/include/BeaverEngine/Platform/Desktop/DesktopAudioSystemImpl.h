@@ -3,7 +3,8 @@
 #include "BeaverEngine/Platform/Desktop/DesktopSoundBuffer.h">
 #include "BeaverEngine/Platform/Desktop/DesktopSoundSource.h">
 #include "BeaverEngine/Platform/Desktop/DesktopSoundDevice.h">
-#include "BeaverEngine/Utils/Sound.h"
+#include "BeaverEngine/Platform/Desktop/DesktopMusicPlayer.h">
+#include "BeaverEngine/Utils/AudioData.h"
 namespace bv
 {
 	class DesktopAudioSystemImpl
@@ -19,28 +20,33 @@ namespace bv
 				available_sounds_indices_[i] = i;
 				sounds_.emplace_back().setup();
 			}
+			music_.reserve(255 - SOUND_COUNT);
 		}
 
 		void iterate(const Timing& dt) override
 		{
 			for (size_t i = 0; i < first_available_sound_index_; i++)
 			{
-				if (sounds_[used_sound_indices_[i]].getState() == SoundPlayer::STOPPED)
+				if (sounds_[used_sound_indices_[i]].getState() == AudioState::STOPPED)
 				{
 					sounds_[used_sound_indices_[i]].resetOwner();
 					first_available_sound_index_--;
 					available_sounds_indices_[first_available_sound_index_] = used_sound_indices_[i];
 				}
 			}
+			for (auto& music : music_)
+			{
+				music.update();
+			}
 		}
 
-		SoundPlayer* playSound(const Sound& sound, const void* owner) override
+		AudioPlayer* playSound(const AudioData& sound, const void* owner) override
 		{
 			if (first_available_sound_index_ < SOUND_COUNT)
 			{
 				const size_t sound_index = available_sounds_indices_[first_available_sound_index_];
 
-				SoundPlayer* player_sound = &(sounds_[sound_index]);
+				AudioPlayer* player_sound = &(sounds_[sound_index]);
 				used_sound_indices_[first_available_sound_index_] = sound_index;
 				sounds_[sound_index].play(buffers_.at(sound.getPath()).first.get(), sound, owner);
 				first_available_sound_index_++;
@@ -49,7 +55,29 @@ namespace bv
 			return nullptr;
 		}
 
-		void registerSound(const Sound* sound) override
+		AudioPlayer* playMusic(const AudioData& sound, const void* owner) override
+		{
+			size_t music_index = -1;
+			for (size_t i = 0; i < std::size(music_); i++)
+			{
+				if (music_[i].getState() == AudioState::STOPPED)
+				{
+					music_index = i;
+					break;
+				}
+			}
+			if (music_index == -1)
+			{
+				music_index = std::size(music_);
+				music_.emplace_back();
+				music_.back().setup();
+			}
+			music_[music_index].play(sound, owner);
+			return &music_[music_index];
+		}
+
+
+		void registerSound(const AudioData* sound) override
 		{
 			if (!buffers_.contains(sound->getPath()))
 			{
@@ -58,7 +86,7 @@ namespace bv
 			buffers_.at(sound->getPath()).second++;
 		}
 
-		void soundRemoved(const Sound* sound) override
+		void soundRemoved(const AudioData* sound) override
 		{
 			buffers_.at(sound->getPath()).second--;
 			if (buffers_.at(sound->getPath()).second == 0)
@@ -76,8 +104,10 @@ namespace bv
 	private:
 
 		std::unordered_map<std::string, std::pair<std::shared_ptr<DesktopSoundBuffer>, unsigned int>> buffers_{};
-		static constexpr size_t SOUND_COUNT = 200;
+		static constexpr size_t SOUND_COUNT = 245;
 		std::vector<DesktopSoundSource> sounds_{};
+		std::vector<DesktopMusicPlayer> music_{};
+		
 		std::array<size_t, SOUND_COUNT> available_sounds_indices_{};
 		std::array<size_t, SOUND_COUNT> used_sound_indices_{};
 		size_t first_available_sound_index_ = 0;

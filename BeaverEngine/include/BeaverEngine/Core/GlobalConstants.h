@@ -1,6 +1,6 @@
 #pragma once
 #include "BeaverEngine/Core/std.h"
-#include "BeaverEngine/Enums/E_RenderDimension.h"
+#include "BeaverEngine/Enums/RenderDimension.h"
 namespace bv
 {
 	namespace constants
@@ -9,6 +9,7 @@ namespace bv
 		const std::string SPRITES_PATH = "./data/sprites/";
 		const std::string SHADERS_PATH = "./data/shaders/";
 		const std::string SOUNDS_PATH = "./data/sounds/";
-		constexpr E_RenderDimension::Type RENDER_MODE = E_RenderDimension::RENDER_2D;
+		const std::string MUSICS_PATH = "./data/musics/";
+		constexpr RenderDimension::Type RENDER_MODE = RenderDimension::RENDER_2D;
 	}
 }

@@ -16,7 +16,7 @@ namespace bv
 	public:
 		static constexpr auto type_ = "Layer";
 
-		LayerComponent(Entity& owner) : Component(owner) { dimension_ = E_RenderDimension::RENDER_2D; }
+		LayerComponent(Entity& owner) : Component(owner) { dimension_ = RenderDimension::RENDER_2D; }
 		~LayerComponent();
 
 		void setup(const ComponentDescription& init_value) override;

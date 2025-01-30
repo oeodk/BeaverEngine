@@ -1,8 +1,8 @@
 #pragma once
 #include "BeaverEngine/Core/std.h"
 #include "BeaverEngine/Utils/Timing.h"
-#include "BeaverEngine/Utils/Sound.h"
-#include "BeaverEngine/Utils/SoundPLayer.h"
+#include "BeaverEngine/Utils/AudioData.h"
+#include "BeaverEngine/Utils/AudioPlayer.h"
 namespace bv
 {
 	class AudioSystemImpl
@@ -19,9 +19,10 @@ namespace bv
         virtual void iterate(const Timing& dt) = 0;
 
         // owner : object owning the sound
-        virtual SoundPlayer* playSound(const Sound& sound, const void* owner) = 0;
-        virtual void registerSound(const Sound* sound) = 0;
-        virtual void soundRemoved(const Sound* sound) = 0;
+        virtual AudioPlayer* playSound(const AudioData& sound, const void* owner) = 0;
+        virtual AudioPlayer* playMusic(const AudioData& sound, const void* owner) = 0;
+        virtual void registerSound(const AudioData* sound) = 0;
+        virtual void soundRemoved(const AudioData* sound) = 0;
         virtual void clean() = 0;
 
         static std::unique_ptr<AudioSystemImpl> create();
