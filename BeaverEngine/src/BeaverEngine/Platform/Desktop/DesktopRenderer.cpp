@@ -38,7 +38,7 @@ namespace bv
 	}
 	void DesktopRenderer::setData(std::string_view var_name, int data)
 	{
-		if (constants::RENDER_MODE == E_RenderDimension::RENDER_2D)
+		if (constants::RENDER_MODE == RenderDimension::RENDER_2D)
 		{
 			glUniform1i(uniforms_location_2d_.at(std::string(var_name)), data);
 		}
@@ -50,7 +50,7 @@ namespace bv
 
 	void DesktopRenderer::setData(std::string_view var_name, float data)
 	{
-		if(constants::RENDER_MODE == E_RenderDimension::RENDER_2D)
+		if(constants::RENDER_MODE == RenderDimension::RENDER_2D)
 		{
 			glUniform1f(uniforms_location_2d_.at(std::string(var_name)), data);
 		}
@@ -61,7 +61,7 @@ namespace bv
 	}
 	void DesktopRenderer::setData(std::string_view var_name, const glm::vec2& data)
 	{
-		if (constants::RENDER_MODE == E_RenderDimension::RENDER_2D)
+		if (constants::RENDER_MODE == RenderDimension::RENDER_2D)
 		{
 			glUniform2fv(uniforms_location_2d_.at(std::string(var_name)), 1, glm::value_ptr(data));
 		}
@@ -72,7 +72,7 @@ namespace bv
 	}
 	void DesktopRenderer::setData(std::string_view var_name, const glm::vec3& data)
 	{
-		if (constants::RENDER_MODE == E_RenderDimension::RENDER_2D)
+		if (constants::RENDER_MODE == RenderDimension::RENDER_2D)
 		{
 			glUniform3fv(uniforms_location_2d_.at(std::string(var_name)), 1, glm::value_ptr(data));
 		}
@@ -83,7 +83,7 @@ namespace bv
 	}
 	void DesktopRenderer::setData(std::string_view var_name, const glm::vec4& data)
 	{
-		if (constants::RENDER_MODE == E_RenderDimension::RENDER_2D)
+		if (constants::RENDER_MODE == RenderDimension::RENDER_2D)
 		{
 			glUniform4fv(uniforms_location_2d_.at(std::string(var_name)), 1, glm::value_ptr(data));
 		}
@@ -94,7 +94,7 @@ namespace bv
 	}
 	void DesktopRenderer::setData(std::string_view var_name, const glm::mat4& data)
 	{
-		if (constants::RENDER_MODE == E_RenderDimension::RENDER_2D)
+		if (constants::RENDER_MODE == RenderDimension::RENDER_2D)
 		{
 			glUniformMatrix4fv(uniforms_location_2d_.at(std::string(var_name)), 1, GL_FALSE, glm::value_ptr(data));
 		}

@@ -12,6 +12,10 @@ namespace bv
 
         static constexpr auto type_ = "CircleCollider";
         CircleColliderComponent(Entity& owner) : Component(owner) {}
+        CircleColliderComponent(const CircleColliderComponent&) = default;
+        CircleColliderComponent& operator=(const CircleColliderComponent&) = default;
+        CircleColliderComponent(CircleColliderComponent&&) = default;
+        CircleColliderComponent& operator=(CircleColliderComponent&&) = default;
 
         bool collides(const ColliderComponent& other) const override { return other.collides(*this); }
        

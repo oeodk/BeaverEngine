@@ -1,6 +1,6 @@
 #pragma once
 #include "BeaverEngine/Component/Component.h"
-#include "BeaverEngine/Enums/E_RenderDimension.h"
+#include "BeaverEngine/Enums/RenderDimension.h"
 #include "BeaverEngine/Utils/Timing.h"
 
 namespace bv
@@ -15,10 +15,15 @@ namespace bv
 		
 		DisplayComponent();
 		~DisplayComponent();
+		DisplayComponent(const DisplayComponent&) = default;
+        DisplayComponent& operator=(const DisplayComponent&) = default;
+        DisplayComponent(DisplayComponent&&) = default;
+        DisplayComponent& operator=(DisplayComponent&&) = default;
+
 		virtual void display(Renderer* renderer, const Timing& dt) = 0;
 
 
-		E_RenderDimension::Type dimension_;
+		RenderDimension::Type dimension_;
 
 		Window* getWindow()const { return window_to_render_.lock().get(); }
 	protected:

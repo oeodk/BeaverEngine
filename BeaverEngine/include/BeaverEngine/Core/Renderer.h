@@ -1,7 +1,7 @@
 #pragma once
 #include "BeaverEngine/Core/std.h"
 #include <glm/glm.hpp>
-#include "BeaverEngine/Enums/E_RenderDimension.h"
+#include "BeaverEngine/Enums/RenderDimension.h"
 #include "BeaverEngine/Utils/Buffer.h"
 #include "BeaverEngine/Utils/Vertex.h"
 

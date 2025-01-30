@@ -15,6 +15,11 @@ namespace bv
 
 		SpriteComponent(Entity& owner) : Component(owner) {}
 		~SpriteComponent();
+		SpriteComponent(const SpriteComponent&) = default;
+		SpriteComponent& operator=(const SpriteComponent&) = default;
+		SpriteComponent(SpriteComponent&&) = default;
+		SpriteComponent& operator=(SpriteComponent&&) = default;
+
 		void setup(const ComponentDescription& init_value) override;
 		void resolve() override;
 
@@ -98,14 +103,14 @@ namespace bv
 			SIZE, SCALE, LAYER, OFFSET, COLOR, RENDER_RECT, ROTATION_ANGLE, ANIMATION
 		};
 		const std::map<std::string_view, InitValue> string_to_init_enum_map_ = { 
-			{"size"               , SIZE},
-			{"layer"              , LAYER},
-			{"scale"              , SCALE},
-			{"offset"             , OFFSET},
-			{"color"              , COLOR},
-			{"render_rectangle"   , RENDER_RECT},
-			{"rotation_angle"     , ROTATION_ANGLE},
-			{"base_animation"     , ANIMATION}
+			{"size"          , SIZE},
+			{"layer"         , LAYER},
+			{"scale"         , SCALE},
+			{"offset"        , OFFSET},
+			{"color"         , COLOR},
+			{"renderRectangle", RENDER_RECT},
+			{"rotationAngle" , ROTATION_ANGLE},
+			{"baseAnimation" , ANIMATION}
 		};
 
 		void refreshPoint();

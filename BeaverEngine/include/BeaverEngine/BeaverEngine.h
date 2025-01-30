@@ -1,5 +1,8 @@
 #pragma once
 
+#include "BeaverEngine/Enums/AudioState.h"
+#include "BeaverEngine/Enums/RenderDimension.h"
+
 #include "BeaverEngine/Core/Entity.h"
 #include "BeaverEngine/Core/Scene.h"
 #include "BeaverEngine/Core/std.h"

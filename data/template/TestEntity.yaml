@@ -16,12 +16,14 @@
             value: [1,0,0,1]
           - name: "offset"
             value: [0,0]
-          - name: "render_rectangle"
+          - name: "renderRectangle"
             value: [654,252,164,126]
-          - name: "base_animation"
+          - name: "baseAnimation"
             value: "top_walk"
           - name: "layer"
             value: "EntityLayerEntity"
       - name: "TestComponent"
         param:
+          - name: "testVar"
+            value: 1
     

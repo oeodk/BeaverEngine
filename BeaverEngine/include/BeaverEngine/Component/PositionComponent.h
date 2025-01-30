@@ -13,6 +13,11 @@ namespace bv
         static constexpr auto type_ = "Position";
 
         PositionComponent(Entity& owner) : Component(owner) {}
+        PositionComponent(const PositionComponent&) = default;
+        PositionComponent& operator=(const PositionComponent&) = default;
+        PositionComponent(PositionComponent&&) = default;
+        PositionComponent& operator=(PositionComponent&&) = default;
+
         void setup(const ComponentDescription& init_value) override;
 
         void setPosition(const glm::vec3& new_pos) { setPosition(new_pos.x, new_pos.y, new_pos.z); }

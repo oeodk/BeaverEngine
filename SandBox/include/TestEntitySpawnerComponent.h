@@ -1,7 +1,7 @@
 #include <BeaverEngine/Component/Component.h>
 #include <BeaverEngine/Component/LogicComponent.h>
-#include <BeaverEngine/Utils/Sound.h>
-#include <BeaverEngine/Utils/SoundPlayer.h>
+#include <BeaverEngine/Utils/AudioData.h>
+#include <BeaverEngine/Utils/AudioPlayer.h>
 
 namespace sandbox
 {
@@ -16,7 +16,8 @@ namespace sandbox
 		void updateLogic(const bv::Timing& dt) override;
 	private:
 		bv::Description component_template_;
-		bv::Sound sound_;
-		bv::SoundPlayer* player_;
+		bv::AudioData sound_;
+		bv::AudioData music_;
+		bv::AudioPlayer* player_;
 	};
 }

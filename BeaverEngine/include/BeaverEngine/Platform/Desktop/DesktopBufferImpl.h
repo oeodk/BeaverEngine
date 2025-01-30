@@ -16,6 +16,11 @@ namespace bv
             glDeleteBuffers(1, &vbo_);
         }
 
+       DesktopVertexBufferImpl(const DesktopVertexBufferImpl&) = default;
+       DesktopVertexBufferImpl(DesktopVertexBufferImpl&&) = default;
+       DesktopVertexBufferImpl& operator=(const DesktopVertexBufferImpl&) = default;
+       DesktopVertexBufferImpl& operator=(DesktopVertexBufferImpl&&) = default;
+
         void bind() const override
         {
             glBindVertexBuffer(0, vbo_, 0, sizeof(V));

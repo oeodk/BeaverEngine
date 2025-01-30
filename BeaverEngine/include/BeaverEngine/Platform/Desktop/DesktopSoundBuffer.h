@@ -8,6 +8,10 @@ namespace bv
 	public:
 		DesktopSoundBuffer(const std::string& path);
 		~DesktopSoundBuffer();
+		DesktopSoundBuffer(DesktopSoundBuffer&&) = default;
+		DesktopSoundBuffer& operator=(const DesktopSoundBuffer&) = default;
+		DesktopSoundBuffer& operator=(DesktopSoundBuffer&&) = default;
+
 		DesktopSoundBuffer(const DesktopSoundBuffer&) = delete;
 		const ALuint getBuffer() const { return buffer_; }
 	private:

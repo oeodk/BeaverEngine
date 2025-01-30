@@ -30,10 +30,10 @@ namespace bv
        {
            switch (constants::RENDER_MODE)
            {
-           case E_RenderDimension::RENDER_2D:
+           case RenderDimension::RENDER_2D:
                glUseProgram(shader_program_2d_);
                break;
-           case E_RenderDimension::RENDER_3D:
+           case RenderDimension::RENDER_3D:
                break;
            }
        }
@@ -41,11 +41,11 @@ namespace bv
        {
            switch (constants::RENDER_MODE)
            {
-           case E_RenderDimension::RENDER_2D:
+           case RenderDimension::RENDER_2D:
                glUseProgram(0);
                glBindVertexArray(0);
                break;
-           case E_RenderDimension::RENDER_3D:
+           case RenderDimension::RENDER_3D:
                break;
            }
        }

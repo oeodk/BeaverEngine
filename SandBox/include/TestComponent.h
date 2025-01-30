@@ -21,6 +21,7 @@ namespace sandbox
 
 	private:
 		bool collide_ = false;
+		int test_var_{};
 	};
 }
 

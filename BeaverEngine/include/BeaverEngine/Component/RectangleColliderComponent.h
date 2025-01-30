@@ -14,6 +14,10 @@ namespace bv
 
         static constexpr auto type_ = "RectangleCollider";
         RectangleColliderComponent(Entity& owner) : Component(owner) {}
+        RectangleColliderComponent(const RectangleColliderComponent&) = default;
+        RectangleColliderComponent& operator=(const RectangleColliderComponent&) = default;
+        RectangleColliderComponent(RectangleColliderComponent&&) = default;
+        RectangleColliderComponent& operator=(RectangleColliderComponent&&) = default;
 
         bool collides(const ColliderComponent& other) const override { return other.collides(*this); }
 

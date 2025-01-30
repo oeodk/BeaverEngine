@@ -61,6 +61,8 @@ target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/openal
 
 target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/libsndfile-src/include)
 
+target_include_directories(BeaverEngine PUBLIC ${CMAKE_SOURCE_DIR}/_deps/nlohmann-json-src/include)
+
 # Link external libraries
 target_link_libraries(BeaverEngine
     PUBLIC

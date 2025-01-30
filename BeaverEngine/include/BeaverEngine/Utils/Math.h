@@ -7,6 +7,12 @@ namespace bv
 		FloatRect() = default;
 		FloatRect(const glm::vec2& i_pos, const glm::vec2& i_size) : pos(i_pos), size(i_size){}
 		FloatRect(float x, float y, float width, float height) : pos(glm::vec2(x,y)), size(glm::vec2(width, height)){}
+
+		FloatRect(const FloatRect&) = default;
+		FloatRect(FloatRect&&) = default;
+		FloatRect& operator=(const FloatRect&) = default;
+		FloatRect& operator=(FloatRect&&) = default;
+
 		glm::vec2 pos{};
 		glm::vec2 size{1, 1};
 	};

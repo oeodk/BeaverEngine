@@ -40,10 +40,10 @@ namespace bv
 				// Maybe move the render mode to the display component
 				switch (constants::RENDER_MODE)
 				{
-				case E_RenderDimension::RENDER_2D:
+				case RenderDimension::RENDER_2D:
 					renderer_->begin2DRender(display_component->getWindow());
 					break;
-				case E_RenderDimension::RENDER_3D:
+				case RenderDimension::RENDER_3D:
 					renderer_->begin3DRender(display_component->getWindow());
 					break;
 				}
@@ -52,10 +52,10 @@ namespace bv
 		
 				switch (constants::RENDER_MODE)
 				{
-				case E_RenderDimension::RENDER_2D:
+				case RenderDimension::RENDER_2D:
 					renderer_->end2DRender();
 					break;
-				case E_RenderDimension::RENDER_3D:
+				case RenderDimension::RENDER_3D:
 					renderer_->end3DRender();
 					break;
 				}

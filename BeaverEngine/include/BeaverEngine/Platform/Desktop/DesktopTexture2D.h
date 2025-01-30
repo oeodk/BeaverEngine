@@ -10,6 +10,12 @@ namespace bv
 	public:
 		DesktopTexture2D(const TextureSpecification& specification);
 		DesktopTexture2D(std::string_view path, bool interpolate);
+
+		DesktopTexture2D(const DesktopTexture2D&) = default;
+		DesktopTexture2D(DesktopTexture2D&&) = default;
+		DesktopTexture2D& operator=(const DesktopTexture2D&) = default;
+		DesktopTexture2D& operator=(DesktopTexture2D&&) = default;
+
 		virtual ~DesktopTexture2D();
 
 		const TextureSpecification& getSpecification() const override { return specification_; }

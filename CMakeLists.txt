@@ -94,6 +94,16 @@ FetchContent_MakeAvailable(sndfile)
 get_property(OPENAL_TARGETS DIRECTORY ${openal_SOURCE_DIR} PROPERTY BUILDSYSTEM_TARGETS)
 message(STATUS "OpenAL Targets: ${OPENAL_TARGETS}")
 
+# JSON
+FetchContent_Declare(
+    nlohmann-json
+    GIT_REPOSITORY https://github.com/nlohmann/json.git
+    GIT_TAG master
+    SOURCE_DIR ${DEPS_DIR}/nlohmann-json-src
+    BINARY_DIR ${DEPS_DIR}/nlohmann-json-build
+)
+FetchContent_MakeAvailable(nlohmann-json)
+
 # Define the base output directory
 set(BASE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin)
 

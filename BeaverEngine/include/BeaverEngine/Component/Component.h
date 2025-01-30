@@ -37,6 +37,11 @@ namespace bv
 		Component(Entity& parent) : parent_(parent) {}
 		virtual ~Component() = default;
 
+        Component(const Component&) = default;
+        Component& operator=(const Component&) = default;
+        Component(Component&&) = default;
+        Component& operator=(Component&&) = default;
+
         virtual void setup(const ComponentDescription& init_value) = 0;
 
 		// Register the type (std::string T::Type), with the corresponding creation function

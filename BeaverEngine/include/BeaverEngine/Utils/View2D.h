@@ -90,9 +90,9 @@ namespace bv
 			{"size", SIZE},
 			{"center", CENTER},
 			{"elevation", ELEVATION},
-			{"rotation_angle", ROTATION_ANGLE},
-			{"viewport_position", VIEWPORT_POS},
-			{"viewport_size", VIEWPORT_SIZE}
+			{"rotationAngle", ROTATION_ANGLE},
+			{"viewportPosition", VIEWPORT_POS},
+			{"viewportSize", VIEWPORT_SIZE}
 		};
 	};
 }

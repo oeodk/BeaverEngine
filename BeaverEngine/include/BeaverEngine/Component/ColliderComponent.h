@@ -14,6 +14,11 @@ namespace bv
     public:
         ColliderComponent();
         ~ColliderComponent();
+        ColliderComponent(const ColliderComponent&) = default;
+        ColliderComponent& operator=(const ColliderComponent&) = default;
+        ColliderComponent(ColliderComponent&&) = default;
+        ColliderComponent& operator=(ColliderComponent&&) = default;
+
         virtual bool collides(const ColliderComponent& other) const = 0;
         void onCollision(const ColliderComponent& other) ;
 

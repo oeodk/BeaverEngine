@@ -16,8 +16,12 @@ namespace bv
 	public:
 		static constexpr auto type_ = "Layer";
 
-		LayerComponent(Entity& owner) : Component(owner) { dimension_ = E_RenderDimension::RENDER_2D; }
+		LayerComponent(Entity& owner) : Component(owner) { dimension_ = RenderDimension::RENDER_2D; }
 		~LayerComponent();
+		LayerComponent(const LayerComponent&) = default;
+		LayerComponent& operator=(const LayerComponent&) = default;
+		LayerComponent(LayerComponent&&) = default;
+		LayerComponent& operator=(LayerComponent&&) = default;
 
 		void setup(const ComponentDescription& init_value) override;
 
@@ -51,7 +55,7 @@ namespace bv
 		const std::map<std::string_view, InitValue> string_to_init_enum_map_ = {
 			{"window" , WINDOW},
 			{"view"   , VIEW},			
-			{"interpolate_texture", INTERPOLATE_TEXTURE},
+			{"interpolateTexture", INTERPOLATE_TEXTURE},
 			{"texture", TEXTURE}
 		};
 	};

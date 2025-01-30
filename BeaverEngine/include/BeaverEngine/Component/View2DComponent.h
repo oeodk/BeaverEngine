@@ -11,6 +11,11 @@ namespace bv
 		static constexpr auto type_ = "View2D";
 
 		View2DComponent(Entity& owner) : Component(owner) {}
+		View2DComponent(const View2DComponent&) = default;
+		View2DComponent& operator=(const View2DComponent&) = default;
+		View2DComponent(View2DComponent&&) = default;
+		View2DComponent& operator=(View2DComponent&&) = default;
+
 		void setup(const ComponentDescription& init_value) override
 		{
 

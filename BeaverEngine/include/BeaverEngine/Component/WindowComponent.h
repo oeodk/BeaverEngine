@@ -13,16 +13,21 @@ namespace bv
 		static constexpr auto type_ = "Window";
 
 		WindowComponent(Entity& owner) : Component(owner) {}
+		WindowComponent(const WindowComponent&) = default;
+		WindowComponent& operator=(const WindowComponent&) = default;
+		WindowComponent(WindowComponent&&) = default;
+		WindowComponent& operator=(WindowComponent&&) = default;
+
 		void setup(const ComponentDescription& init_value) override
 		{
             WindowProperties props;
-			if (init_value.parameters.contains("bg_color"))
+			if (init_value.parameters.contains("bgColor"))
 			{
 				props.color = glm::vec4(
-					init_value.parameters.at("bg_color")[0].as<float>(),
-					init_value.parameters.at("bg_color")[1].as<float>(),
-					init_value.parameters.at("bg_color")[2].as<float>(),
-					init_value.parameters.at("bg_color")[3].as<float>());
+					init_value.parameters.at("bgColor")[0].as<float>(),
+					init_value.parameters.at("bgColor")[1].as<float>(),
+					init_value.parameters.at("bgColor")[2].as<float>(),
+					init_value.parameters.at("bgColor")[3].as<float>());
 			}
 			else
 			{

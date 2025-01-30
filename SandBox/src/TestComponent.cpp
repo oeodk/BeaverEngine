@@ -8,6 +8,7 @@ namespace sandbox
 {
 	void TestComponent::setup(const bv::ComponentDescription& init_value)
 	{
+		test_var_ = init_value.parameters.at("testVar").as<int>();
 	}
 
 	std::string getSpriteName(int value)

@@ -9,6 +9,7 @@ void sandbox::TestEntitySpawnerComponent::setup(const bv::ComponentDescription& 
 {
 	component_template_ = bv::Descr::load(init_value.parameters.at("path").as<std::string>());
 	sound_.setup(bv::constants::SOUNDS_PATH + "player_hit.wav");
+	music_.setup(bv::constants::MUSICS_PATH + "boss_room.wav");
 }
 
 void sandbox::TestEntitySpawnerComponent::resolve()
@@ -22,6 +23,7 @@ void sandbox::TestEntitySpawnerComponent::resolve()
 		bv::Scene::CreateChild(component_template_[0], owner().shared_from_this());
 	}
 	player_ = bv::AudioSystem::getInstance().playSound(sound_, this);
+	bv::AudioSystem::getInstance().playMusic(music_, this);
 }
 
 void sandbox::TestEntitySpawnerComponent::updateLogic(const bv::Timing& dt)
@@ -30,13 +32,13 @@ void sandbox::TestEntitySpawnerComponent::updateLogic(const bv::Timing& dt)
 	{
 		switch (player_->getState())
 		{
-		case bv::SoundPlayer::PLAYING:
+		case bv::AudioState::PLAYING:
 			player_->pause(this);
 			break;
-		case bv::SoundPlayer::PAUSED:
+		case bv::AudioState::PAUSED:
 			player_->resume(this);
 			break;
-		case bv::SoundPlayer::STOPPED:
+		case bv::AudioState::STOPPED:
 			player_ = bv::AudioSystem::getInstance().playSound(sound_, this);
 			break;
 		default:
