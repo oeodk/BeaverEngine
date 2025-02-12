@@ -4,11 +4,14 @@
 namespace bv
 {
     class RectangleColliderComponent;
+    class IntGridColliderComponent;
+
 	class CircleColliderComponent
 		: public ColliderComponent
 	{
     public:
         friend class RectangleColliderComponent;
+        friend class IntGridColliderComponent;
 
         static constexpr auto type_ = "CircleCollider";
         CircleColliderComponent(Entity& owner) : Component(owner) {}
@@ -26,6 +29,7 @@ namespace bv
     private:
         bool collides(const RectangleColliderComponent& other) const override;
         bool collides(const CircleColliderComponent& other) const override;
+        bool collides(const IntGridColliderComponent& other) const override;
 
         float radius_{};
         glm::vec2 true_center_{};

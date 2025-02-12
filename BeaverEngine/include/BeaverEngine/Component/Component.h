@@ -12,7 +12,7 @@ namespace bv
         {
             for (auto& param : descr)
             {
-                parameters.insert({ param["name"].as<std::string>(), param["value"] });
+                parameters.insert({ param.first.as<std::string>(), param.second });
             }
         }
         std::map<std::string, Description> parameters;

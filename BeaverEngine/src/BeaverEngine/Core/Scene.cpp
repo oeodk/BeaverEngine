@@ -18,7 +18,7 @@ namespace bv::Scene
             }
             for (auto& component : descr["components"])
             {
-                components.insert({ component["name"].as<std::string>(), component["param"] });
+                components.insert({ component.first.as<std::string>(), component.second});
             }
         }
         std::map<std::string, ComponentDescription> components;

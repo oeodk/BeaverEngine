@@ -1,5 +1,6 @@
 #include "BeaverEngine/Component/CircleColliderComponent.h"
 #include "BeaverEngine/Component/RectangleColliderComponent.h"
+#include "BeaverEngine/Component/IntGridColliderComponent.h"
 #include "BeaverEngine/Component/PositionComponent.h"
 
 #include "BeaverEngine/Core/Entity.h"
@@ -53,5 +54,9 @@ namespace bv
 		const glm::vec2& other_position = glm::vec2(other.owner().getComponent<PositionComponent>()->getWorldPosition()) + other.true_center_;
 		const float dist = length2(position - other_position);
 		return (radius_ + other.radius_) * (radius_ + other.radius_) > dist;
+	}
+	bool CircleColliderComponent::collides(const IntGridColliderComponent& other) const
+	{
+		return other.collides(*this);
 	}
 }

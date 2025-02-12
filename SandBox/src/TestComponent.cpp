@@ -51,21 +51,22 @@ namespace sandbox
 	{
 		auto& input = bv::InputSystem::getInstance();
 		float x = 0, y = 0;
+		float speed = 0.5;
 		if (input.isKeyHeld(bv::Key::W))
 		{
-			y += 1;
+			y += speed;
 		}
 		if (input.isKeyHeld(bv::Key::S))
 		{
-			y -= 1;
+			y -= speed;
 		}
 		if (input.isKeyHeld(bv::Key::D))
 		{
-			x += 1;
+			x += speed;
 		}
 		if (input.isKeyHeld(bv::Key::A))
 		{
-			x -= 1;
+			x -= speed;
 		}
 
 		int v = x + y * 3;

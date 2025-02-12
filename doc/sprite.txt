@@ -1,0 +1,10 @@
+Mandatory field:
+  - layer : layer containing the sprite, the layer contains the texture
+optional field: 
+  - size : size of the sprite, default is the render rectangle size (in px)
+  - scale : scale of the sprite, default if [1,1]
+  - offset : offset of the sprite, [0,0] is the sprite center (in px)
+  - color : color of the sprite, default is [1,1,1,1] (color from 0-1)
+  - renderRectangle : part of the texture rendered (in px), default is the whole texture
+  - rotationAngle : rotation of the sprite, default is 0°
+  - baseAnimation : name of the default animation, not defining this field result in the sprite having no animation

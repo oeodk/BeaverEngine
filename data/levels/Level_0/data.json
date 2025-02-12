@@ -3,8 +3,8 @@
 	"uniqueIdentifer": "ef8ad4f0-c210-11ef-8017-a14d485f38c0",
 	"x": 0,
 	"y": 0,
-	"width": 340,
-	"height": 340,
+	"width": 704,
+	"height": 448,
 	"bgColor": "#696A79",
 	"neighbourLevels": [],
 	"customFields" : {},
@@ -16,29 +16,80 @@
 		"TestEntity": [
 			{
 				"id": "TestEntity",
-				"iid": "d75b8540-c210-11ef-8017-dfcaa9b4e50c",
+				"iid": "df8b7bb0-c210-11ef-8441-b358104180b0",
 				"layer": "Entities",
-				"x": 64,
-				"y": 160,
+				"x": 336,
+				"y": 192,
 				"width": 16,
 				"height": 16,
 				"color": 12470831,
 				"customFields": {
 					"TestComponent_testVar": 2,
-					"Sprite_color": [
-						1,
-						0,
-						0,
-						1
-					]
+					"Sprite_color": []
 				}
 			},
 			{
 				"id": "TestEntity",
-				"iid": "4fd299f0-c210-11ef-8017-c32b904f2ae1",
+				"iid": "ab0ab090-c210-11ef-bb08-8bc8dcaba94c",
 				"layer": "Entities",
-				"x": 240,
-				"y": 208,
+				"x": 304,
+				"y": 336,
+				"width": 16,
+				"height": 16,
+				"color": 12470831,
+				"customFields": {
+					"TestComponent_testVar": 2,
+					"Sprite_color": []
+				}
+			},
+			{
+				"id": "TestEntity",
+				"iid": "ab3edff0-c210-11ef-bb08-abf2d8fe5deb",
+				"layer": "Entities",
+				"x": 496,
+				"y": 176,
+				"width": 16,
+				"height": 16,
+				"color": 12470831,
+				"customFields": {
+					"TestComponent_testVar": 2,
+					"Sprite_color": []
+				}
+			},
+			{
+				"id": "TestEntity",
+				"iid": "ab73ab90-c210-11ef-bb08-e71e1eb609e8",
+				"layer": "Entities",
+				"x": 192,
+				"y": 96,
+				"width": 16,
+				"height": 16,
+				"color": 12470831,
+				"customFields": {
+					"TestComponent_testVar": 2,
+					"Sprite_color": []
+				}
+			},
+			{
+				"id": "TestEntity",
+				"iid": "aba80200-c210-11ef-bb08-893572feeebe",
+				"layer": "Entities",
+				"x": 128,
+				"y": 192,
+				"width": 16,
+				"height": 16,
+				"color": 12470831,
+				"customFields": {
+					"TestComponent_testVar": 2,
+					"Sprite_color": []
+				}
+			},
+			{
+				"id": "TestEntity",
+				"iid": "abea1410-c210-11ef-bb08-35aa10f888f8",
+				"layer": "Entities",
+				"x": 368,
+				"y": 128,
 				"width": 16,
 				"height": 16,
 				"color": 12470831,

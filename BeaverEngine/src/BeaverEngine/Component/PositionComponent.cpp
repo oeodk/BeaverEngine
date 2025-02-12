@@ -10,6 +10,13 @@ namespace bv
 		position_.z = init_value.parameters.at("z").as<float>();
 	}
 
+	void PositionComponent::setPosition(float x, float y, float z)
+	{
+		position_.x = x;
+		position_.y = y;
+		position_.z = z;
+	}
+
 	void PositionComponent::setRelativePosition(float x, float y, float z)
 	{
         

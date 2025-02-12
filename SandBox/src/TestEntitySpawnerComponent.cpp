@@ -14,11 +14,11 @@ void sandbox::TestEntitySpawnerComponent::setup(const bv::ComponentDescription& 
 
 void sandbox::TestEntitySpawnerComponent::resolve()
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 0; i++)
 	{
 		component_template_[0]["name"] = "TestComponent" + std::to_string(i);
-		component_template_[0]["description"]["components"][0]["param"][0]["value"] = rand() % 400 - 200;
-		component_template_[0]["description"]["components"][0]["param"][1]["value"] = rand() % 400 - 200;
+		component_template_[0]["description"]["components"]["Position"]["x"] = rand() % 400 - 200;
+		component_template_[0]["description"]["components"]["Position"]["y"] = rand() % 400 - 200;
 
 		bv::Scene::CreateChild(component_template_[0], owner().shared_from_this());
 	}

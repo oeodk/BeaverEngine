@@ -104,6 +104,7 @@ namespace bv
 		void clean() override
 		{
 			sounds_.clear();
+			music_.clear();
 			buffers_.clear();
 		}
 	private:

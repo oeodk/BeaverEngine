@@ -45,12 +45,14 @@ namespace bv
             if (main_window_.expired())
             {
                 main_window_ = windows_.at(window_n);
+                main_window_id_ = window_name;
                 base_window_size_.x = props.width;
                 base_window_size_.y = props.height;
             }
         }
 
         std::weak_ptr<Window> getMainWindow() const { return main_window_; }
+        const std::string& getMainWindowId() const { return main_window_id_; }
 
         static const glm::vec2& getBaseWindowSize() { return base_window_size_; }
 
@@ -60,6 +62,7 @@ namespace bv
         inline static glm::vec2 base_window_size_{};
 
         std::weak_ptr<Window> main_window_;
+        std::string main_window_id_;
     };
 }
 

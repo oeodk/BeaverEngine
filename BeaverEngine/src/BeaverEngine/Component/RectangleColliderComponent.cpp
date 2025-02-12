@@ -1,5 +1,6 @@
 #include "BeaverEngine/Component/RectangleColliderComponent.h"
 #include "BeaverEngine/Component/CircleColliderComponent.h"
+#include "BeaverEngine/Component/IntGridColliderComponent.h"
 #include "BeaverEngine/Component/PositionComponent.h"
 
 #include "BeaverEngine/Core/Entity.h"
@@ -23,9 +24,9 @@ namespace bv
 			offset_.y = init_value.parameters.at("offset")[1].as<float>();
 		}
 
-		if (init_value.parameters.contains("rotation_angle"))
+		if (init_value.parameters.contains("rotationAngle"))
 		{
-			rotation_angle_ = init_value.parameters.at("rotation_angle").as<float>();
+			rotation_angle_ = init_value.parameters.at("rotationAngle").as<float>();
 		}
 		setRotationAngle(rotation_angle_);
 	}
@@ -36,13 +37,13 @@ namespace bv
 
 		points_[0] = -half_size_ + offset_;
 		
-		points_[1].x = -half_size_.x;
-		points_[1].y =  half_size_.y;
+		points_[1].x = -half_size_.x + offset_.x;
+		points_[1].y =  half_size_.y + offset_.y;
 		
 		points_[2] = half_size_ + offset_;
 
-		points_[3].x =  half_size_.x;
-		points_[3].y = -half_size_.y;
+		points_[3].x =  half_size_.x + offset_.x;
+		points_[3].y = -half_size_.y + offset_.y;
 
 		const float angle_rad = glm::radians(angle);
 
@@ -66,72 +67,84 @@ namespace bv
 
 	bool RectangleColliderComponent::collides(const RectangleColliderComponent& other) const
 	{
-		float amin, amax, bmin, bmax;
-		float point;
-		std::array<const glm::vec2*, 4> rectangles_perpendicular_edge_vector_ref =
-		{
-			&rectangles_perpendicular_edge_vector_[0],
-			&rectangles_perpendicular_edge_vector_[1],
-			&other.rectangles_perpendicular_edge_vector_[0],
-			&other.rectangles_perpendicular_edge_vector_[1]
-		};
-		
 		const glm::vec2 center = glm::vec2(owner().getComponent<PositionComponent>()->getWorldPosition());
 		const glm::vec2 other_center = glm::vec2(other.owner().getComponent<PositionComponent>()->getWorldPosition());
 
-		for (int i = 0; i < 4; i++)
+		if (rotation_angle_ == 0 && other.rotation_angle_ == 0)
 		{
-			for (int j = 0; j < 4; j++)
+			const glm::vec2 dist = (center + offset_) - (other_center + other.offset_);
+			if (std::abs(dist.x) < half_size_.x + other.half_size_.x && std::abs(dist.y) < half_size_.y + other.half_size_.y)
 			{
-				point = glm::dot(*rectangles_perpendicular_edge_vector_ref[i], (points_[j] + center));
-				if (j == 0)
-				{
-					amax = point;
-					amin = point;
-				}
-				else
-				{
-					if (point > amax)
-					{
-						amax = point;
-					}
-					if (point < amin)
-					{
-						amin = point;
-					}
-				}
-			}
-
-			for (int j = 0; j < 4; j++)
-			{
-				point = glm::dot(*rectangles_perpendicular_edge_vector_ref[i], (other.points_[j] + other_center));
-				if (j == 0)
-				{
-					bmax = point;
-					bmin = point;
-				}
-				else
-				{
-					if (point > bmax)
-					{
-						bmax = point;
-					}
-					if (point < bmin)
-					{
-						bmin = point;
-					}
-				}
-			}
-			if ((amin <= bmax && amin >= bmin) || (bmin <= amax && bmin >= amin))
-			{
-
+				return true;
 			}
 			else
 			{
 				return false;
 			}
+
 		}
-		return true;
+		else
+		{
+			float amin, amax, bmin, bmax;
+			float point;
+			std::array<const glm::vec2*, 4> rectangles_perpendicular_edge_vector_ref =
+			{
+				&rectangles_perpendicular_edge_vector_[0],
+				&rectangles_perpendicular_edge_vector_[1],
+				&other.rectangles_perpendicular_edge_vector_[0],
+				&other.rectangles_perpendicular_edge_vector_[1]
+			};
+
+			for (int i = 0; i < 4; i++)
+			{
+				for (int j = 0; j < 4; j++)
+				{
+					point = glm::dot(*rectangles_perpendicular_edge_vector_ref[i], (points_[j] + center));
+					if (j == 0)
+					{
+						amax = point;
+						amin = point;
+					}
+					else
+					{
+						if (point > amax)
+						{
+							amax = point;
+						}
+						if (point < amin)
+						{
+							amin = point;
+						}
+					}
+				}
+
+				for (int j = 0; j < 4; j++)
+				{
+					point = glm::dot(*rectangles_perpendicular_edge_vector_ref[i], (other.points_[j] + other_center));
+					if (j == 0)
+					{
+						bmax = point;
+						bmin = point;
+					}
+					else
+					{
+						if (point > bmax)
+						{
+							bmax = point;
+						}
+						if (point < bmin)
+						{
+							bmin = point;
+						}
+					}
+				}
+				if (!((amin <= bmax && amin >= bmin) || (bmin <= amax && bmin >= amin)))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
 	}
 
 	bool RectangleColliderComponent::collides(const CircleColliderComponent& other) const
@@ -170,5 +183,9 @@ namespace bv
 		}
 		float corner_dist_sq = length2(dist - half_size_);
 		return (corner_dist_sq <= other.radius_ * other.radius_);
+	}
+	bool RectangleColliderComponent::collides(const IntGridColliderComponent& other) const
+	{
+		return other.collides(*this);
 	}
 }

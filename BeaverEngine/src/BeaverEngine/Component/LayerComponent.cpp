@@ -133,7 +133,15 @@ namespace bv
 
 	void LayerComponent::initTexture(const Description& value, bool interpolate)
 	{
-		texture_ = TextureSystem::getInstance().getTexture2D(constants::SPRITES_PATH + value.as<std::string>(), interpolate);
+		std::string file = value.as<std::string>();
+		if (file.find("data") == std::string::npos)
+		{
+			texture_ = TextureSystem::getInstance().getTexture2D(constants::SPRITES_PATH + file, interpolate);
+		}
+		else
+		{
+			texture_ = TextureSystem::getInstance().getTexture2D(file, interpolate);
+		}
 	}
 	
 	void LayerComponent::initWindow(const Description& value)

@@ -142,18 +142,6 @@ set(CMAKE_C_FLAGS_SHIPPING "-O3 -DNDEBUG -DSHIPPING_BUILD")
 set(CMAKE_EXE_LINKER_FLAGS_SHIPPING "-O3 -DNDEBUG -DSHIPPING_BUILD")
 set(CMAKE_SHARED_LINKER_FLAGS_SHIPPING "-O3 -DNDEBUG -DSHIPPING_BUILD" CACHE STRING "Linker flags for shipping configuration")
 
-# Ensure that flags are applied to the correct configurations
-set(CMAKE_CXX_FLAGS_DEBUG "-g")
-set(CMAKE_C_FLAGS_DEBUG "-g")
-set(CMAKE_EXE_LINKER_FLAGS_DEBUG "-g")
-set(CMAKE_SHARED_LINKER_FLAGS_DEBUG "-g")
-
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
-set(CMAKE_C_FLAGS_RELEASE "-O3 -DNDEBUG")
-set(CMAKE_EXE_LINKER_FLAGS_RELEASE "-O3 -DNDEBUG")
-set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "-O3 -DNDEBUG")
-
-
 # Set global definitions for all configurations
 add_compile_definitions(
     $<$<CONFIG:Shipping>:SHIPPING>

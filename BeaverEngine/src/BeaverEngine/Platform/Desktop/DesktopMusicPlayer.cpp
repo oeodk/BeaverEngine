@@ -12,6 +12,7 @@ namespace bv
 
 	DesktopMusicPlayer::~DesktopMusicPlayer()
 	{
+		alSourceStop(source_);
 		alDeleteSources(1, &source_);
 
 		if (sndFile_)

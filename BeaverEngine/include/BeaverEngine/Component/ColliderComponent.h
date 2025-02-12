@@ -7,6 +7,7 @@ namespace bv
 {
     class RectangleColliderComponent;
     class CircleColliderComponent;
+    class IntGridColliderComponent;
 
     class ColliderComponent :
         virtual public Component
@@ -41,6 +42,7 @@ namespace bv
 
         virtual bool collides(const RectangleColliderComponent& other) const = 0;
         virtual bool collides(const CircleColliderComponent& other) const = 0;
+        virtual bool collides(const IntGridColliderComponent& other) const = 0;
     protected:
 
         int flag_{}, mask_{};

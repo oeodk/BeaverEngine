@@ -34,6 +34,7 @@ namespace bv
             if (main_view_ == nullptr)
             {
                 main_view_ = views_.at(std::string(view_name)).get();
+                main_view_id_ = view_name;
             }
             return views_.at(std::string(view_name)).get();
         }
@@ -41,10 +42,12 @@ namespace bv
         void iterate(const Timing& dt) override {}
 
         View2D* getMainView() const { return main_view_; }
+        const std::string& getMainViewId() const { return main_view_id_; }
 
     private:
         std::unordered_map<std::string, std::unique_ptr<View2D>> views_;
-        View2D* main_view_ = nullptr;;
+        View2D* main_view_ = nullptr;
+        std::string main_view_id_;
     };
 }
 

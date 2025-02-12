@@ -10,6 +10,7 @@ namespace bv
 
 	DesktopSoundSource::~DesktopSoundSource()
 	{
+		alSourceStop(source_);
 		alDeleteSources(1, &source_);
 	}
 

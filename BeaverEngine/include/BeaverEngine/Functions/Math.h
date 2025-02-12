@@ -7,4 +7,17 @@ namespace bv
 	{
 		return vec.x * vec.x + vec.y * vec.y;
 	}
+
+	inline int sign(float v)
+	{
+		if (v == 0)
+		{
+			return 0;
+		}
+		if (v != abs(v))
+		{
+			return -1;
+		}
+		return 1;
+	}
 }
