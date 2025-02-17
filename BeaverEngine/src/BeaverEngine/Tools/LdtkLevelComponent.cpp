@@ -93,7 +93,13 @@ namespace bv
 		layer_descr[0]["name"] = folder_path + layer_name;
 		layer_descr[0]["description"]["components"]["Position"]["x"] = 0;
 		layer_descr[0]["description"]["components"]["Position"]["y"] = 0;
-		layer_descr[0]["description"]["components"]["Position"]["z"] = init_value.parameters.at(layer_name).as<float>();
+		int height = 0;
+		if (layer_name != "_composite")
+		{
+			height = init_value.parameters.at(layer_name).as<float>();
+
+		}
+		layer_descr[0]["description"]["components"]["Position"]["z"] = height;
 
 		if (init_value.parameters.contains("window"))
 		{

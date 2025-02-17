@@ -8,8 +8,7 @@ namespace bv
 	bool bv::Game::run()
 	{
 #ifndef SHIPPING
-		std::filesystem::path new_path = "../../";
-		std::filesystem::current_path(new_path);
+		defineDebugDataPath();
 #endif // !SHIPPING
 
 

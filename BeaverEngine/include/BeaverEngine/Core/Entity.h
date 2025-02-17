@@ -14,6 +14,8 @@ namespace bv
         std::vector<EntityRef> childrens_;
         std::map<std::string, std::weak_ptr<Entity>> children_by_name_;
         std::unordered_map<std::string, std::unique_ptr<Component>> components_;
+
+        std::string tag_{};
     public :
         ~Entity() { components_.clear(); children_by_name_.clear(); }
         static EntityRef create() { return std::make_shared<Entity>(); }

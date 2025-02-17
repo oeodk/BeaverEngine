@@ -5,6 +5,8 @@
 #include "BeaverEngine/Platform/Desktop/DesktopSoundDevice.h">
 #include "BeaverEngine/Platform/Desktop/DesktopMusicPlayer.h">
 #include "BeaverEngine/Utils/AudioData.h"
+
+#include "BeaverEngine/Core/Debug.h"
 namespace bv
 {
 	class DesktopAudioSystemImpl
@@ -30,13 +32,17 @@ namespace bv
 
 		void iterate(const Timing& dt) override
 		{
-			for (size_t i = 0; i < first_available_sound_index_; i++)
+			for (size_t i = 0; i < std::size(used_sound_indices_); i++)
 			{
 				if (sounds_[used_sound_indices_[i]].getState() == AudioState::STOPPED)
 				{
 					sounds_[used_sound_indices_[i]].resetOwner();
+					sounds_[used_sound_indices_[i]].stop(nullptr);
 					first_available_sound_index_--;
 					available_sounds_indices_[first_available_sound_index_] = used_sound_indices_[i];
+
+					used_sound_indices_.erase(used_sound_indices_.begin() + i);
+					i--;
 				}
 			}
 			for (auto& music : music_)
@@ -50,9 +56,9 @@ namespace bv
 			if (first_available_sound_index_ < SOUND_COUNT)
 			{
 				const size_t sound_index = available_sounds_indices_[first_available_sound_index_];
-
 				AudioPlayer* player_sound = &(sounds_[sound_index]);
-				used_sound_indices_[first_available_sound_index_] = sound_index;
+				used_sound_indices_.push_back(sound_index);
+
 				sounds_[sound_index].play(buffers_.at(sound.getPath()).first.get(), sound, owner);
 				first_available_sound_index_++;
 				return player_sound;
@@ -115,7 +121,7 @@ namespace bv
 		std::vector<DesktopMusicPlayer> music_{};
 		
 		std::array<size_t, SOUND_COUNT> available_sounds_indices_{};
-		std::array<size_t, SOUND_COUNT> used_sound_indices_{};
+		std::vector<size_t> used_sound_indices_{};
 		size_t first_available_sound_index_ = 0;
 
 		std::mutex mutex_{};

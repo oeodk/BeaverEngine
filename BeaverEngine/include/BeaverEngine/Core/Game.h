@@ -45,6 +45,15 @@ namespace bv
 
 		void setInitFunction(InitFunction init_fuction) { init_function_ = init_fuction; }
 
+#ifndef SHIPPING
+		virtual void defineDebugDataPath()
+		{
+			std::filesystem::path new_path = "../../";
+			std::filesystem::current_path(new_path);
+		}
+#endif // !SHIPPING
+
+
 		bool run();
 	};
 }

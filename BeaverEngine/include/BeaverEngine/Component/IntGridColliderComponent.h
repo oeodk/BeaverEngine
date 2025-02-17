@@ -33,7 +33,7 @@ namespace bv
         bool collides(const CircleColliderComponent& other) const override;
         bool collides(const IntGridColliderComponent& other) const override { return false; }
 
-        bool testCollision(const std::array<glm::vec2, 4>& dp, const glm::vec2& other_position, int other_flag, const ColliderComponent* other) const;
+        bool testCollision(const std::array<glm::vec2, 4>& dp, const glm::vec2& other_position, int other_mask, const ColliderComponent* other) const;
 
         Array2D<int> int_grid_;
         unsigned int grid_size_{1};

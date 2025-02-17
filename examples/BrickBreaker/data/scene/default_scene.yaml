@@ -1,0 +1,120 @@
+- name : "MainWindow"
+  description:
+    children:
+    components:
+      Window:
+        name : "main_window"
+        title : "Sandbox"
+        size : [600,700]
+        bgColor : [0,0,0,1] 
+        
+- name : "MainView"
+  description:
+    children:
+    components:
+      View2D:
+        name : "main_view"
+        size : [300,350]
+        center : [0,0]
+        elevation : 100
+        rotationAngle : 0
+        viewportPosition : [0,0]
+        viewportSize : [1,1]
+
+- name : "BrickLayer"
+  description:
+    children:
+    components:
+      Position:
+        x : 0
+        y : 0
+        z : 1
+      Layer: 
+        view: "main_view"
+        window: "main_window"
+        interpolateTexture: false
+        texture: "brick.png"
+        
+- name : "PaddleLayer"
+  description:
+    children:
+    components:
+      Position:
+        x : 0
+        y : 0
+        z : 2
+      Layer: 
+        view: "main_view"
+        window: "main_window"
+        interpolateTexture: false
+        texture: "paddle.png"
+
+- name : "BallLayer"
+  description:
+    children:
+    components:
+      Position:
+        x : 0
+        y : 0
+        z : 3
+      Layer: 
+        view: "main_view"
+        window: "main_window"
+        interpolateTexture: false
+        texture: "ball.png"
+        
+- name : "Level"
+  description:
+    children:
+    components:
+      Position: 
+        x : 0
+        y : 0
+        z : 0
+      LdtkLevel:
+        folderPath: "DefaultMap"
+        window: "main_window"
+        view: "main_view"
+        customLayerHeight: false
+      IntGridCollider:
+        handler: "LdtkLevel"
+        filePath: "DefaultMap/IntGrid.csv"
+        separator: ","
+        gridSize: 25
+        mask: 6
+        flag: 1
+        
+- name : "Paddle"
+  description:
+    children:
+    components:
+      Position:
+        x : 0
+        y : -150
+        z : 3
+      Sprite:
+        layer: "PaddleLayer"
+      Paddle:
+      RectangleCollider:
+        handler: "Paddle"
+        mask: 5
+        flag: 2
+        size: [100, 10]
+            
+- name : "Ball"
+  description:
+    children:
+    components:
+      Position:
+        x : 0
+        y : -100
+        z : 0
+      Sprite:
+        layer: "BallLayer"
+      Ball:
+      CircleCollider:
+        handler: "Ball"
+        mask: 11
+        flag: 4
+        radius: 7.5
+    

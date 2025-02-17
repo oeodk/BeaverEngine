@@ -28,6 +28,7 @@ namespace bv
 		void updateAnimation(const Timing& timing);
 		void updateMesh();
 
+		void setColor(const glm::vec3& color) { setColor(glm::vec4(color, 1.f)); }
 		void setColor(const glm::vec4& color) { color_ = color; }
 		const glm::vec4& getColor() const { 
 			return color_; }
@@ -61,7 +62,7 @@ namespace bv
 		void setRenderRectangle(const FloatRect& render_rect);
 		
 		void setAnimationName(std::string_view new_name) { animation_name_ = new_name; }
-		float resetAnimationDt(float value) { animation_dt_ = 0; }
+		void resetAnimationDt() { animation_dt_ = 0; }
 
 		// the new layer need to use the same spritesheet as the previous layer, or change animation accordingly
 		void setLayer(LayerComponent* layer) { layer_ = layer; }

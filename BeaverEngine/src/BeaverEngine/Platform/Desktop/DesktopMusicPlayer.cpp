@@ -91,6 +91,12 @@ namespace bv
 	void DesktopMusicPlayer::play(const AudioData& sound, const void* owner)
 	{
 		keep_playing = true;
+		alSourcef(source_, AL_PITCH, sound.getPitch());
+		alSourcef(source_, AL_GAIN, sound.getGain());
+		alSource3f(source_, AL_POSITION, sound.getPosition().x, sound.getPosition().y, sound.getPosition().z);
+		alSource3f(source_, AL_VELOCITY, sound.getVelocity().x, sound.getVelocity().y, sound.getVelocity().z);
+		alSourcei(source_, AL_LOOPING, sound.isLooping());
+
 		loadFile(sound.getPath());
 		startMusic();
 	}

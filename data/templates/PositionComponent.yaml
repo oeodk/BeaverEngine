@@ -1,8 +1,0 @@
-- name: "Position"
-  param:
-    - name : "x"
-      value : "0"
-    - name : "y"
-      value : "0"
-    - name : "z"
-      value : "0"

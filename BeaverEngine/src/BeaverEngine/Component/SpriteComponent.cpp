@@ -145,13 +145,16 @@ namespace bv
 		points_[3].x =  scale_.x * (size_.x / 2.f) + offset_.x;
 		points_[3].y = -scale_.y * (size_.y / 2.f) + offset_.y;
 
-		glm::vec3 axis(0.0f, 0.0f, 1.0f);
-		float angle = glm::radians(rotation_angle_);
-
-		glm::quat rotation = glm::angleAxis(angle, glm::normalize(axis));
-		for(auto& point : points_)
+		if(rotation_angle_ != 0)
 		{
-			point = rotation * point;
+			glm::vec3 axis(0.0f, 0.0f, 1.0f);
+			float angle = glm::radians(rotation_angle_);
+
+			glm::quat rotation = glm::angleAxis(angle, glm::normalize(axis));
+			for (auto& point : points_)
+			{
+				point = rotation * point;
+			}
 		}
 	}
 

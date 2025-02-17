@@ -69,7 +69,7 @@ namespace bv
 	}
 
 
-	bool IntGridColliderComponent::testCollision(const std::array<glm::vec2, 4>& dp, const glm::vec2& other_position, int other_flag, const ColliderComponent* other) const
+	bool IntGridColliderComponent::testCollision(const std::array<glm::vec2, 4>& dp, const glm::vec2& other_position, int other_mask, const ColliderComponent* other) const
 	{
 		bool collide = false;
 		glm::vec2 penetration(0,0);
@@ -83,14 +83,14 @@ namespace bv
 			glm::uvec2 grid_coord;
 			grid_coord.x = int_coord.x / static_cast<int>(grid_size_);
 			grid_coord.y = int_coord.y / static_cast<int>(grid_size_);
-			if (int_grid_.at(grid_coord.x, grid_coord.y) & other_flag)
+			if (int_grid_.exist(grid_coord.x, grid_coord.y) && (int_grid_.at(grid_coord.x, grid_coord.y) & other_mask))
 			{
 				glm::vec2 dir(-dp[i]);
 				int sx = sign(dir.x);
 				int sy = sign(dir.y);
 
-				bool grid_dx_empty = !(int_grid_.at(grid_coord.x + sx, grid_coord.y) & other_flag);
-				bool grid_dy_empty = !(int_grid_.at(grid_coord.x, grid_coord.y + sy) & other_flag);
+				bool grid_dx_empty = !(int_grid_.at(grid_coord.x + sx, grid_coord.y) & other_mask);
+				bool grid_dy_empty = !(int_grid_.at(grid_coord.x, grid_coord.y + sy) & other_mask);
 				if (grid_dx_empty && grid_dy_empty)
 				{
 					int int_grid_size_x = static_cast<int>(grid_size_) * ((sx + 1) * 0.5);
@@ -152,7 +152,7 @@ namespace bv
 		glm::vec2 other_position = other.owner().getComponent<PositionComponent>()->getRelativePosition();
 		other_position += offset_;
 		other_position.y = offset_.y * 2 - other_position.y - 2 * other.offset_.y;
-		return testCollision(other.points_, other_position, other.flag_, &other);
+		return testCollision(other.points_, other_position, other.mask_, &other);
 	}
 
 	bool IntGridColliderComponent::collides(const CircleColliderComponent& other) const
@@ -163,7 +163,7 @@ namespace bv
 		other_position.y = offset_.y * 2 - other_position.y;
 
 		const std::array<glm::vec2, 4> dp = { glm::vec2(other.radius_,0), glm::vec2(-other.radius_,0), glm::vec2(0,other.radius_), glm::vec2(0,-other.radius_) };
-		return testCollision(dp, other_position, other.flag_, &other);
+		return testCollision(dp, other_position, other.mask_, &other);
 	}
 	
 }
