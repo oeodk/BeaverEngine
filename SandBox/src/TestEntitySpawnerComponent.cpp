@@ -4,6 +4,9 @@
 #include <BeaverEngine/Core/GlobalConstants.h>
 #include <BeaverEngine/System/AudioSystem.h>
 #include <BeaverEngine/System/InputSystem.h>
+#include <BeaverEngine/System/WindowSystem.h>
+#include <BeaverEngine/Utils/Window.h>
+#include <BeaverEngine/Core/Game.h>
 
 void sandbox::TestEntitySpawnerComponent::setup(const bv::ComponentDescription& init_value)
 {
@@ -45,4 +48,19 @@ void sandbox::TestEntitySpawnerComponent::updateLogic(const bv::Timing& dt)
 			break;
 		}
 	}
+	if (bv::InputSystem::getInstance().isKeyPressed(bv::Key::ESCAPE))
+		bv::Game::close();
+
+	if (bv::InputSystem::getInstance().isKeyHeld(bv::Key::RIGHT))
+		bv::WindowSystem::getInstance().getMainWindow().lock()->move({ 10,0 });
+	if (bv::InputSystem::getInstance().isKeyHeld(bv::Key::LEFT))
+		bv::WindowSystem::getInstance().getMainWindow().lock()->move({ -10,0 });
+	if (bv::InputSystem::getInstance().isKeyHeld(bv::Key::UP))
+		bv::WindowSystem::getInstance().getMainWindow().lock()->move({ 0,10 });
+	if (bv::InputSystem::getInstance().isKeyHeld(bv::Key::DOWN))
+		bv::WindowSystem::getInstance().getMainWindow().lock()->move({ 0,-10 });
+
+	if (bv::InputSystem::getInstance().isKeyHeld(bv::Key::ENTER))
+		bv::WindowSystem::getInstance().getMainWindow().lock()->focus();
+
 }

@@ -46,6 +46,11 @@ namespace bv
         void makeCurrent() const override { 
             glfwMakeContextCurrent(window_); }
         void shutdown() override;
+
+        void setPosition(int x, int y) override;
+        void move(int dx, int dy) override;
+
+        void focus() const { glfwFocusWindow(window_); }
     private:
         void init(const WindowProperties& props);
     private :

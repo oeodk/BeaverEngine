@@ -12,8 +12,8 @@ namespace example
 		addSystem<bv::ViewSystem>();
 		addSystem<bv::TextureSystem>();
 		addSystem<bv::AudioSystem>();
-		addSystem<bv::ColliderSystem>();
 		addSystem<bv::LogicSystem>();
+		addSystem<bv::ColliderSystem>();
 		addSystem<bv::DisplaySystem>();
 		addSystem<bv::InputSystem>();
 	}

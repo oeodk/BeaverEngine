@@ -19,8 +19,11 @@ namespace bv
 		InitFunction init_function_;
 		float fps_ = 60;
 
-
-
+		static bool& closeApplication()
+		{
+			static bool close{};
+			return close;
+		}
 	public :
 		Game() = default;
 		Game(const Game&) = default;
@@ -28,11 +31,7 @@ namespace bv
 		Game& operator=(const Game&) = default;
 		Game& operator=(Game&&) = default;
 
-		static bool& closeApplication()
-		{
-			static bool close{};
-			return close;
-		}
+
 		static void close()
 		{
 			closeApplication() = true;

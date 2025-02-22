@@ -57,6 +57,9 @@ namespace bv
         static const glm::vec2& getBaseWindowSize() { return base_window_size_; }
 
         void closeWindow(std::string_view window_name);
+
+        glm::uvec2 getMonitorSize(unsigned int monitor_index = 0);
+        unsigned int getMonitorCount();
     private:
         std::unordered_map<std::string, std::shared_ptr<Window>> windows_;
         inline static glm::vec2 base_window_size_{};

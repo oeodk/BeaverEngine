@@ -53,6 +53,9 @@ namespace bv
 				initTexture(value.second, interpolate);
 			}
 			break;
+			case SORT:
+				sort_sprites_ = value.second.as<bool>();
+			break;
 			}
 		}
 
@@ -77,8 +80,9 @@ namespace bv
 		}
 	}
 
-	void addSpriteToLayer(int i, float layer_z, int sprite_count, std::vector<const SpriteComponent*>& sorted_sprite, std::span<Vertex2D>& mapped_vertices, std::span<unsigned int>& mapped_indices)
+	void addSpriteToLayer(int i, float layer_z, int sprite_count, std::vector<SpriteComponent*>& sorted_sprite, std::span<Vertex2D>& mapped_vertices, std::span<unsigned int>& mapped_indices)
 	{
+		sorted_sprite[i]->updateMesh();
 		std::transform(sorted_sprite[i]->getVertices().begin(), sorted_sprite[i]->getVertices().end(), mapped_vertices.begin() + i * 4,
 			[i, sprite_count, layer_z, &sorted_sprite](const Vertex2D& v) {
 				Vertex2D vert(v);
@@ -93,13 +97,15 @@ namespace bv
 
 	void LayerComponent::display(Renderer* renderer, const Timing& dt)
 	{
-		std::vector<const SpriteComponent*> sorted_sprite;
+		std::vector<SpriteComponent*> sorted_sprite;
 		sorted_sprite.reserve(std::size(sprites_));
-
-		std::sort(std::execution::par, sprites_.begin(), sprites_.end(),
-			[](const SpriteComponent* s1, const SpriteComponent* s2) {
-				return SpriteComponent::compareSpritesPosition(s2, s1); 
-			});
+		if(sort_sprites_)
+		{
+			std::sort(std::execution::par, sprites_.begin(), sprites_.end(),
+				[](const SpriteComponent* s1, const SpriteComponent* s2) {
+					return SpriteComponent::compareSpritesPosition(s2, s1);
+				});
+		}
 		std::copy_if(sprites_.begin(), sprites_.end(), std::back_inserter(sorted_sprite),
 			[](const SpriteComponent* sprite) {return sprite->enabled() && sprite->owner().active(); });
 

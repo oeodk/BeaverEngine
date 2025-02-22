@@ -44,19 +44,22 @@ namespace bv
 		IndexBuffer index_buffer_;
 		View2D* view_to_render_{};
 
+		bool sort_sprites_{};
+
 		void initTexture(const Description& value, bool interpolate);
 		void initWindow(const Description& value);
 		void initView(const Description& value);
 
 		enum InitValue
 		{
-			WINDOW, VIEW, TEXTURE, INTERPOLATE_TEXTURE
+			WINDOW, VIEW, TEXTURE, INTERPOLATE_TEXTURE, SORT
 		};
 		const std::map<std::string_view, InitValue> string_to_init_enum_map_ = {
 			{"window" , WINDOW},
 			{"view"   , VIEW},			
 			{"interpolateTexture", INTERPOLATE_TEXTURE},
-			{"texture", TEXTURE}
+			{"texture", TEXTURE},
+			{"sort", SORT}
 		};
 	};
 }

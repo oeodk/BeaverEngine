@@ -5,6 +5,7 @@
 #include "BeaverEngine/Utils/Vertex.h"
 #include "BeaverEngine/System/InputSystem.h"
 
+#include "BeaverEngine/System/WindowSystem.h"
 namespace bv
 {
 	// Prevent multiple initialisation of glfw is multiple window are created
@@ -69,6 +70,27 @@ namespace bv
 		{
 			glfwInit();
 			glfw_init = true;
+
+			const auto& monitor_size_ = WindowSystem::getInstance().getMonitorSize();
+			monitor_center_ = { monitor_size_.x / 2.f, monitor_size_.y / 2.f };
+			
+		}
+
+		if (props.resizable)
+		{
+			glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+		}
+		else
+		{
+			glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+		}
+		if (props.decorate)
+		{
+			glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+		}
+		else
+		{
+			glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 		}
 		
 		GLFWwindow* shared_window = nullptr;
@@ -90,13 +112,15 @@ namespace bv
 			}
 			glad_init = true;
 		}
+
+		setPosition(props.position.x, props.position.y);
+
 		glfwSetWindowUserPointer(window_, &properties);
 		glfwSetWindowCloseCallback(window_, closeEventCallback);
 		glfwSetWindowSizeCallback(window_, resizeEventCallback);
 		glfwSetKeyCallback(window_, keyEventCallback);
 		glfwSetMouseButtonCallback(window_, mouseButtonEventCallback);
 		glfwSetScrollCallback(window_, scrollEventCallback);
-		//glGenVertexArrays(1, &vao_2d_);
 
 		glCreateVertexArrays(1, &vao_2d_);
 		glBindVertexArray(vao_2d_);
@@ -117,14 +141,6 @@ namespace bv
 
 		// Unbind the VAO (optional)
 		glBindVertexArray(0);
-
-		//glEnableVertexAttribArray(0);
-		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex2D), (const void*)offsetof(Vertex2D, position));
-		//
-		//glEnableVertexAttribArray(1);
-		//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex2D), (const void*)offsetof(Vertex2D, texture_coords));
-		//
-		//glBindVertexArray(0);
 	}
 
 	DesktopWindow::~DesktopWindow()
@@ -137,6 +153,18 @@ namespace bv
 	{
 		open = false;
 		glfwDestroyWindow(window_);
+	}
+
+	void DesktopWindow::setPosition(int x, int y)
+	{
+		position_.x = x;
+		position_.y = y;
+		glfwSetWindowPos(window_, -(properties.width / 2.f) + monitor_center_.x + position_.x, -(properties.height / 2.f) + monitor_center_.y - position_.y);
+	}
+
+	void DesktopWindow::move(int dx, int dy)
+	{
+		setPosition(position_.x + dx, position_.y + dy);
 	}
 
 	void DesktopWindow::onUpdate()

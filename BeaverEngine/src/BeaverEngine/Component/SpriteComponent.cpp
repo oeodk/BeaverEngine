@@ -88,7 +88,6 @@ namespace bv
 	void SpriteComponent::updateLogic(const Timing& timing)
 	{
 		updateAnimation(timing);
-		updateMesh();
 	}
 
 	void SpriteComponent::updateAnimation(const Timing& timing)
