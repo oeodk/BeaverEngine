@@ -51,6 +51,9 @@ namespace bv
         virtual void move(int dx, int dy) = 0;
         void move(const glm::ivec2& dep) { move(dep.x, dep.y); }
 
+        virtual void setSize(int sx, int sy) = 0;
+        void setSize(const glm::ivec2& size) { setSize(size.x, size.y); }
+
         virtual void focus() const = 0;
 
         const std::string& getName() const { return name_; }

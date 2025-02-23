@@ -179,7 +179,7 @@ namespace bv
 	{
 		enum Gamepad
 		{
-			A =0,
+			A = 0,
 			B = 1,
 			X = 2,
 			Y = 3,
@@ -199,6 +199,19 @@ namespace bv
 			CIRCLE = B,
 			SQUARE = X,
 			TRIANGLE = Y
+		};
+	}
+
+	namespace Axis
+	{
+		enum Axis
+		{
+			LEFT_X = 0,
+			LEFT_Y = 1,
+			RIGHT_X = 2,
+			RIGHT_Y = 3,
+			LEFT_TRIGGER = 4,
+			RIGHT_TRIGGER = 5
 		};
 	}
 }

@@ -50,9 +50,19 @@ namespace bv
         void setPosition(int x, int y) override;
         void move(int dx, int dy) override;
 
+        void setSize(int sx, int sy) override
+        {
+            if(sx > 0 && sy > 0)
+            {
+                glfwSetWindowSize(window_, sx, sy);
+                setPosition(position_.x, position_.y);
+            }
+        }
+
         void focus() const { glfwFocusWindow(window_); }
     private:
         void init(const WindowProperties& props);
+        void updateGamepadInputs() const;
     private :
         Properties properties;
         bool cleared_{};

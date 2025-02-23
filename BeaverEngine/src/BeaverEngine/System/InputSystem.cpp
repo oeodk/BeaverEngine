@@ -18,6 +18,11 @@ namespace bv
 		return mouse_buttons_state_[button].state == State::PRESSED;
 	}
 
+	bool InputSystem::isControllerButtonPressed(Gamepad::Gamepad button, Joystick::Joystick joystick)
+	{
+		return controllers_buttons_state_[joystick][button].state == State::PRESSED;
+	}
+
 	bool InputSystem::isKeyReleased(Key::Key key)
 	{
 		return keys_state_[key].state == State::RELEASED;
@@ -28,6 +33,11 @@ namespace bv
 		return mouse_buttons_state_[button].state == State::RELEASED;
 	}
 
+	bool InputSystem::isControllerButtonReleased(Gamepad::Gamepad button, Joystick::Joystick joystick)
+	{
+		return controllers_buttons_state_[joystick][button].state == State::RELEASED;
+	}
+
 	bool InputSystem::isKeyHeld(Key::Key key)
 	{
 		return keys_state_[key].state == State::HELD || keys_state_[key].state == State::PRESSED;
@@ -36,6 +46,11 @@ namespace bv
 	bool InputSystem::isMouseButtonHeld(Mouse::Button button)
 	{
 		return mouse_buttons_state_[button].state == State::HELD ||mouse_buttons_state_[button].state == State::PRESSED;
+	}
+
+	bool InputSystem::isControllerButtonHeld(Gamepad::Gamepad button, Joystick::Joystick joystick)
+	{
+		return controllers_buttons_state_[joystick][button].state == State::HELD || controllers_buttons_state_[joystick][button].state == State::PRESSED;
 	}
 
 	glm::vec2 InputSystem::getScreenMousePosition()
@@ -68,12 +83,31 @@ namespace bv
 
 	int InputSystem::getMouseScrollDirection()
 	{
+		if (mouse_scroll_value_ == 0)
+		{
+			return 0;
+		}
 		return mouse_scroll_value_ / std::abs(mouse_scroll_value_);
 	}
 
 	float InputSystem::getMouseScrollValue()
 	{
 		return mouse_scroll_value_;
+	}
+
+	int InputSystem::getJoystickAxisDirection(Axis::Axis axis, Joystick::Joystick joystick)
+	{
+		float value = joystick_axis_value[joystick][axis];
+		if (value == 0)
+		{
+			return value;
+		}
+		return value / std::abs(value);
+	}
+
+	float InputSystem::getJoystickAxisValue(Axis::Axis axis, Joystick::Joystick joystick)
+	{
+		return joystick_axis_value[joystick][axis];
 	}
 	
 }

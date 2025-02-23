@@ -7,6 +7,7 @@
 #include <BeaverEngine/System/WindowSystem.h>
 #include <BeaverEngine/Utils/Window.h>
 #include <BeaverEngine/Core/Game.h>
+#include <iostream>
 
 void sandbox::TestEntitySpawnerComponent::setup(const bv::ComponentDescription& init_value)
 {
@@ -60,7 +61,18 @@ void sandbox::TestEntitySpawnerComponent::updateLogic(const bv::Timing& dt)
 	if (bv::InputSystem::getInstance().isKeyHeld(bv::Key::DOWN))
 		bv::WindowSystem::getInstance().getMainWindow().lock()->move({ 0,-10 });
 
-	if (bv::InputSystem::getInstance().isKeyHeld(bv::Key::ENTER))
-		bv::WindowSystem::getInstance().getMainWindow().lock()->focus();
+	//printf("x : %f, y : %f\n", bv::InputSystem::getInstance().getJoystickAxisValue(bv::Axis::LEFT_X), bv::InputSystem::getInstance().getJoystickAxisValue(bv::Axis::LEFT_Y));
+	//printf("x : %d, y : %d\n", bv::InputSystem::getInstance().getJoystickAxisDirection(bv::Axis::LEFT_X), bv::InputSystem::getInstance().getJoystickAxisDirection(bv::Axis::LEFT_Y));
 
+	auto window = bv::WindowSystem::getInstance().getMainWindow().lock();
+	if (bv::InputSystem::getInstance().getJoystickAxisDirection(bv::Axis::LEFT_X) == 1)
+		window->setSize(window->getWidth() + 10, window->getHeight());
+	if (bv::InputSystem::getInstance().getJoystickAxisDirection(bv::Axis::LEFT_X) == -1)
+		window->setSize(window->getWidth() - 10, window->getHeight());
+	if (bv::InputSystem::getInstance().getJoystickAxisDirection(bv::Axis::LEFT_Y) == 1)
+		window->setSize(window->getWidth(), window->getHeight() + 10);
+	if (bv::InputSystem::getInstance().getJoystickAxisDirection(bv::Axis::LEFT_Y) == -1)
+		window->setSize(window->getWidth(), window->getHeight() - 10);
+
+	std::cout << bv::InputSystem::getInstance().getJoystickAxisValue(bv::Axis::RIGHT_X) << std::endl;
 }

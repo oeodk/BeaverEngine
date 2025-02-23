@@ -121,7 +121,7 @@ namespace bv
 		glfwSetKeyCallback(window_, keyEventCallback);
 		glfwSetMouseButtonCallback(window_, mouseButtonEventCallback);
 		glfwSetScrollCallback(window_, scrollEventCallback);
-
+		
 		glCreateVertexArrays(1, &vao_2d_);
 		glBindVertexArray(vao_2d_);
 
@@ -141,6 +141,38 @@ namespace bv
 
 		// Unbind the VAO (optional)
 		glBindVertexArray(0);
+	}
+
+	void DesktopWindow::updateGamepadInputs() const
+	{
+		auto& input_system = InputSystem::getInstance();
+
+		for (int joystick_id = Joystick::JOYSTICK_1; joystick_id < Joystick::JOYSTICK_16; joystick_id++)
+		{
+			GLFWgamepadstate state;
+
+			if (glfwGetGamepadState(joystick_id, &state))
+			{
+				for (int i = 0; i < 15 ; i++)
+				{
+					input_system.setControllerButtonState(static_cast<Joystick::Joystick>(joystick_id), static_cast<Gamepad::Gamepad>(i), state.buttons[i] != GLFW_RELEASE);
+				}
+				for (int i = 0; i < 6; i++)
+				{
+					Axis::Axis axis = static_cast<Axis::Axis>(i);
+					int coefficient = 1;
+					if (axis == Axis::LEFT_Y || axis == Axis::RIGHT_Y)
+					{
+						coefficient = -1;
+					}
+					input_system.setJoystickAxisValue(static_cast<Joystick::Joystick>(joystick_id), axis, coefficient * state.axes[i]);
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
 	}
 
 	DesktopWindow::~DesktopWindow()
@@ -174,6 +206,9 @@ namespace bv
 
 		/* Poll for and process events */
 		glfwPollEvents();
+
+		updateGamepadInputs();
+
 		cleared_ = false;
 	}
 
