@@ -1,6 +1,11 @@
 #include "BeaverEngine/Core/Game.h"
 #include "BeaverEngine/BeaverEngine.h"
 #include "BeaverEngine/Core/Debug.h"
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 namespace bv
 {
 	using namespace std::chrono_literals;
@@ -9,8 +14,13 @@ namespace bv
 	{
 #ifndef SHIPPING
 		defineDebugDataPath();
-#endif // !SHIPPING
+#else
 
+#endif // !SHIPPING
+#ifdef _WIN32
+		HWND hwnd = GetConsoleWindow();
+		ShowWindow(hwnd, SW_HIDE);
+#endif
 
 		registerBasicComponent();
 		registerComponent();
