@@ -73,8 +73,6 @@ void example::Paddle::updateLogic(const bv::Timing& timing)
 	{
 		bv::Game::close();
 	}
-
-	window->focus();
 }
 
 void example::Paddle::onCollision(const bv::ColliderComponent& other)
