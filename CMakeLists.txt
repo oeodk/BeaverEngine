@@ -155,5 +155,6 @@ add_subdirectory(_deps/glad)
 # Add subdirectories
 add_subdirectory(BeaverEngine)
 add_subdirectory(examples/BrickBreaker)
+add_subdirectory(examples/WindowPong)
 
 add_subdirectory(SandBox)

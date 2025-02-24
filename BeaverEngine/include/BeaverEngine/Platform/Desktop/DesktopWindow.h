@@ -59,7 +59,7 @@ namespace bv
             }
         }
 
-        void focus() const { glfwFocusWindow(window_); }
+        void focus() const override { glfwMakeContextCurrent(window_); ; glfwFocusWindow(window_); }
     private:
         void init(const WindowProperties& props);
         void updateGamepadInputs() const;

@@ -1,0 +1,13 @@
+- animation: "idle"
+  width: 50
+  height: 11
+  frame_count: 1
+  frame_dt: 0
+  start_coordinates: [0,0]
+  
+- animation: "break"
+  width: 50
+  height: 11
+  frame_count: 4
+  frame_dt: 50
+  start_coordinates: [0,0]

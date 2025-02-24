@@ -31,7 +31,7 @@ namespace bv
             return window->second;
         }
 
-        void addWindow(std::string_view window_name, const WindowProperties& properties)
+        std::weak_ptr<Window> addWindow(std::string_view window_name, const WindowProperties& properties)
         {
             WindowProperties props = properties;
             Window* shared = nullptr;
@@ -49,6 +49,7 @@ namespace bv
                 base_window_size_.x = props.width;
                 base_window_size_.y = props.height;
             }
+            return windows_.at(window_n);
         }
 
         std::weak_ptr<Window> getMainWindow() const { return main_window_; }

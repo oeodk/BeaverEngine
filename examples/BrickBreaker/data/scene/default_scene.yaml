@@ -4,7 +4,7 @@
     components:
       Window:
         name : "main_window"
-        title : "Sandbox"
+        title : "BrickBreaker"
         size : [600,700]
         bgColor : [0,0,0,1] 
         

@@ -1,0 +1,124 @@
+- name : "MainView"
+  description:
+    children:
+    components:
+      View2D:
+        name : "main_view"
+        size : [1280,720]
+        center : [0,0]
+        elevation : 100
+        rotationAngle : 0
+        viewportPosition : [0,0]
+        viewportSize : [1,1]
+
+- name : "Ball"
+  description:
+    children:
+    components:
+      Window:
+        name : "ball"
+        title : "WindowPong"
+        size : [40,40]
+        bgColor : [1,1,1,1] 
+        decorate: false
+        resizable: false
+      Position:
+        x : 0
+        y : 0
+        z : 0
+      Ball:
+      RectangleCollider:
+        handler: "Ball"
+        mask: 1
+        flag: 1
+        size: [40, 40]
+        
+- name : "Paddle2"
+  description:
+    children:
+    components:
+      Window:
+        name : "paddle_2"
+        title : "WindowPong"
+        size : [30,250]
+        bgColor : [1,1,1,1] 
+        decorate: false
+        resizable: false
+      Position:
+        x : 0
+        y : 0
+        z : 0
+      Paddle:
+        isLeft: true
+      RectangleCollider:
+        handler: "Paddle"
+        mask: 1
+        flag: 1
+        size: [1, 250]
+        offset: [15, 0]        
+
+        
+- name : "Paddle1"
+  description:
+    children:
+    components:
+      Window:
+        name : "paddle_1"
+        title : "WindowPong"
+        size : [30,250]
+        bgColor : [1,1,1,1]
+        decorate: false
+        resizable: false
+      Position:
+        x : 0
+        y : 0
+        z : 0
+      Paddle:
+        isLeft: false
+      RectangleCollider:
+        handler: "Paddle"
+        mask: 1
+        flag: 1
+        size: [1, 250]  
+        offset: [-15, 0]        
+
+- name: "Layer1"
+  description:
+    children:
+    components:
+      Position:
+        x : 0
+        y : 0
+        z : 0
+      Layer: 
+        view: "main_view"
+        window: "ball"
+        interpolateTexture: false
+        texture: "empty.png"  
+- name: "Layer2"
+  description:
+    children:
+    components:
+      Position:
+        x : 0
+        y : 0
+        z : 0      
+      Layer: 
+        view: "main_view"
+        window: "paddle_1"
+        interpolateTexture: false
+        texture: "empty.png"  
+- name: "Layer3"
+  description:
+    children:
+    components:
+      Position:
+        x : 0
+        y : 0
+        z : 0      
+      Layer: 
+        view: "main_view"
+        window: "paddle_2"
+        interpolateTexture: false
+        texture: "empty.png"  
+        

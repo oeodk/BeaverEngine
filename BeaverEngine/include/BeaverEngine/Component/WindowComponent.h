@@ -52,7 +52,11 @@ namespace bv
             props.title = init_value.parameters.at("title").as<std::string>();
             props.width = init_value.parameters.at("size")[0].as<unsigned int>();
             props.height = init_value.parameters.at("size")[1].as<unsigned int>();
-            WindowSystem::getInstance().addWindow(init_value.parameters.at("name").as<std::string>(), props);
+			window_ = WindowSystem::getInstance().addWindow(init_value.parameters.at("name").as<std::string>(), props);
 		}
+
+		std::shared_ptr<Window> getWindow() const { return window_.lock(); }
+	private:
+		std::weak_ptr<Window> window_{};
 	};
 }
