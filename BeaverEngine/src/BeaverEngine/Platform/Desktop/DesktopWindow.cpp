@@ -92,7 +92,7 @@ namespace bv
 		{
 			glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 		}
-		
+		glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
 		GLFWwindow* shared_window = nullptr;
 		if (props.shared != nullptr)
 		{
