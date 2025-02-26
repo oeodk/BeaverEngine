@@ -15,12 +15,12 @@ namespace bv
 #ifndef SHIPPING
 		defineDebugDataPath();
 #else
-
-#endif // !SHIPPING
 #ifdef _WIN32
 		HWND hwnd = GetConsoleWindow();
 		ShowWindow(hwnd, SW_HIDE);
 #endif
+#endif // !SHIPPING
+
 
 		registerBasicComponent();
 		registerComponent();
