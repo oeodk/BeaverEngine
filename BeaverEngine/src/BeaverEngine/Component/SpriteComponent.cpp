@@ -12,7 +12,6 @@
 
 #include "BeaverEngine/Functions/Math.h"
 
-#include <glad/glad.h>
 #include <glm/gtc/quaternion.hpp>
 
 #include "BeaverEngine/System/InputSystem.h"
