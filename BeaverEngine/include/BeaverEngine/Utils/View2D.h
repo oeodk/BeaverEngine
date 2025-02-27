@@ -48,6 +48,8 @@ namespace bv
 		
 		const glm::mat4& getTransform();
 
+		float getRadius() const { return radius_; }
+
 		glm::vec2 normalizedWindowToViewCoordinate(const glm::vec2& pos)
 		{
 			glm::vec2 view_pos(pos);
@@ -73,6 +75,7 @@ namespace bv
 		bool update_projection_{ true };
 
 		glm::vec2 size_{};
+		float radius_{};
 
 		glm::vec2 center_{0,0};
 		float elevation_{100};

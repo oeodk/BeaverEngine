@@ -16,8 +16,9 @@ namespace bv
 	void DesktopRenderer::setup()
 	{
 		glEnable(GL_DEPTH_TEST);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 
 		loadShader(shader_program_2d_, constants:: SHADERS_PATH + "Desktop/2d_render.vert", constants::SHADERS_PATH + "Desktop/2d_render.frag");
 

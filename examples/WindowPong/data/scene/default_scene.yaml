@@ -19,7 +19,7 @@
         name : "ball"
         title : "WindowPong"
         size : [40,40]
-        bgColor : [1,1,1,0] 
+        bgColor : [0.5,0.5,0.5,0] 
         decorate: false
         resizable: false
       Position:

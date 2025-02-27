@@ -18,6 +18,7 @@ namespace bv
             unsigned int height;
             glm::vec4 background_color;
             bool v_sync;
+            bool is_focused;
             Window* self;
         };
 
@@ -43,8 +44,7 @@ namespace bv
         void setVSync(bool enabled) override;
         bool isVSync() const override{ return properties.v_sync; }
 
-        void makeCurrent() const override { 
-            glfwMakeContextCurrent(window_); }
+        void makeCurrent() const override { glfwMakeContextCurrent(window_); }
         void shutdown() override;
 
         void setPosition(int x, int y) override;
@@ -60,6 +60,7 @@ namespace bv
         }
 
         void focus() const override { glfwMakeContextCurrent(window_); ; glfwFocusWindow(window_); }
+        bool isFocused() const override { return properties.is_focused; }
     private:
         void init(const WindowProperties& props);
         void updateGamepadInputs() const;

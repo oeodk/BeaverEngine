@@ -64,6 +64,7 @@ namespace bv
 	{
 		size_.x = width;
 		size_.y = height;
+		radius_ = std::sqrt(width * width + height * height);
 		update_projection_ = true;
 	}
 

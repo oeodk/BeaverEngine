@@ -107,7 +107,9 @@ namespace bv
 				});
 		}
 		std::copy_if(sprites_.begin(), sprites_.end(), std::back_inserter(sorted_sprite),
-			[](const SpriteComponent* sprite) {return sprite->enabled() && sprite->owner().active(); });
+			[](const SpriteComponent* sprite) {
+				return sprite->enabled() && sprite->owner().active() && sprite->willRender();
+			});
 
 		vertex_buffer_ = VertexBuffer<Vertex2D>();
 		index_buffer_ = IndexBuffer();

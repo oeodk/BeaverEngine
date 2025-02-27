@@ -52,6 +52,12 @@ namespace bv
 		}
 	}
 
+	void focusChangeEventCallback(GLFWwindow* window, int focused)
+	{
+		DesktopWindow::Properties* properties = static_cast<DesktopWindow::Properties*>(glfwGetWindowUserPointer(window));
+		properties->is_focused = focused;
+	}
+
 	void scrollEventCallback(GLFWwindow* window, double xoffset, double yoffset)
 	{
 		InputSystem::getInstance().setMouseScrollValue(yoffset);
@@ -65,6 +71,7 @@ namespace bv
 		properties.height = props.height;
 		properties.title = props.title;
 		properties.background_color = props.color;
+		properties.is_focused = true;
 		properties.self = this;
 		if (!glfw_init)
 		{
@@ -121,7 +128,8 @@ namespace bv
 		glfwSetKeyCallback(window_, keyEventCallback);
 		glfwSetMouseButtonCallback(window_, mouseButtonEventCallback);
 		glfwSetScrollCallback(window_, scrollEventCallback);
-		
+		glfwSetWindowFocusCallback(window_, focusChangeEventCallback);
+
 		glCreateVertexArrays(1, &vao_2d_);
 		glBindVertexArray(vao_2d_);
 

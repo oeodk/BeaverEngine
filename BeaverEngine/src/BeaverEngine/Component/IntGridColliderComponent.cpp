@@ -89,8 +89,16 @@ namespace bv
 				int sx = sign(dir.x);
 				int sy = sign(dir.y);
 
-				bool grid_dx_empty = !(int_grid_.at(grid_coord.x + sx, grid_coord.y) & other_mask);
-				bool grid_dy_empty = !(int_grid_.at(grid_coord.x, grid_coord.y + sy) & other_mask);
+				bool grid_dx_empty = false;
+				bool grid_dy_empty = false;
+				if (int_grid_.exist(grid_coord.x + sx, grid_coord.y))
+				{
+					grid_dx_empty = !(int_grid_.at(grid_coord.x + sx, grid_coord.y) & other_mask);
+				}
+				if (int_grid_.exist(grid_coord.x, grid_coord.y + sy))
+				{
+					grid_dy_empty = !(int_grid_.at(grid_coord.x, grid_coord.y + sy) & other_mask);
+				}
 				if (grid_dx_empty && grid_dy_empty)
 				{
 					int int_grid_size_x = static_cast<int>(grid_size_) * ((sx + 1) * 0.5);

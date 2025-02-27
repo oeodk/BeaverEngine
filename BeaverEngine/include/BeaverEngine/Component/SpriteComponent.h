@@ -36,6 +36,7 @@ namespace bv
 		void setSize(const glm::vec2& size)
 		{ 
 			size_ = size; 
+			radius_ = glm::length(size_ + glm::vec2(offset_));
 			refreshPoint();
 		}
 		const glm::vec2& getSize() const { return size_; }
@@ -56,7 +57,13 @@ namespace bv
 		//Angle in degree
 		float getRotationAngle() const { return rotation_angle_; }
 
-		void setOffset(const glm::vec2& offset) { offset_ = glm::vec3(offset,0); }
+		float getRadius() const { return radius_; }
+
+		void setOffset(const glm::vec2& offset)
+		{
+			offset_ = glm::vec3(offset,0);
+			radius_ = glm::length(size_ + glm::vec2(offset_));
+		}
 		const glm::vec2& getOffset() const { return offset_; }
 
 		void setRenderRectangle(const FloatRect& render_rect);
@@ -73,6 +80,8 @@ namespace bv
 		const std::array<Vertex2D, 4>& getVertices() const { return vertices_; }
 		
 		static bool compareSpritesPosition(const SpriteComponent* c1, const SpriteComponent* c2);
+
+		bool willRender() const;
 	private:
 
 		std::string layer_name{};
@@ -89,6 +98,8 @@ namespace bv
 
 		std::string animation_name_ = "";
 		float animation_dt_{};
+
+		float radius_{};
 
 		std::array<glm::vec3, 4> points_{};
 		std::array<glm::vec2, 4> texture_coords_{};

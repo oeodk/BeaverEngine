@@ -8,6 +8,9 @@
 #include "BeaverEngine/Component/LayerComponent.h"
 
 #include "BeaverEngine/Utils/Window.h"
+#include "BeaverEngine/Utils/View2D.h"
+
+#include "BeaverEngine/Functions/Math.h"
 
 #include <glad/glad.h>
 #include <glm/gtc/quaternion.hpp>
@@ -212,5 +215,10 @@ namespace bv
 		if (s1_pos.y != s2_pos.y)
 			return s1_pos.y < s2_pos.y;
 		return s1_pos.x < s2_pos.x;
+	}
+
+	bool SpriteComponent::willRender() const
+	{
+		return std::pow(layer_->getView()->getRadius() + radius_, 2) > length2(layer_->getView()->getCenter() + glm::vec2(owner().getComponent<PositionComponent>()->getWorldPosition() + offset_));
 	}
 }

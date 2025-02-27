@@ -55,7 +55,7 @@ namespace bv
         void setSize(const glm::ivec2& size) { setSize(size.x, size.y); }
 
         virtual void focus() const = 0;
-
+        virtual bool isFocused() const = 0;
         const std::string& getName() const { return name_; }
 
         static std::shared_ptr<Window> create(const WindowProperties& properties = WindowProperties());

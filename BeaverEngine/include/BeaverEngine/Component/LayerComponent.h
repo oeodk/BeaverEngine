@@ -32,6 +32,7 @@ namespace bv
 		void removeSprite(SpriteComponent* sprite) { sprites_.erase(std::remove(sprites_.begin(), sprites_.end(), sprite), sprites_.end()); }
 
 		const std::weak_ptr<Texture2D> getTexture() const { return texture_; }
+		const View2D* getView() const { return view_to_render_; }
 	private:
 		
 		
