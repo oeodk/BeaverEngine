@@ -9,6 +9,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(DEPS_DIR ${CMAKE_SOURCE_DIR}/_deps)
 set(BUILD_DIR ${CMAKE_BINARY_DIR})
 
+option(BEAVER_ENGINE_BUILD_EXAMPLES "Build example projects" ON)
+option(BEAVER_ENGINE_BUILD_SANDBOX "Build sandbox projects" ON)
+
 # Add external libraries
 include(FetchContent)
 
@@ -154,7 +157,12 @@ add_subdirectory(_deps/glad)
 
 # Add subdirectories
 add_subdirectory(BeaverEngine)
-add_subdirectory(examples/BrickBreaker)
-add_subdirectory(examples/WindowPong)
 
-add_subdirectory(SandBox)
+if(BEAVER_ENGINE_BUILD_EXAMPLES)
+	add_subdirectory(examples/BrickBreaker)
+	add_subdirectory(examples/WindowPong)
+endif()
+
+if(BEAVER_ENGINE_BUILD_SANDBOX)
+	add_subdirectory(SandBox)
+endif()
