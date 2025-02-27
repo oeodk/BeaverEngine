@@ -55,7 +55,7 @@ target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/glm-sr
 # Specify GLFW include directory (assuming GLFW is built in the correct path)
 target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/glfw-src/include)
 
-target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/glad/include)
+target_include_directories(BeaverEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/_deps/glad/include)
 
 target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/openal-soft-src/include)
 
