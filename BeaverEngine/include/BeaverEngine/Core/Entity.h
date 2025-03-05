@@ -59,7 +59,14 @@ namespace bv
 
         bool active() const { return active_; }
 
-        void setActive(bool active) { active_ = active; }
+        void setActive(bool active)
+        { 
+            active_ = active; 
+            for (auto& child : childrens_)
+            {
+                child->setActive(active);
+            }
+        }
 
         EntityRef getChild(std::string_view name) const
         {
@@ -80,6 +87,9 @@ namespace bv
         void clear();
         
         std::span<EntityRef> getChildren() { return childrens_; }
+
+        const std::string& getTag() const { return tag_; }
+        void setTag(const std::string& tag) { tag_ = tag; }
 
     };
 }

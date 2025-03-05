@@ -82,7 +82,7 @@ namespace bv
 
 	const glm::mat4& View2D::getTransform()
 	{
-		if (update_transform_)
+		if (update_transform_ || update_view_)
 		{
 			transform_ = getProjection() * getView();
 			inverse_transform_ = glm::inverse(transform_);

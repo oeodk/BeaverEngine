@@ -10,11 +10,45 @@ namespace bv
 		position_.z = init_value.parameters.at("z").as<float>();
 	}
 
+	void PositionComponent::resolve()
+	{
+		for (auto& child : owner().getChildren())
+		{
+			if (auto position = child->getComponent<PositionComponent>())
+			{
+				glm::vec3 relative_pos = position->getWorldPosition();
+				position->setPosition(position_.x + relative_pos.x, position_.y + relative_pos.y, position_.z + relative_pos.z);
+			}
+		}
+	}
+
 	void PositionComponent::setPosition(float x, float y, float z)
 	{
+		for (auto& child : owner().getChildren())
+		{
+			if (auto position = child->getComponent<PositionComponent>())
+			{
+				glm::vec3 relative_pos = position->getRelativePosition();
+				position->setPosition(x + relative_pos.x, y + relative_pos.y, z + relative_pos.z);
+			}
+		}
 		position_.x = x;
 		position_.y = y;
 		position_.z = z;
+	}
+	
+	void PositionComponent::move(float x, float y, float z)
+	{
+		for (auto& child : owner().getChildren())
+		{
+			if (auto position = child->getComponent<PositionComponent>())
+			{
+				position->move(x, y, z);
+			}
+		}
+		position_.x += x;
+		position_.y += y;
+		position_.z += z;
 	}
 
 	void PositionComponent::setRelativePosition(float x, float y, float z)
@@ -32,11 +66,7 @@ namespace bv
 			setPosition(x, y, z);
 			return;
 		}
-
-		position_.x = parent_pos_comp->position_.x + x;
-		position_.y = parent_pos_comp->position_.y + y;
-		position_.z = parent_pos_comp->position_.z + z;
-   
+		setPosition(parent_pos_comp->position_.x + x, parent_pos_comp->position_.y + y, parent_pos_comp->position_.z + z);
 	}
 	glm::vec3 PositionComponent::getRelativePosition() const
 	{

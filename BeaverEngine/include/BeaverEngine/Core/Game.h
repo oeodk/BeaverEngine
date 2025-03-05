@@ -2,6 +2,16 @@
 #include "BeaverEngine/BeaverEngine.h"
 #include "BeaverEngine/Functions/components.h"
 
+#ifdef DEBUG
+#define BEAVER_DEBUG
+#endif
+#ifdef RELEASE
+#define BEAVER_RELEASE
+#endif
+#ifdef SHIPPING
+#define BEAVER_SHIPPING
+#endif
+
 namespace bv
 {
 	class Game

@@ -14,7 +14,7 @@ namespace bv::Scene
         {
             for (auto& child : descr["children"])
             {
-                children.insert({ child["name"].as<std::string>(), child["description"] });
+                children.insert({ child["name"].as<std::string>(), child });
             }
             for (auto& component : descr["components"])
             {
@@ -45,7 +45,6 @@ namespace bv::Scene
         {
             new_entity->addComponent(component.first, component.second);
         }
-        new_entity->resolve();
 
         for (const auto& child : descr.children)
         {
@@ -54,7 +53,9 @@ namespace bv::Scene
         if(tag != "")
         {
             tagMap()[tag].push_back(new_entity.get());
+            new_entity->setTag(tag);
         }
+        new_entity->resolve();
 
         return new_entity;
     }

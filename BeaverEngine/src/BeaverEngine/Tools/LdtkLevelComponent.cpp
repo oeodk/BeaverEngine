@@ -16,6 +16,12 @@
 
 namespace bv
 {
+	std::string jsonToString(const nlohmann::json& j)
+	{
+		if (j.is_string()) return j.get<std::string>();  // Remove quotes
+		return j.dump();  // Convert numbers, bools, etc.
+	}
+
 	void LdtkLevelComponent::onCollision(const ColliderComponent& other)
 	{
 		auto& collider_tile_map = owner().getComponent<IntGridColliderComponent>()->getColliderTileMap();
@@ -27,6 +33,8 @@ namespace bv
 	void LdtkLevelComponent::setup(const ComponentDescription& init_value)
 	{
 		std::string folder_path = init_value.parameters.at("folderPath").as<std::string>();
+		level_name_ = folder_path;
+
 		std::fstream level_file(constants::LEVELS_PATH + folder_path + "/data.json");
 		level_file >> level_descr_;
 		level_file.close();
@@ -73,13 +81,13 @@ namespace bv
 							size_t i = 0;
 							for (const auto& val : fieldValue)
 							{
-								entity_descr[0]["description"]["components"][component_name][field_name][i] = val.dump();
+								entity_descr[0]["description"]["components"][component_name][field_name][i] = jsonToString(fieldValue);
 								i++;
 							}
 						}
 						else
 						{
-							entity_descr[0]["description"]["components"][component_name][field_name] = fieldValue.dump();
+							entity_descr[0]["description"]["components"][component_name][field_name] = jsonToString(fieldValue);
 						}
 					}
 				}

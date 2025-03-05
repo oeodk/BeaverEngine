@@ -83,8 +83,16 @@ namespace bv
 		refreshPoint();
 		setRenderRectangle(render_rect_);
 		updateMesh();
+		refreshAnimation();
+
 
 		layer_->addSprite(this);
+	}
+
+	void SpriteComponent::refreshAnimation()
+	{
+		const auto texture = layer_->getTexture().lock();
+		setRenderRectangle(FloatRect(texture->getSpriteCoordinate(animation_name_, animation_dt_), texture->getSpriteSize(animation_name_)));
 	}
 
 	void SpriteComponent::updateLogic(const Timing& timing)
@@ -95,8 +103,16 @@ namespace bv
 	void SpriteComponent::updateAnimation(const Timing& timing)
 	{
 		animation_dt_ += timing.dt_.count();
+		float dt = animation_dt_;
+
 		const auto texture = layer_->getTexture().lock();
 		setRenderRectangle(FloatRect(texture->getSpriteCoordinate(animation_name_, animation_dt_), texture->getSpriteSize(animation_name_)));
+		if (animation_dt_ != dt && play_once_)
+		{
+			setAnimationName(next_animation_name_);
+			play_once_ = false;
+			setRenderRectangle(FloatRect(texture->getSpriteCoordinate(animation_name_, animation_dt_), texture->getSpriteSize(animation_name_)));
+		}
 	}
 
 	void SpriteComponent::updateMesh()
@@ -130,6 +146,18 @@ namespace bv
 		{
 			setSize(render_rect_.size);
 		}
+	}
+
+	void SpriteComponent::setAnimationName(std::string_view new_name)
+	{
+		animation_name_ = new_name;
+		refreshAnimation();
+	}
+
+	void SpriteComponent::resetAnimationDt(float value)
+	{
+		animation_dt_ = value;
+		refreshAnimation();
 	}
 
 	void SpriteComponent::refreshPoint()
@@ -207,6 +235,15 @@ namespace bv
 		animation_name_ = value.as<std::string>();
 	}
 
+	void SpriteComponent::playAnimationOnce(std::string_view animation, std::string_view next_animation)
+	{
+		animation_name_ = animation;
+		next_animation_name_ = next_animation;
+		resetAnimationDt();
+		play_once_ = true;
+	}
+
+
 	bool SpriteComponent::compareSpritesPosition(const SpriteComponent* c1, const SpriteComponent* c2)
 	{
 		const glm::vec3& s1_pos = c1->owner().getComponent<PositionComponent>()->getWorldPosition();
@@ -218,6 +255,6 @@ namespace bv
 
 	bool SpriteComponent::willRender() const
 	{
-		return std::pow(layer_->getView()->getRadius() + radius_, 2) > length2(layer_->getView()->getCenter() + glm::vec2(owner().getComponent<PositionComponent>()->getWorldPosition() + offset_));
+		return true;// std::pow(layer_->getView()->getRadius() + radius_, 2) > length2(layer_->getView()->getCenter() + glm::vec2(owner().getComponent<PositionComponent>()->getWorldPosition() + offset_));
 	}
 }

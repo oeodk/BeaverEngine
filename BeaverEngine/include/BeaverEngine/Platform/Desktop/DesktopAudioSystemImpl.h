@@ -99,10 +99,13 @@ namespace bv
 
 		void soundRemoved(const AudioData* sound) override
 		{
-			buffers_.at(sound->getPath()).second--;
-			if (buffers_.at(sound->getPath()).second == 0)
+			if(buffers_.contains(sound->getPath()))
 			{
-				buffers_.erase(sound->getPath());
+				buffers_.at(sound->getPath()).second--;
+				if (buffers_.at(sound->getPath()).second == 0)
+				{
+					buffers_.erase(sound->getPath());
+				}
 			}
 
 		}

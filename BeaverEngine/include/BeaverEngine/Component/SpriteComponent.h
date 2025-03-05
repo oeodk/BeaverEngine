@@ -23,6 +23,8 @@ namespace bv
 		void setup(const ComponentDescription& init_value) override;
 		void resolve() override;
 
+		void refreshAnimation();
+
 		void updateLogic(const Timing& timing) override;
 
 		void updateAnimation(const Timing& timing);
@@ -68,8 +70,10 @@ namespace bv
 
 		void setRenderRectangle(const FloatRect& render_rect);
 		
-		void setAnimationName(std::string_view new_name) { animation_name_ = new_name; }
-		void resetAnimationDt() { animation_dt_ = 0; }
+		void setAnimationName(std::string_view new_name);
+		void resetAnimationDt(float value = 0);
+		void playAnimationOnce(std::string_view animation, std::string_view new_animation);
+
 
 		// the new layer need to use the same spritesheet as the previous layer, or change animation accordingly
 		void setLayer(LayerComponent* layer) { layer_ = layer; }
@@ -97,6 +101,8 @@ namespace bv
 		bool init_render_rect_ = true;
 
 		std::string animation_name_ = "";
+		std::string next_animation_name_ = "";
+		bool play_once_ = false;
 		float animation_dt_{};
 
 		float radius_{};

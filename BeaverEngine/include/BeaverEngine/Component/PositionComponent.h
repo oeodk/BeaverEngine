@@ -19,6 +19,7 @@ namespace bv
         PositionComponent& operator=(PositionComponent&&) = default;
 
         void setup(const ComponentDescription& init_value) override;
+        void resolve() override;
 
         void setPosition(const glm::vec3& new_pos) { setPosition(new_pos.x, new_pos.y, new_pos.z); }
         void setPosition(const glm::vec2& new_pos) { setPosition(new_pos.x, new_pos.y, position_.z); }
@@ -37,12 +38,7 @@ namespace bv
         void move(const glm::vec3& new_pos) { move(new_pos.x, new_pos.y, new_pos.z); }
         void move(const glm::vec2& new_pos) { move(new_pos.x, new_pos.y, position_.z); }
         void move(float x, float y) { move(x, y, position_.z); }
-        void move(float x, float y, float z)
-        {
-            position_.x += x;
-            position_.y += y;
-            position_.z += z;
-        }
+        void move(float x, float y, float z);
 
         const glm::vec3& getWorldPosition() const { return position_; }
         // Get position relative to the parent component

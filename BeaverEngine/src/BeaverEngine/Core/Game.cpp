@@ -21,7 +21,6 @@ namespace bv
 #endif
 #endif // !SHIPPING
 
-
 		registerBasicComponent();
 		registerComponent();
 		setupSystem();
