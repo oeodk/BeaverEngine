@@ -7,3 +7,4 @@ Small 2D game engine designed to learn and practice game engine developement
 - Level import from the LDTK level editor https://ldtk.io/
 -  Multiple window can be created and manage
 -  Sound effects and music
+- View system for split screen or 2d camera managment
