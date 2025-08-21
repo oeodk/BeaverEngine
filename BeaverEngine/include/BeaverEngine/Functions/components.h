@@ -2,6 +2,7 @@
 
 #include "BeaverEngine/Component/PositionComponent.h"
 #include "BeaverEngine/Component/SpriteComponent.h"
+#include "BeaverEngine/Component/SpriteRendererComponent.h"
 #include "BeaverEngine/Component/RectangleColliderComponent.h"
 #include "BeaverEngine/Component/CircleColliderComponent.h"
 #include "BeaverEngine/Component/IntGridColliderComponent.h"
@@ -21,6 +22,7 @@ namespace bv
 		Component::Register<PositionComponent>();
 		Component::Register<RectangleColliderComponent>();
 		Component::Register<SpriteComponent>();
+		Component::Register<SpriteRendererComponent>();
 		Component::Register<View2DComponent>();
 		Component::Register<WindowComponent>();
 

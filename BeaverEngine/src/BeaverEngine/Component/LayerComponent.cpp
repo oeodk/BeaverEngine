@@ -88,8 +88,6 @@ namespace bv
 				Vertex2D vert(v);
 				vert.position.z = layer_z + i / static_cast<float>(sprite_count);
 
-				vert.color = sorted_sprite[i]->getColor();
-
 				return vert; });
 		std::transform(sorted_sprite[i]->getIndices().begin(), sorted_sprite[i]->getIndices().end(), mapped_indices.begin() + i * 6,
 			[i](unsigned int index) {return index + i * 4; });
@@ -137,7 +135,6 @@ namespace bv
 		renderer->render(vertex_buffer_, index_buffer_, window_to_render_.lock().get(), view_to_render_);
 		
 	}
-
 
 	void LayerComponent::initTexture(const Description& value, bool interpolate)
 	{

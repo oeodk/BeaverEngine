@@ -107,6 +107,16 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(nlohmann-json)
 
+# freetype
+FetchContent_Declare(
+    freetype
+    GIT_REPOSITORY https://github.com/freetype/freetype.git
+    GIT_TAG master
+    SOURCE_DIR ${DEPS_DIR}/freetype-src
+    BINARY_DIR ${DEPS_DIR}/freetype-build
+)
+FetchContent_MakeAvailable(freetype)
+
 # Define the base output directory
 set(BASE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin)
 

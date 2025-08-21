@@ -1,5 +1,6 @@
 #pragma once
 #include "BeaverEngine/Component/LogicComponent.h"
+#include "BeaverEngine/Component/DisplayComponent.h"
 
 #include "BeaverEngine/Utils/Math.h"
 #include "BeaverEngine/Utils/Vertex.h"
@@ -7,6 +8,7 @@
 namespace bv
 {
 	class LayerComponent;
+	class Texture2D;
 	class SpriteComponent
 		: public LogicComponent
 	{
@@ -23,15 +25,16 @@ namespace bv
 		void setup(const ComponentDescription& init_value) override;
 		void resolve() override;
 
-		void refreshAnimation();
+		virtual void refreshAnimation();
 
 		void updateLogic(const Timing& timing) override;
+
 
 		void updateAnimation(const Timing& timing);
 		void updateMesh();
 
 		void setColor(const glm::vec3& color) { setColor(glm::vec4(color, 1.f)); }
-		void setColor(const glm::vec4& color) { color_ = color; }
+		void setColor(const glm::vec4& color);
 		const glm::vec4& getColor() const { 
 			return color_; }
 
@@ -68,7 +71,7 @@ namespace bv
 		}
 		const glm::vec2& getOffset() const { return offset_; }
 
-		void setRenderRectangle(const FloatRect& render_rect);
+		virtual void setRenderRectangle(const FloatRect& render_rect);
 		
 		void setAnimationName(std::string_view new_name);
 		void resetAnimationDt(float value = 0);
@@ -86,7 +89,7 @@ namespace bv
 		static bool compareSpritesPosition(const SpriteComponent* c1, const SpriteComponent* c2);
 
 		bool willRender() const;
-	private:
+	protected:
 
 		std::string layer_name{};
 
@@ -141,6 +144,8 @@ namespace bv
 		void initAngle(const Description& value);
 		void initLayer(const Description& value);
 		void initAnimation(const Description& value);
+
+		virtual const std::shared_ptr<Texture2D> getTexture() const;
 	};
 
 }

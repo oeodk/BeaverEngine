@@ -30,34 +30,37 @@ namespace bv
 	{
 		for (auto& value : init_value.parameters)
 		{
-			switch (string_to_init_enum_map_.at(value.first))
+			if(string_to_init_enum_map_.contains(value.first))
 			{
-			case bv::SpriteComponent::SIZE:
-				initSize(value.second);
-				fixed_size_ = true;
-				break;
-			case bv::SpriteComponent::SCALE:
-				initScale(value.second);
-				break;
-			case bv::SpriteComponent::OFFSET:
-				initOffset(value.second);
-				break;		
-			case bv::SpriteComponent::COLOR:
-				initColor(value.second);
-				break;
-			case bv::SpriteComponent::RENDER_RECT:
-				init_render_rect_ = false;
-				initRenderRect(value.second);
-				break;
-			case bv::SpriteComponent::ROTATION_ANGLE:
-				initAngle(value.second);
-				break;
-			case bv::SpriteComponent::ANIMATION:
-				initAnimation(value.second);
-				break;
-			case bv::SpriteComponent::LAYER:
-				initLayer(value.second);
-				break;
+				switch (string_to_init_enum_map_.at(value.first))
+				{
+				case bv::SpriteComponent::SIZE:
+					initSize(value.second);
+					fixed_size_ = true;
+					break;
+				case bv::SpriteComponent::SCALE:
+					initScale(value.second);
+					break;
+				case bv::SpriteComponent::OFFSET:
+					initOffset(value.second);
+					break;
+				case bv::SpriteComponent::COLOR:
+					initColor(value.second);
+					break;
+				case bv::SpriteComponent::RENDER_RECT:
+					init_render_rect_ = false;
+					initRenderRect(value.second);
+					break;
+				case bv::SpriteComponent::ROTATION_ANGLE:
+					initAngle(value.second);
+					break;
+				case bv::SpriteComponent::ANIMATION:
+					initAnimation(value.second);
+					break;
+				case bv::SpriteComponent::LAYER:
+					initLayer(value.second);
+					break;
+				}
 			}
 		}
 	}
@@ -69,13 +72,13 @@ namespace bv
 
 		if (!fixed_size_)
 		{
-			auto texture = layer_->getTexture().lock();
+			const auto texture = getTexture();
 			size_.x = texture->getWidth();
 			size_.y = texture->getHeight();
 		}
 		if (init_render_rect_)
 		{
-			auto texture = layer_->getTexture().lock();
+			const auto texture = getTexture();
 			render_rect_.size.x = texture->getWidth();
 			render_rect_.size.y = texture->getHeight();
 		}
@@ -91,7 +94,7 @@ namespace bv
 
 	void SpriteComponent::refreshAnimation()
 	{
-		const auto texture = layer_->getTexture().lock();
+		const auto texture = getTexture();
 		setRenderRectangle(FloatRect(texture->getSpriteCoordinate(animation_name_, animation_dt_), texture->getSpriteSize(animation_name_)));
 	}
 
@@ -100,12 +103,13 @@ namespace bv
 		updateAnimation(timing);
 	}
 
+
 	void SpriteComponent::updateAnimation(const Timing& timing)
 	{
 		animation_dt_ += timing.dt_.count();
 		float dt = animation_dt_;
 
-		const auto texture = layer_->getTexture().lock();
+		const auto texture = getTexture();
 		setRenderRectangle(FloatRect(texture->getSpriteCoordinate(animation_name_, animation_dt_), texture->getSpriteSize(animation_name_)));
 		if (animation_dt_ != dt && play_once_)
 		{
@@ -119,14 +123,18 @@ namespace bv
 	{
 		const PositionComponent* position = owner().getComponent<PositionComponent>();
 		
-		vertices_[0] = { position->getWorldPosition() + points_[0], texture_coords_[0] };
-		vertices_[1] = { position->getWorldPosition() + points_[1], texture_coords_[1] };
-		vertices_[2] = { position->getWorldPosition() + points_[2], texture_coords_[2] };
-		vertices_[3] = { position->getWorldPosition() + points_[3], texture_coords_[3] };
+		vertices_[0] = { position->getWorldPosition() + points_[0], texture_coords_[0] , color_};
+		vertices_[1] = { position->getWorldPosition() + points_[1], texture_coords_[1] , color_};
+		vertices_[2] = { position->getWorldPosition() + points_[2], texture_coords_[2] , color_};
+		vertices_[3] = { position->getWorldPosition() + points_[3], texture_coords_[3] , color_};
+	}
+	void SpriteComponent::setColor(const glm::vec4& color)
+	{
+		color_ = color;
 	}
 	void SpriteComponent::setRenderRectangle(const FloatRect& render_rect)
 	{
-		const auto texture = layer_->getTexture().lock();
+		const auto texture = getTexture();
 		const unsigned int texture_width = texture->getWidth();
 		const unsigned int texture_height = texture->getHeight();
 		render_rect_ = render_rect;
@@ -146,6 +154,11 @@ namespace bv
 		{
 			setSize(render_rect_.size);
 		}
+	}
+
+	const std::shared_ptr<Texture2D> SpriteComponent::getTexture() const
+	{
+		return layer_->getTexture().lock();
 	}
 
 	void SpriteComponent::setAnimationName(std::string_view new_name)
@@ -193,6 +206,12 @@ namespace bv
 		color_.g = value[1].as<float>();
 		color_.b = value[2].as<float>();
 		color_.a = value[3].as<float>();
+
+		for (size_t i = 0; i < 4; i++)
+		{
+			vertices_[i].color = color_;
+		}
+
 	}
 	void SpriteComponent::initSize(const Description & value)
 	{

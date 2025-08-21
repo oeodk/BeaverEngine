@@ -98,53 +98,27 @@
         gridSize: 32
         mask: 1
         flag: 1
-        
-- name : "TestEntity"
-  description:
-    children:
-    components:
-      Position:
-        x : 0
-        y : 0
-        z : 3
-      Sprite:
-        color: [1,1,1,1]
-        offset: [0,0]
-        size: [50,50]  
-        scale: [1,1]      
-        rotationAngle: 90
-        layer: "DecorationLayerEntity"
-      ColliderTestComponent:
-      RectangleCollider:
-        handler: "ColliderTestComponent"
-        mask: 1
-        flag: 1
-        size: [50, 50]
-            
-- name : "TestEntity2"
-  description:
-    children:
-    components:
-      Position:
-        x : -200
-        y : 0
-        z : 0
-      Sprite:
-        color: [1,1,1,1]
-        offset: [0,0]
-        renderRectangle: [654,252,164,126]
-        baseAnimation: "top_walk"
-        layer: "EntityLayerEntity"
-      ColliderTestComponent:
-      RectangleCollider:
-        handler: "ColliderTestComponent"
-        mask: 1
-        flag: 1
-        size: [164, 126]
+       
 - name : "TestEntitySpawner"
   description:
     children:
     components:
       TestEntitySpawnerComponent:
         path: "data/templates/TestEntity.yaml"
-    
+- name : "SoloSprite"
+  description:
+    children:
+    components:
+      Position:
+        x : 0
+        y : 0
+        z : 10
+      SpriteRenderer:
+        color: [1,1,1,1]
+        offset: [0,0]
+        renderRectangle: [654,252,164,126]
+        baseAnimation: "top_walk"
+        view: "second_view"
+        window: "second_window"
+        interpolateTexture: false
+        texture: "giant_spider.png"
