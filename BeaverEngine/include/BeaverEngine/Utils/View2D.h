@@ -62,6 +62,8 @@ namespace bv
 			return view_pos;
 		}
 
+		glm::vec2 mapPixelToCoords(const glm::vec2& window_position, std::string_view window_name = "") const;
+
 	private:
 		const glm::mat4& getView();
 		const glm::mat4& getProjection();

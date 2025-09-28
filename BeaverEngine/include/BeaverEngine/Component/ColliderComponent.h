@@ -21,6 +21,7 @@ namespace bv
         ColliderComponent& operator=(ColliderComponent&&) = default;
 
         virtual bool collides(const ColliderComponent& other) const = 0;
+        virtual bool collidesWithPoint(const glm::vec2& other) const { return false; }
         void onCollision(const ColliderComponent& other) ;
 
         void resolve() override;

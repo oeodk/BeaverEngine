@@ -11,6 +11,7 @@
 
 namespace bv
 {
+
 	void CircleColliderComponent::setup(const ComponentDescription& init_value)
 	{
 		handler_type_ = init_value.parameters.at("handler").as<std::string>();
@@ -58,5 +59,12 @@ namespace bv
 	bool CircleColliderComponent::collides(const IntGridColliderComponent& other) const
 	{
 		return other.collides(*this);
+	}
+
+	bool CircleColliderComponent::collidesWithPoint(const glm::vec2& other) const
+	{
+		const glm::vec2& position = glm::vec2(owner().getComponent<PositionComponent>()->getWorldPosition()) + true_center_;
+		const float dist = length2(position - other);
+		return radius_ * radius_ > dist;
 	}
 }

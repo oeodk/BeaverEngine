@@ -22,7 +22,7 @@ namespace bv
         RectangleColliderComponent& operator=(RectangleColliderComponent&&) = default;
 
         bool collides(const ColliderComponent& other) const override { return other.collides(*this); }
-
+        bool collidesWithPoint(const glm::vec2& other) const override;
         void setup(const ComponentDescription& init_value) override;
 
         void setRotationAngle(float angle) override;

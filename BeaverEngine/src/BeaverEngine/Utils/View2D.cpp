@@ -90,6 +90,27 @@ namespace bv
 		}
 		return transform_;
 	}
+	glm::vec2 View2D::mapPixelToCoords(const glm::vec2& window_position, std::string_view window_name) const
+	{
+		std::shared_ptr<Window> window;
+		if (window_name.empty())
+		{
+			window = WindowSystem::getInstance().getMainWindow().lock();
+		}
+		else
+		{
+			window = WindowSystem::getInstance().getWindow(window_name).lock();
+		}
+
+		glm::vec2 view_center_window_coord = { window->getWidth() / 2.f, window->getHeight() / 2.f };
+		view_center_window_coord += center_;
+		view_center_window_coord += glm::vec2{ window->getWidth() * viewport_pos_.x, window->getHeight() * viewport_pos_.y };
+		view_center_window_coord *= viewport_size_;
+
+		return (window_position - view_center_window_coord) / viewport_size_;
+	}
+
+
 	const glm::mat4& View2D::getView()
 	{
 		if (update_view_)

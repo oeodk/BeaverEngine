@@ -188,4 +188,69 @@ namespace bv
 	{
 		return other.collides(*this);
 	}
+
+	bool RectangleColliderComponent::collidesWithPoint(const glm::vec2& other) const
+	{
+		const glm::vec2 center = glm::vec2(owner().getComponent<PositionComponent>()->getWorldPosition());
+
+		if (rotation_angle_ == 0)
+		{
+			const glm::vec2 dist = (center + offset_) - other;
+			if (std::abs(dist.x) < half_size_.x&& std::abs(dist.y) < half_size_.y)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+
+		}
+		else
+		{
+			float amin, amax, bmin, bmax;
+			float point;
+			std::array<const glm::vec2*, 2> rectangles_perpendicular_edge_vector_ref =
+			{
+				&rectangles_perpendicular_edge_vector_[0],
+				&rectangles_perpendicular_edge_vector_[1]
+			};
+
+			for (int i = 0; i < rectangles_perpendicular_edge_vector_ref.size(); i++)
+			{
+				// Projection of this rectangle corner on the edge normals
+				for (int j = 0; j < 4; j++)
+				{
+					point = glm::dot(*rectangles_perpendicular_edge_vector_ref[i], (points_[j] + center));
+					if (j == 0)
+					{
+						amax = point;
+						amin = point;
+					}
+					else
+					{
+						if (point > amax)
+						{
+							amax = point;
+						}
+						if (point < amin)
+						{
+							amin = point;
+						}
+					}
+				}
+
+				// Projection of the point to test on the rectangle edge normals
+				point = glm::dot(*rectangles_perpendicular_edge_vector_ref[i], other);
+				bmax = point;
+				bmin = point;
+					
+				if (!((amin <= bmax && amin >= bmin) || (bmin <= amax && bmin >= amin)))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+	}
 }
