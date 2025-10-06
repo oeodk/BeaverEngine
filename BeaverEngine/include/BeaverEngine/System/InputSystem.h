@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 namespace bv
 {
+	class ControllerRumble;
 	class Window;
 	class InputSystem
 		: public System
@@ -25,7 +26,7 @@ namespace bv
 
 		inline static float dead_zone_ = 0.1;
 
-		InputSystem() = default;
+		InputSystem();
 		InputSystem(const InputSystem&) = default;
 		InputSystem(InputSystem&&) = default;
 		InputSystem& operator=(const InputSystem&) = default;
@@ -35,58 +36,7 @@ namespace bv
 
 		static InputSystem& getInstance();
 
-		void iterate(const Timing& dt) override
-		{
-			for (auto& key : updated_keys_)
-			{
-				switch (keys_state_.at(key).state)
-				{
-				case State::PRESSED:
-					keys_state_.at(key).state = State::HELD;
-					break;
-				case State::RELEASED:
-					keys_state_.at(key).state = State::NONE;
-					break;
-				}
-			}			
-			updated_keys_.clear();
-
-			for (auto& button : updated_mouse_buttons_)
-			{
-				switch (mouse_buttons_state_.at(button).state)
-				{
-				case State::PRESSED:
-					mouse_buttons_state_.at(button).state = State::HELD;
-					break;
-				case State::RELEASED:
-					mouse_buttons_state_.at(button).state = State::NONE;
-					break;
-				}
-			}			
-			updated_mouse_buttons_.clear();
-
-			if(updated_controllers_buttons_.size() != 0)
-			{
-				for (auto& joystick_buttons : updated_controllers_buttons_)
-				{
-					for (auto& button : joystick_buttons.second)
-					{
-						switch (controllers_buttons_state_.at(joystick_buttons.first).at(button).state)
-						{
-						case State::PRESSED:
-							controllers_buttons_state_.at(joystick_buttons.first).at(button).state = State::HELD;
-							break;
-						case State::RELEASED:
-							controllers_buttons_state_.at(joystick_buttons.first).at(button).state = State::NONE;
-							break;
-						}
-					}
-				}
-			}
-			updated_controllers_buttons_.clear();
-			
-			mouse_scroll_value_ = 0;
-		}
+		void iterate(const Timing& dt) override;
 
 		bool isKeyPressed(Key::Key key);
 		bool isMouseButtonPressed(Mouse::Button button);
@@ -156,6 +106,8 @@ namespace bv
 			}
 		}
 
+		bool makeControllerRumble(Joystick::Joystick controller_index, uint16_t low_frequency_rumble, uint16_t high_frequency_rumble, uint32_t duration_ms);
+
 	private:
 		std::unordered_map<Key::Key, State> keys_state_{};
 		std::unordered_map<Mouse::Button, State> mouse_buttons_state_{};
@@ -167,6 +119,8 @@ namespace bv
 		std::unordered_map<Joystick::Joystick, std::vector<Gamepad::Gamepad>> updated_controllers_buttons_{};
 
 		float mouse_scroll_value_{};
+
+		std::unique_ptr<ControllerRumble> controller_rumble_;
 	};
 }
 

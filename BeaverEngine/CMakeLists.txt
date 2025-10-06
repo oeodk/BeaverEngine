@@ -63,6 +63,8 @@ target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/libsnd
 
 target_include_directories(BeaverEngine PUBLIC ${CMAKE_SOURCE_DIR}/_deps/nlohmann-json-src/include)
 
+target_include_directories(BeaverEngine PUBLIC ${CMAKE_SOURCE_DIR}/_deps/sdl2-src/include)
+
 # Link external libraries
 target_link_libraries(BeaverEngine
     PUBLIC
@@ -72,6 +74,7 @@ target_link_libraries(BeaverEngine
 		glad
 		OpenAL::OpenAL
 		sndfile
+		SDL3-static
 )
 
 # Specify output directories
