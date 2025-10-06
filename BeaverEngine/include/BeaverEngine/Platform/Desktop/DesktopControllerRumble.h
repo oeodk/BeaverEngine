@@ -31,11 +31,11 @@ namespace bv
 		bool makeControllerRumble(Joystick::Joystick controller_index, uint16_t low_frequency_rumble, uint16_t high_frequency_rumble, uint32_t duration_ms) override
 		{
 			int count = 0;
-			SDL_JoystickID* ids = SDL_GetGamepads(&count);
+			SDL_JoystickID* ids = SDL_GetJoysticks(&count);
 			SDL_Gamepad* gamepad = NULL;
 			if (count > controller_index)
 			{
-				return SDL_RumbleGamepad(SDL_OpenGamepad(ids[controller_index]), low_frequency_rumble, high_frequency_rumble, duration_ms);
+				return SDL_RumbleJoystick(SDL_OpenJoystick(ids[controller_index]), low_frequency_rumble, high_frequency_rumble, duration_ms);
 			}
 			return false;
 		}
