@@ -14,10 +14,18 @@ namespace bv
 	{
 #ifndef SHIPPING
 		defineDebugDataPath();
+
 #else
 #ifdef _WIN32
 		HWND hwnd = GetConsoleWindow();
-		ShowWindow(hwnd, SW_HIDE);
+		//Sleep(1);//If you execute these code immediately after the program starts, you must wait here for a short period of time, otherwise GetWindow will fail. I speculate that it may be because the console has not been fully initialized.
+		HWND owner = GetWindow(hwnd, GW_OWNER);
+		if (owner == NULL) {
+			ShowWindow(hwnd, SW_HIDE); // Windows 10
+		}
+		else {
+			ShowWindow(owner, SW_HIDE);// Windows 11
+		}
 #endif
 #endif // !SHIPPING
 
