@@ -10,6 +10,7 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <ranges>
 #include <span>
 #include <set>
 #include <sstream>

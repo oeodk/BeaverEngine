@@ -82,15 +82,22 @@ namespace bv
 
 	void addSpriteToLayer(int i, float layer_z, int sprite_count, std::vector<SpriteComponent*>& sorted_sprite, std::span<Vertex2D>& mapped_vertices, std::span<unsigned int>& mapped_indices)
 	{
-		sorted_sprite[i]->updateMesh();
-		std::transform(sorted_sprite[i]->getVertices().begin(), sorted_sprite[i]->getVertices().end(), mapped_vertices.begin() + i * 4,
-			[i, sprite_count, layer_z, &sorted_sprite](const Vertex2D& v) {
+		SpriteComponent* sprite = sorted_sprite[i];
+		sprite->updateMesh();
+
+		const auto& src_verts = sprite->getVertices();
+		std::transform(src_verts.begin(), src_verts.end(),
+			mapped_vertices.begin() + i * 4,
+			[i, sprite_count, layer_z](const Vertex2D& v) {
 				Vertex2D vert(v);
 				vert.position.z = layer_z + i / static_cast<float>(sprite_count);
+				return vert;
+			});
 
-				return vert; });
-		std::transform(sorted_sprite[i]->getIndices().begin(), sorted_sprite[i]->getIndices().end(), mapped_indices.begin() + i * 6,
-			[i](unsigned int index) {return index + i * 4; });
+		const auto& src_indices = sprite->getIndices();
+		std::transform(src_indices.begin(), src_indices.end(),
+			mapped_indices.begin() + i * 6,
+			[i](unsigned int index) { return index + i * 4; });
 	}
 
 	void LayerComponent::display(Renderer* renderer, const Timing& dt)
@@ -118,16 +125,12 @@ namespace bv
 		const size_t sprite_count = std::size(sorted_sprite);
 		float layer_z = owner().getComponent<PositionComponent>()->getWorldPosition().z;
 
-		std::vector<std::future<void>> threads;
-		threads.reserve(sprite_count);
-		for (size_t i = 0; i < sprite_count; i++)
-		{
-			threads.push_back(std::async(std::launch::async, &addSpriteToLayer, i, layer_z, sprite_count, std::ref(sorted_sprite), std::ref(mapped_vertices), std::ref(mapped_indices)));
-		}
-		for (size_t i = 0; i < sprite_count; i++)
-		{
-			threads[i].wait();
-		}
+		auto range = std::views::iota(static_cast<size_t>(0), sprite_count);
+
+		std::for_each(std::execution::par, range.begin(), range.end(),
+			[&](int i) {
+				addSpriteToLayer(i, layer_z, sprite_count, sorted_sprite, mapped_vertices, mapped_indices);
+			});
 		vertex_buffer_.setup();
 		index_buffer_.setup();
 

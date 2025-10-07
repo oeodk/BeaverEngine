@@ -8,14 +8,6 @@ namespace bv
 {
     class Entity : public std::enable_shared_from_this<Entity>
     {
-    private:
-        bool active_{true};
-        std::weak_ptr<Entity> parent_;
-        std::vector<EntityRef> childrens_;
-        std::map<std::string, std::weak_ptr<Entity>> children_by_name_;
-        std::unordered_map<std::string, std::unique_ptr<Component>> components_;
-
-        std::string tag_{};
     public :
         ~Entity() { components_.clear(); children_by_name_.clear(); }
         static EntityRef create() { return std::make_shared<Entity>(); }
@@ -49,7 +41,7 @@ namespace bv
 
         Component* getComponent(std::string_view type) const
         {
-            auto component = components_.find((std::string)type);
+            auto component = components_.find(type);
             if (component == components_.end())
             {
                 return nullptr;
@@ -90,6 +82,30 @@ namespace bv
 
         const std::string& getTag() const { return tag_; }
         void setTag(const std::string& tag) { tag_ = tag; }
+
+    private:
+        bool active_{ true };
+        std::weak_ptr<Entity> parent_;
+        std::vector<EntityRef> childrens_;
+        std::map<std::string, std::weak_ptr<Entity>> children_by_name_;
+
+        std::string tag_{};
+
+        struct StringHash {
+            using is_transparent = void; // enables heterogeneous lookup
+            std::size_t operator()(std::string_view key) const noexcept {
+                return std::hash<std::string_view>{}(key);
+            }
+        };
+
+        struct StringEqual {
+            using is_transparent = void; // enables heterogeneous lookup
+            bool operator()(std::string_view lhs, std::string_view rhs) const noexcept {
+                return lhs == rhs;
+            }
+        };
+
+        std::unordered_map<std::string, std::unique_ptr<Component>, StringHash, StringEqual> components_;
 
     };
 }
