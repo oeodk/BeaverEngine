@@ -8,7 +8,7 @@ namespace bv
         public virtual Component
     {
     public :
-        LogicComponent();
+        LogicComponent(bool parallelize = false);
         ~LogicComponent();
         LogicComponent(const LogicComponent&) = default;
         LogicComponent& operator=(const LogicComponent&) = default;
@@ -16,6 +16,8 @@ namespace bv
         LogicComponent& operator=(LogicComponent&&) = default;
 
         virtual void updateLogic(const Timing& timing) = 0;
+
+        bool parallelize_ = false;
     };
 }
 

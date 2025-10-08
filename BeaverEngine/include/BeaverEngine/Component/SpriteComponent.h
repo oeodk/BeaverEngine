@@ -15,7 +15,7 @@ namespace bv
 	public:
 		static constexpr auto type_ = "Sprite";
 
-		SpriteComponent(Entity& owner) : Component(owner) {}
+		SpriteComponent(Entity& owner) : Component(owner), LogicComponent(true) {}
 		~SpriteComponent();
 		SpriteComponent(const SpriteComponent&) = default;
 		SpriteComponent& operator=(const SpriteComponent&) = default;

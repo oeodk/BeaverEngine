@@ -18,12 +18,13 @@ namespace bv
 
             void iterate(const Timing& dt) override;
 
-            void registerComponent(LogicComponent* logic_component);
-            void removeComponent(LogicComponent* logic_component);
+            void registerComponent(LogicComponent* logic_component, bool parallelize = false);
+            void removeComponent(LogicComponent* logic_component, bool parallelize = false);
 
             static LogicSystem& getInstance();
         private:
             std::unordered_set<LogicComponent*> logic_components_;
+            std::unordered_set<LogicComponent*> parallelized_logic_components_;
         
     };
 }

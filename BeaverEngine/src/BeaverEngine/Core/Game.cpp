@@ -52,12 +52,6 @@ namespace bv
 			auto current_time = std::chrono::high_resolution_clock::now();
 			auto dt = std::chrono::duration_cast<std::chrono::milliseconds>(current_time - old_time);
 
-			float count = dt.count();
-			if (count != 0)
-			{
-				//printf((std::to_string(int(count)) + " ms\n").c_str());
-				//printf((std::to_string(int(1 / (count / 1000.f)))+ " fps\n").c_str());
-			}
 			if (dt < framerate_ms)
 			{
 				std::this_thread::sleep_for(framerate_ms - dt);
@@ -69,6 +63,20 @@ namespace bv
 			{
 				system->iterate({ dt, frame });
 			}
+
+#ifdef DEBUG
+
+			auto current_time2 = std::chrono::high_resolution_clock::now();
+
+			auto dt2 = std::chrono::duration_cast<std::chrono::milliseconds>(current_time2 - old_time);
+
+			float count = dt2.count();
+			if (count != 0)
+			{
+				printf((std::to_string(int(count)) + " ms\n").c_str());
+				printf((std::to_string(int(1 / (count / 1000.f))) + " fps\n").c_str());
+			}
+#endif
 		}
 
 		return true;
