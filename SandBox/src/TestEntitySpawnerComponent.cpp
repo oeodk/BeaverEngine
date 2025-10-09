@@ -18,7 +18,7 @@ void sandbox::TestEntitySpawnerComponent::setup(const bv::ComponentDescription& 
 
 void sandbox::TestEntitySpawnerComponent::resolve()
 {
-	for (int i = 0; i < 0; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		component_template_[0]["name"] = "TestComponent" + std::to_string(i);
 		component_template_[0]["description"]["components"]["Position"]["x"] = rand() % 400 - 200;
@@ -28,6 +28,8 @@ void sandbox::TestEntitySpawnerComponent::resolve()
 	}
 	player_ = bv::AudioSystem::getInstance().playSound(sound_, this);
 	bv::AudioSystem::getInstance().playMusic(music_, this);
+
+	bv::ParticleSystem::getInstance().initializeView(bv::WindowSystem::getInstance().getWindow("second_window").lock().get(), bv::ViewSystem::getInstance().getView("second_view"));
 }
 
 void sandbox::TestEntitySpawnerComponent::updateLogic(const bv::Timing& dt)
@@ -74,5 +76,37 @@ void sandbox::TestEntitySpawnerComponent::updateLogic(const bv::Timing& dt)
 	if (bv::InputSystem::getInstance().getJoystickAxisDirection(bv::Axis::LEFT_Y) == -1)
 		window->setSize(window->getWidth(), window->getHeight() - 10);
 
-	std::cout << bv::InputSystem::getInstance().getJoystickAxisValue(bv::Axis::RIGHT_X) << std::endl;
+	//std::cout << bv::InputSystem::getInstance().getJoystickAxisValue(bv::Axis::RIGHT_X) << std::endl;
+	if (bv::InputSystem::getInstance().isMouseButtonHeld(bv::Mouse::LEFT))
+	{
+		glm::vec2 pos = bv::ViewSystem::getInstance().getMainView()->mapPixelToCoords({ bv::InputSystem::getInstance().getScreenMousePosition().x , bv::InputSystem::getInstance().getScreenMousePosition().y });
+		bv::ParticleProps props;
+		props.position = { pos, 10 };
+		props.start_size = { 25,25 };
+		props.end_size = { 5, 5 };
+		props.lifespan_s = 1;
+		props.lifespan_variation = 0.5f;
+
+		props.velocity_variation = { 5,5,0 };
+
+		props.start_color = { 1,0,0,1 };
+		props.end_color = { 0,0,1,0 };
+
+		props.rotation_angle = bv::Random::randomFloat() * 360;
+
+		for(int i = 0;i<50;i++)
+		{
+			props.velocity = 100.f * glm::vec3{ bv::Random::randomFloat() - 0.5, bv::Random::randomFloat() - 0.5 ,0 };
+			bv::ParticleSystem::getInstance().emitParticle(props);
+		}
+		//std::cout << pos.x << " | " << pos.y << std::endl;
+	}
+	
+
+	if (bv::InputSystem::getInstance().isControllerButtonPressed(bv::Gamepad::A))
+	{ 
+		bv::InputSystem::getInstance().makeControllerRumble(bv::Joystick::JOYSTICK_1, 0x0000, 0x7777, 1000);
+	}
+	if (bv::InputSystem::getInstance().isControllerButtonReleased(bv::Gamepad::A))
+		bv::InputSystem::getInstance().makeControllerRumble(bv::Joystick::JOYSTICK_1, 0xFFFF, 0x0000, 100);
 }

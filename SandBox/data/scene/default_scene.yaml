@@ -6,11 +6,12 @@
         name : "main_window"
         title : "Sandbox"
         size : [1280,720]
-        bgColor : [0.5,0,0,0] 
-        resizable: false
-        decorate: false
-        position: [0,300]
-        
+        bgColor : [0,0,0,1] 
+        #resizable: false
+        #decorate: false
+        position: [0,0]
+        vsync: false
+       
 - name : "SecondWindow"
   description:
     children:
@@ -20,6 +21,7 @@
         title : "test"
         size : [250,250]
         bgColor : [0,0.5,0,0] 
+        vsync: false
         
 - name : "MainView"
   description:
@@ -33,7 +35,16 @@
         rotationAngle : 0
         viewportPosition : [0,0]
         viewportSize : [1,1]
-
+- name : "2ndview"
+  description:
+    children:
+    components:
+      View2D:
+        name : "second_view"
+        size : [250,250]
+        center : [0,0]
+        elevation : 100
+        rotationAngle : 0
 - name : "EmptyLayer"
   description:
     children:
@@ -44,7 +55,7 @@
         z : 3
       Layer: 
         view: "main_view"
-        window: "second_window"
+        window: "main_window"
         interpolateTexture: false
         texture: "giant_spider.png"
 

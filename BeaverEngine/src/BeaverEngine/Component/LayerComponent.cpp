@@ -116,13 +116,11 @@ namespace bv
 				return sprite->enabled() && sprite->owner().active() && sprite->willRender();
 			});
 
-		vertex_buffer_ = VertexBuffer<Vertex2D>();
-		index_buffer_ = IndexBuffer();
-
-		auto mapped_vertices = vertex_buffer_.mapVertices(0, 4 * sorted_sprite.size());
-		auto mapped_indices = index_buffer_.mapIndices(0, 6 * sorted_sprite.size());
-
 		const size_t sprite_count = std::size(sorted_sprite);
+
+		auto mapped_vertices = vertex_buffer_.mapVertices(0, 4 * sprite_count);
+		auto mapped_indices = index_buffer_.mapIndices(0, 6 * sprite_count);
+
 		float layer_z = owner().getComponent<PositionComponent>()->getWorldPosition().z;
 
 		auto range = std::views::iota(static_cast<size_t>(0), sprite_count);
@@ -135,7 +133,7 @@ namespace bv
 		index_buffer_.setup();
 
 		texture_->bind();
-		renderer->render(vertex_buffer_, index_buffer_, window_to_render_.lock().get(), view_to_render_);
+		renderer->render(vertex_buffer_, index_buffer_, window_to_render_.lock().get(), view_to_render_, sprite_count * 6);
 		
 	}
 

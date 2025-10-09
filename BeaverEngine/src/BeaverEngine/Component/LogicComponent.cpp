@@ -3,13 +3,14 @@
 
 namespace bv
 {
-	LogicComponent::LogicComponent()
+	LogicComponent::LogicComponent(bool parallelize)
 	{
-		LogicSystem::getInstance().registerComponent(this);
+		LogicSystem::getInstance().registerComponent(this, parallelize);
+		parallelize_ = parallelize;
 	}
 
 	LogicComponent::~LogicComponent()
 	{
-		LogicSystem::getInstance().removeComponent(this);
+		LogicSystem::getInstance().removeComponent(this, parallelize_);
 	}
 }

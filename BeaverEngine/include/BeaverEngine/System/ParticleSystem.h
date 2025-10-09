@@ -6,6 +6,10 @@
 #include "BeaverEngine/Utils/Texture2D.h"
 #include "BeaverEngine/Utils/Vertex.h"
 
+#include <BeaverENgine/System/WindowSystem.h>
+#include <BeaverENgine/System/ViewSystem.h>
+#include <BeaverENgine/System/TextureSystem.h>
+
 namespace bv
 {
     class Renderer;
@@ -27,21 +31,25 @@ namespace bv
             static ParticleSystem& getInstance();
 
             void emitParticle(const ParticleProps& props);
+            void emitParticle(const ParticleProps& props, Window* window, View2D* view);
+
+            void initializeView(Window* window, View2D* view);
         private:
             void updateParticles(const Timing& dt);
             void renderParticles();
         
-            std::vector<Particle> particles_;
-            int  current_pool_index = 999;
+            std::unordered_map<Window*, std::unordered_map<View2D*, std::vector<Particle>>> particles_;
+            std::unordered_map<Window*, std::unordered_map<View2D*, int>>  current_pool_index;
 
             Renderer* renderer_{};
 
             std::shared_ptr<Texture2D> texture_;
 
-            VertexBuffer<Vertex2D> vertex_buffer_;
-            IndexBuffer index_buffer_;
+            std::unordered_map<Window*, std::unordered_map<View2D*, VertexBuffer<Vertex2D>>> vertex_buffer_;
+            std::unordered_map<Window*, std::unordered_map<View2D*, IndexBuffer>> index_buffer_;
 
             static constexpr std::array<unsigned int, 6> INDICES = { 0,1,2,0,2,3 };
+            int pool_size_{};
     };
 }
 

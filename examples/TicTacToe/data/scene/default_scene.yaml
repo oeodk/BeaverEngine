@@ -1,0 +1,40 @@
+- name : "MainWindow"
+  description:
+    children:
+    components:
+      Window:
+        name : "main_window"
+        title : "TicTacToe"
+        size : [500,500]
+        bgColor : [0,0,0,1] 
+        
+- name : "MainView"
+  description:
+    children:
+    components:
+      View2D:
+        name : "main_view"
+        size : [300,300]
+        center : [0,0]
+        elevation : 100
+        rotationAngle : 0
+        viewportPosition : [0,0]
+        viewportSize : [1,1]
+
+- name : "SoloSprite"
+  description:
+    children:
+    components:
+      Position:
+        x : 0
+        y : 0
+        z : 10
+      SpriteRenderer:
+        color: [1,1,1,1]
+        offset: [0,0]
+        #renderRectangle: [654,252,164,126]
+        baseAnimation: "top_walk"
+        view: "second_view"
+        window: "second_window"
+        interpolateTexture: false
+        texture: "giant_spider.png"

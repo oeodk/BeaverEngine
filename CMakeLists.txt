@@ -107,15 +107,49 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(nlohmann-json)
 
-# freetype
+## freetype
+#FetchContent_Declare(
+#    freetype
+#    GIT_REPOSITORY https://github.com/freetype/freetype.git
+#    GIT_TAG master
+#    SOURCE_DIR ${DEPS_DIR}/freetype-src
+#    BINARY_DIR ${DEPS_DIR}/freetype-build
+#)
+#FetchContent_MakeAvailable(freetype)
+
+set(SDL_SHARED OFF CACHE BOOL "" FORCE)
+set(SDL_STATIC ON CACHE BOOL "" FORCE)
+set(SDL_TEST OFF CACHE BOOL "" FORCE)
+
+set(SDL_HAPTIC ON CACHE BOOL "" FORCE)
+set(SDL_JOYSTICK ON CACHE BOOL "" FORCE)
+set(SDL_GAMECONTROLLER ON CACHE BOOL "" FORCE)
+
+# Video must be ON (or at least not fully disabled) on Windows
+set(SDL_VIDEO ON CACHE BOOL "" FORCE)
+set(SDL_RENDER OFF CACHE BOOL "" FORCE)
+
+set(SDL_EVENTS ON CACHE BOOL "" FORCE)
+set(SDL_TIMERS ON CACHE BOOL "" FORCE)
+set(SDL_THREADS ON CACHE BOOL "" FORCE)
+
+# Optional: disable subsystems you truly don't need
+set(SDL_POWER OFF CACHE BOOL "" FORCE)
+set(SDL_SENSOR OFF CACHE BOOL "" FORCE)
+set(SDL_FILESYSTEM OFF CACHE BOOL "" FORCE)
+set(SDL_LOADSO OFF CACHE BOOL "" FORCE)
+set(SDL_LOCALE OFF CACHE BOOL "" FORCE)
+set(SDL_MISC OFF CACHE BOOL "" FORCE)
+
 FetchContent_Declare(
-    freetype
-    GIT_REPOSITORY https://github.com/freetype/freetype.git
-    GIT_TAG master
-    SOURCE_DIR ${DEPS_DIR}/freetype-src
-    BINARY_DIR ${DEPS_DIR}/freetype-build
+    SDL3-static
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+    GIT_TAG main
+	SOURCE_DIR ${DEPS_DIR}/sdl3-src
+    BINARY_DIR ${DEPS_DIR}/sdl3-build
 )
-FetchContent_MakeAvailable(freetype)
+FetchContent_MakeAvailable(SDL3-static)
+
 
 # Define the base output directory
 set(BASE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin)

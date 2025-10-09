@@ -48,6 +48,12 @@ namespace bv
 				props.position.x = init_value.parameters.at("position")[0].as<int>();
 				props.position.y = init_value.parameters.at("position")[1].as<int>();
 			}
+			if (init_value.parameters.contains("vsync"))
+			{
+				props.vsync = init_value.parameters.at("vsync").as<bool>();
+			}
+
+
             props.name = init_value.parameters.at("name").as<std::string>();
             props.title = init_value.parameters.at("title").as<std::string>();
             props.width = init_value.parameters.at("size")[0].as<unsigned int>();

@@ -4,9 +4,7 @@
 #include "BeaverEngine/Core/std.h"
 #include "BeaverEngine/Core/GlobalConstants.h"
 
-#include <BeaverENgine/System/WindowSystem.h>
-#include <BeaverENgine/System/ViewSystem.h>
-#include <BeaverENgine/System/TextureSystem.h>
+
 
 namespace bv
 {
@@ -17,10 +15,9 @@ namespace bv
 	}
 
 	ParticleSystem::ParticleSystem(int particle_pool_size)
-		: renderer_(Renderer::getInstance())
+		: renderer_(Renderer::getInstance()), pool_size_(particle_pool_size)
 	{
-		particles_.resize(particle_pool_size);
-		current_pool_index = particle_pool_size - 1;
+
 	}
 
 	void ParticleSystem::setup(std::string_view texture_path, bool interpolate)
@@ -31,72 +28,107 @@ namespace bv
 
 	void ParticleSystem::emitParticle(const ParticleProps& props)
 	{
-		particles_[current_pool_index].emit(props);
-		current_pool_index = --current_pool_index % particles_.size();
+		const auto pair = particles_.begin();
+		emitParticle(props, pair->first, particles_.at(pair->first).begin()->first);
+	}
+
+	void ParticleSystem::emitParticle(const ParticleProps& props, Window* window, View2D* view)
+	{
+		int& current_pool_index_ref = current_pool_index.at(window).at(view);
+		particles_.at(window).at(view).at(current_pool_index.at(window).at(view)).emit(props);
+		current_pool_index_ref = --current_pool_index_ref % particles_.at(window).at(view).size();
+	}
+
+	void ParticleSystem::initializeView(Window* window, View2D* view)
+	{
+		current_pool_index[window][view] = pool_size_ - 1;
+		particles_[window][view].resize(pool_size_);
+
+		vertex_buffer_[window][view] = VertexBuffer<Vertex2D>();
+		index_buffer_[window][view] = IndexBuffer();
 	}
 
 
 	void ParticleSystem::iterate(const Timing& dt)
 	{
+		if (current_pool_index.empty())
+		{
+			initializeView(WindowSystem::getInstance().getMainWindow().lock().get(), ViewSystem::getInstance().getMainView());
+		}
 		updateParticles(dt);
 		renderParticles();
 	}
 
 	void ParticleSystem::updateParticles(const Timing& dt)
 	{
-		for (auto& particle : particles_)
+		for (auto& window : particles_)
 		{
-			if (particle.active)
+			for (auto& view : window.second)
 			{
-				particle.update(dt);
+				for (auto& particle : view.second)
+				{
+					if (particle.active)
+					{
+						particle.update(dt);
+					}
+				}
 			}
 		}
+		
 	}
 
 	void ParticleSystem::renderParticles()
 	{
 		//batching
 
-		const size_t particle_count = particles_.size();
-
-		auto mapped_vertices = vertex_buffer_.mapVertices(0, 4 * particle_count);
-		auto mapped_indices = index_buffer_.mapIndices(0, 6 * particle_count);
-
-		int last_index = 0;
-		for (auto& particle : particles_)
+		for (auto& window : particles_)
 		{
-
-			if (particle.active)
+			for (auto& view : window.second)
 			{
-				const auto& src_verts = particle.vertices;
-				std::transform(src_verts.begin(), src_verts.end(),
-					mapped_vertices.begin() + last_index * 4,
-					[last_index, particle_count](const Vertex2D& v) {
-						Vertex2D vert(v);
-						vert.position.z += last_index / static_cast<float>(particle_count);
-						return vert;
-					});
+				auto& particles = view.second;
 
-				const auto& src_indices = INDICES;
-				std::transform(src_indices.begin(), src_indices.end(),
-					mapped_indices.begin() + last_index * 6,
-					[last_index](unsigned int index) { return index + last_index * 4; });
+				const size_t particle_count = particles_.at(window.first).at(view.first).size();
 
-				last_index++;
-			}
-		}
-		if(last_index > 0)
-		{
-			renderer_->begin2DRender(WindowSystem::getInstance().getMainWindow().lock().get());
+				auto mapped_vertices = vertex_buffer_.at(window.first).at(view.first).mapVertices(0, 4 * particle_count);
+				auto mapped_indices = index_buffer_.at(window.first).at(view.first).mapIndices(0, 6 * particle_count);
 
-			vertex_buffer_.setup();
-			index_buffer_.setup();
+				int last_index = 0;
+				for (auto& particle : particles)
+				{
 
-			texture_->bind();
-			renderer_->render(vertex_buffer_, index_buffer_, WindowSystem::getInstance().getMainWindow().lock().get(), ViewSystem::getInstance().getMainView(), last_index * 6);
+					if (particle.active)
+					{
+						const auto& src_verts = particle.vertices;
+						std::transform(src_verts.begin(), src_verts.end(),
+							mapped_vertices.begin() + last_index * 4,
+							[last_index, particle_count](const Vertex2D& v) {
+								Vertex2D vert(v);
+								vert.position.z += last_index / static_cast<float>(particle_count);
+								return vert;
+							});
+
+						const auto& src_indices = INDICES;
+						std::transform(src_indices.begin(), src_indices.end(),
+							mapped_indices.begin() + last_index * 6,
+							[last_index](unsigned int index) { return index + last_index * 4; });
+
+						last_index++;
+					}
+				}
+				if(last_index > 0)
+				{
+					renderer_->begin2DRender(window.first);
+
+					vertex_buffer_.at(window.first).at(view.first).setup();
+					index_buffer_.at(window.first).at(view.first).setup();
+
+					texture_->bind();
+					renderer_->render(vertex_buffer_.at(window.first).at(view.first), index_buffer_.at(window.first).at(view.first), window.first, view.first, last_index * 6);
 		
-			renderer_->end2DRender();
+					renderer_->end2DRender();
 
+				}
+			}
 		}
 	}
 }

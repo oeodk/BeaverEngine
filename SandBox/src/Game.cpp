@@ -13,6 +13,7 @@ namespace sandbox
 		addSystem<bv::LogicSystem>();
 		addSystem<bv::ColliderSystem>();
 		addSystem<bv::DisplaySystem>();
+		addSystem<bv::ParticleSystem>();
 		addSystem<bv::InputSystem>();
 	}
 	void Game::registerComponent() const

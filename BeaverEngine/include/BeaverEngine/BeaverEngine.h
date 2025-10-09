@@ -18,6 +18,7 @@
 #include <BeaverEngine/System/EntitySystem.h>
 #include <BeaverEngine/System/InputSystem.h>
 #include <BeaverEngine/System/LogicSystem.h>
+#include <BeaverEngine/System/ParticleSystem.h>
 #include <BeaverEngine/System/TextureSystem.h>
 #include <BeaverEngine/System/ViewSystem.h>
 #include <BeaverEngine/System/WindowSystem.h>

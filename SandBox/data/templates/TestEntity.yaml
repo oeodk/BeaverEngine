@@ -7,19 +7,20 @@
         y: 0
         z: 0
       Sprite:
-        color: [1,0,0,1]
-        layer: "DecorationLayerEntity"
+        color: [1,1,1,1]
+        layer: "EmptyLayer"
         rotationAngle: 0
-      TestComponent:
-        testVar: 1
-      ColliderTestComponent:
-      RectangleCollider:
-        handler: "ColliderTestComponent"
-        mask: 1
-        flag: 1
-        size: [50,50]
-        rotationAngle: 0
-        rotationAngle: 0
+        baseAnimation: "top_walk"
+     #TestComponent:
+      #  testVar: 1
+      #ColliderTestComponent:
+      #RectangleCollider:
+      #  handler: "ColliderTestComponent"
+      #  mask: 1
+      #  flag: 1
+      #  size: [50,50]
+      #  rotationAngle: 0
+      #  rotationAngle: 0
 
         
     

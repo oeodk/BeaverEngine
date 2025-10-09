@@ -78,7 +78,7 @@ namespace bv
 		void playAnimationOnce(std::string_view animation, std::string_view new_animation);
 
 
-		// the new layer need to use the same spritesheet as the previous layer, or change animation accordingly
+		// the new layer need to use the same animations name as the previous layer, or change animation accordingly
 		void setLayer(LayerComponent* layer) { layer_ = layer; }
 
 		// For internal use
