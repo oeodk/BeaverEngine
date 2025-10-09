@@ -17,8 +17,8 @@ namespace bv
        void setData(std::string_view var_name, const glm::vec4& data) override;
        void setData(std::string_view var_name, const glm::mat4& data) override;
 
-       void render(const VertexBuffer<Vertex2D>& vertex_buffer, const IndexBuffer& index_buffer, Window* window, View2D* view) override;
-       void render(const VertexBuffer<Vertex3D>& vertex_buffer, const IndexBuffer& index_buffer, Window* window/*, Camera* camera*/) override;
+       void render(const VertexBuffer<Vertex2D>& vertex_buffer, const IndexBuffer& index_buffer, Window* window, View2D* view, unsigned int index_count = 0) override;
+       void render(const VertexBuffer<Vertex3D>& vertex_buffer, const IndexBuffer& index_buffer, Window* window/*, Camera* camera*/, unsigned int index_count = 0) override;
 
        void begin2DRender(Window* window) const override;       
        void begin3DRender(Window* window) const override;
@@ -59,6 +59,8 @@ namespace bv
 
         GLuint shader_program_2d_;
         std::map<std::string, GLint> uniforms_location_2d_;
+
+        bool setup_ = false;
     };
 }
 

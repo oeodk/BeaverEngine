@@ -32,8 +32,8 @@ namespace bv
 		virtual void setData(std::string_view var_name, const glm::mat4& data) = 0;
 		//Uniform set for texture to add
 
-		virtual void render(const VertexBuffer<Vertex2D>& vertex_buffer, const IndexBuffer& index_buffer, Window* window, View2D* view) = 0;
-		virtual void render(const VertexBuffer<Vertex3D>& vertex_buffer, const IndexBuffer& index_buffer, Window* window/*, Camera* camera*/) = 0;
+		virtual void render(const VertexBuffer<Vertex2D>& vertex_buffer, const IndexBuffer& index_buffer, Window* window, View2D* view, unsigned int index_count = 0) = 0;
+		virtual void render(const VertexBuffer<Vertex3D>& vertex_buffer, const IndexBuffer& index_buffer, Window* window/*, Camera* camera*/, unsigned int index_count = 0) = 0;
 
 		virtual void begin2DRender(Window* window) const = 0;
 		virtual void begin3DRender(Window* window) const = 0;

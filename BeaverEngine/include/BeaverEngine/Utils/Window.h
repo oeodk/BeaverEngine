@@ -8,7 +8,7 @@ namespace bv
     class Window;
     struct WindowProperties
     {
-        WindowProperties(std::string_view w_name = "", std::string_view w_title = "Beaver Engine", unsigned int w_width = 1280, unsigned int w_height = 720, glm::vec4 w_color = glm::vec4(0, 0, 0, 1), Window* w_shared = nullptr, bool w_resizable = true, bool w_decorate = true, glm::ivec2 w_position = glm::ivec2())
+        WindowProperties(std::string_view w_name = "", std::string_view w_title = "Beaver Engine", unsigned int w_width = 1280, unsigned int w_height = 720, glm::vec4 w_color = glm::vec4(0, 0, 0, 1), Window* w_shared = nullptr, bool w_resizable = true, bool w_decorate = true, glm::ivec2 w_position = glm::ivec2(), bool vsync = true)
             : name(w_name), title(w_title), width(w_width), height(w_height), color(w_color), shared(w_shared), resizable(w_resizable), decorate(w_decorate), position(w_position)
         {
             
@@ -19,6 +19,7 @@ namespace bv
         unsigned int width ;
         bool resizable;
         bool decorate;
+        bool vsync;
         glm::vec4 color;
         glm::ivec2 position;
         Window* shared;

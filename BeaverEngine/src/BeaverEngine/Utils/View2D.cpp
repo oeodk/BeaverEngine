@@ -107,7 +107,9 @@ namespace bv
 		view_center_window_coord += glm::vec2{ window->getWidth() * viewport_pos_.x, window->getHeight() * viewport_pos_.y };
 		view_center_window_coord *= viewport_size_;
 
-		return (window_position - view_center_window_coord) / viewport_size_;
+		glm::vec2 out = (window_position - view_center_window_coord) / viewport_size_;
+		out.y = -out.y;
+		return out;
 	}
 
 

@@ -49,10 +49,12 @@ namespace bv
 
 		virtual ~Game() = default;
 
+		virtual void initializeUtils();
+
 		virtual void setupSystem() = 0;
 		virtual void registerComponent() const = 0;
 
-		void setInitFunction(InitFunction init_fuction) { init_function_ = init_fuction; }
+		void setInitFunction(InitFunction init_function) { init_function_ = init_function; }
 
 #ifndef SHIPPING
 		virtual void defineDebugDataPath()

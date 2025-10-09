@@ -99,7 +99,10 @@ namespace bv
 		{
 			glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 		}
-		glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
+		if (properties.background_color.a < 1)
+		{
+			glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
+		}
 		GLFWwindow* shared_window = nullptr;
 		if (props.shared != nullptr)
 		{
@@ -108,7 +111,7 @@ namespace bv
 		}
 		window_ = glfwCreateWindow(properties.width, properties.height, properties.title.c_str(), NULL, shared_window);
 		glfwMakeContextCurrent(window_);
-		setVSync(true);
+		setVSync(props.vsync);
 
 		if (!glad_init)
 		{

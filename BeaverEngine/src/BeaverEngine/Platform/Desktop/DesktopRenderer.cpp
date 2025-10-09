@@ -15,28 +15,34 @@ namespace bv
 
 	void DesktopRenderer::setup()
 	{
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		if(!setup_)
+		{
+			glEnable(GL_DEPTH_TEST);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-		loadShader(shader_program_2d_, constants:: SHADERS_PATH + "Desktop/2d_render.vert", constants::SHADERS_PATH + "Desktop/2d_render.frag");
+			loadShader(shader_program_2d_, constants::SHADERS_PATH + "Desktop/2d_render.vert", constants::SHADERS_PATH + "Desktop/2d_render.frag");
 
-		uniforms_location_2d_.insert({ "u_projection_view", 0 });
-		uniforms_location_2d_.at("u_projection_view") = glGetUniformLocation(shader_program_2d_, "u_projection_view");
+			uniforms_location_2d_.insert({ "u_projection_view", 0 });
+			uniforms_location_2d_.at("u_projection_view") = glGetUniformLocation(shader_program_2d_, "u_projection_view");
 
-		//uniforms_location_2d_.insert({ "u_color", 0 });
-		//uniforms_location_2d_.at("u_color") = glGetUniformLocation(shader_program_2d_, "u_color");
+			//uniforms_location_2d_.insert({ "u_color", 0 });
+			//uniforms_location_2d_.at("u_color") = glGetUniformLocation(shader_program_2d_, "u_color");
 
-		uniforms_location_2d_.insert({ "u_width", 0 });
-		uniforms_location_2d_.at("u_width") = glGetUniformLocation(shader_program_2d_, "u_width");
+			uniforms_location_2d_.insert({ "u_width", 0 });
+			uniforms_location_2d_.at("u_width") = glGetUniformLocation(shader_program_2d_, "u_width");
 
-		uniforms_location_2d_.insert({ "u_height", 0 });
-		uniforms_location_2d_.at("u_height") = glGetUniformLocation(shader_program_2d_, "u_height");
+			uniforms_location_2d_.insert({ "u_height", 0 });
+			uniforms_location_2d_.at("u_height") = glGetUniformLocation(shader_program_2d_, "u_height");
 
-		uniforms_location_2d_.insert({ "u_texture_sampler", 0 });
-		uniforms_location_2d_.at("u_texture_sampler") = glGetUniformLocation(shader_program_2d_, "u_texture_sampler");
+			uniforms_location_2d_.insert({ "u_texture_sampler", 0 });
+			uniforms_location_2d_.at("u_texture_sampler") = glGetUniformLocation(shader_program_2d_, "u_texture_sampler");
+
+			setup_ = true;
+		}
 	}
+
 	void DesktopRenderer::setData(std::string_view var_name, int data)
 	{
 		if (constants::RENDER_MODE == RenderDimension::RENDER_2D)
@@ -104,7 +110,7 @@ namespace bv
 			// 3D uniform set
 		}
 	}
-	void DesktopRenderer::render(const VertexBuffer<Vertex2D>& vertex_buffer, const IndexBuffer& index_buffer, Window* window, View2D* view)
+	void DesktopRenderer::render(const VertexBuffer<Vertex2D>& vertex_buffer, const IndexBuffer& index_buffer, Window* window, View2D* view, unsigned int index_count)
 	{
 		const unsigned int window_width = window->getWidth();
 		const unsigned int window_height = window->getHeight();
@@ -123,8 +129,14 @@ namespace bv
 		printGlError();
 
 		//Texture things
-
-		glDrawElements(GL_TRIANGLES, index_buffer.getIndexCount(), GL_UNSIGNED_INT, nullptr);
+		if (index_count == 0)
+		{
+			glDrawElements(GL_TRIANGLES, index_buffer.getIndexCount(), GL_UNSIGNED_INT, nullptr);
+		}
+		else
+		{
+			glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, nullptr);
+		}
 
 		printGlError();
 
@@ -136,7 +148,7 @@ namespace bv
 		//Texture things
 	}
 
-	void DesktopRenderer::render(const VertexBuffer<Vertex3D>& vertex_buffer, const IndexBuffer& index_buffer, Window* window/*, Camera* camera*/)
+	void DesktopRenderer::render(const VertexBuffer<Vertex3D>& vertex_buffer, const IndexBuffer& index_buffer, Window* window/*, Camera* camera*/, unsigned int index_count)
 	{
 
 	}

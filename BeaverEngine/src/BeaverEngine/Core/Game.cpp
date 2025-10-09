@@ -29,9 +29,12 @@ namespace bv
 #endif
 #endif // !SHIPPING
 
+		initializeUtils();
+
 		registerBasicComponent();
 		registerComponent();
 		setupSystem();
+
 
 		addSystem<bv::EntitySystem>();
 
@@ -42,6 +45,10 @@ namespace bv
 			if (auto* display_system = dynamic_cast<DisplaySystem*>(system))
 			{
 				display_system->setup();
+			}
+			if (auto*particle_system = dynamic_cast<ParticleSystem*>(system))
+			{
+				particle_system->setup();
 			}
 		}
 
@@ -80,5 +87,10 @@ namespace bv
 		}
 
 		return true;
+	}
+
+	void Game::initializeUtils()
+	{
+		Random::init();
 	}
 }

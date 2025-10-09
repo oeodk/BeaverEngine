@@ -1,4 +1,5 @@
 #pragma once
+#include <BeaverEngine/Core/std.h>
 #include <glm/glm.hpp>
 namespace bv
 {
@@ -15,6 +16,24 @@ namespace bv
 
 		glm::vec2 pos{};
 		glm::vec2 size{1, 1};
+	};
+
+	class Random
+	{
+	public:
+		static void init()
+		{
+			s_RandomEngine.seed(std::random_device()());
+		}
+
+		static float randomFloat()
+		{
+			return (float)s_Distribution(s_RandomEngine) / (float)std::numeric_limits<uint32_t>::max();
+		}
+
+	private:
+		static std::mt19937 s_RandomEngine;
+		static std::uniform_int_distribution<std::mt19937::result_type> s_Distribution;
 	};
 }
 
