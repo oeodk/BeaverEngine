@@ -78,14 +78,12 @@ void sandbox::TestEntitySpawnerComponent::updateLogic(const bv::Timing& dt)
 		window->setSize(window->getWidth(), window->getHeight() - 10);
 
 	//std::cout << bv::InputSystem::getInstance().getJoystickAxisValue(bv::Axis::RIGHT_X) << std::endl;
-	if (bv::InputSystem::getInstance().isMouseButtonHeld(bv::Mouse::LEFT))
+	if (bv::InputSystem::getInstance().isKeyPressed(bv::Key::ENTER))
 	{
-		owner().getComponent<bv::ParticleEmitterComponent>()->emit(50, glm::vec3(0,0,0));
-
 		glm::vec2 pos = bv::ViewSystem::getInstance().getMainView()->mapPixelToCoords({ bv::InputSystem::getInstance().getScreenMousePosition().x , bv::InputSystem::getInstance().getScreenMousePosition().y });
 		
 		owner().getComponent<bv::PositionComponent>()->setPosition(pos);
-		owner().getComponent<bv::ParticleEmitterComponent>()->emit(100, glm::vec3(0, 0, 0));
+		owner().getComponent<bv::ParticleEmitterComponent>()->emit(10000, glm::vec3(0, 0, 0));
 		
 		//std::cout << pos.x << " | " << pos.y << std::endl;
 	}

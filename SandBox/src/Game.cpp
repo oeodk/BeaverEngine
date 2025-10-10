@@ -15,6 +15,8 @@ namespace sandbox
 		addSystem<bv::DisplaySystem>();
 		addSystem<bv::ParticleSystem>();
 		addSystem<bv::InputSystem>();
+
+		bv::ParticleSystem::getInstance().setPoolSize(100000);
 	}
 	void Game::registerComponent() const
 	{

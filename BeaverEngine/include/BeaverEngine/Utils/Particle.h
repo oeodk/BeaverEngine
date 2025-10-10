@@ -44,8 +44,13 @@ namespace bv
 		std::array<Vertex2D, 4> vertices;
 		std::array<glm::vec2, 4> texture_coords;
 
+		size_t active_index = 0;
+
 	private:
 		float inv_texture_width = 0, inv_texture_height = 0;
-
+		std::array<glm::vec3, 4> points_{};
+		glm::quat rotation_;
+		float s;
+		float c;
 	};
 }

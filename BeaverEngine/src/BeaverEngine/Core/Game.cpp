@@ -71,7 +71,7 @@ namespace bv
 				system->iterate({ dt, frame });
 			}
 
-#ifdef DEBUG
+#ifndef SHIPPING
 
 			auto current_time2 = std::chrono::high_resolution_clock::now();
 

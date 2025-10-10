@@ -34,9 +34,13 @@ namespace bv
 
 	void ParticleSystem::emitParticle(const ParticleProps& props, Window* window, View2D* view)
 	{
-		int& current_pool_index_ref = current_pool_index.at(window).at(view);
+		uint32_t& current_pool_index_ref = current_pool_index.at(window).at(view);
 		particles_.at(window).at(view).at(current_pool_index.at(window).at(view)).emit(props, texture_);
-		current_pool_index_ref = --current_pool_index_ref % particles_.at(window).at(view).size();
+		current_pool_index_ref = --current_pool_index_ref % static_cast<size_t>(pool_size_);
+		if (current_pool_index_ref == 0)
+		{
+			current_pool_index_ref = pool_size_ - 1;
+		}
 	}
 
 	void ParticleSystem::initializeView(Window* window, View2D* view)
@@ -55,8 +59,69 @@ namespace bv
 		{
 			initializeView(WindowSystem::getInstance().getMainWindow().lock().get(), ViewSystem::getInstance().getMainView());
 		}
-		updateParticles(dt);
-		renderParticles();
+		for (auto& window : particles_)
+		{
+			for (auto& view : window.second)
+			{
+				int last_index = 0;
+
+				for (auto& particle : view.second)
+				{
+					if (particle.active)
+					{
+						particle.active_index = last_index;
+						last_index++;
+					}
+				}
+
+				auto& particles = view.second;
+
+				const size_t particle_count = particles_.at(window.first).at(view.first).size();
+
+				auto mapped_vertices = vertex_buffer_.at(window.first).at(view.first).mapVertices(0, 4 * particle_count);
+				auto mapped_indices = index_buffer_.at(window.first).at(view.first).mapIndices(0, 6 * particle_count);
+
+
+				std::for_each(std::execution::par,
+					view.second.begin(), view.second.end(),
+					[dt, &mapped_vertices, &mapped_indices, particle_count](Particle& particle)
+					{
+						if (particle.active)
+						{
+							particle.update(dt);
+
+							const auto& src_verts = particle.vertices;
+							std::transform(src_verts.begin(), src_verts.end(),
+								mapped_vertices.begin() + particle.active_index * 4,
+								[&particle, particle_count](const Vertex2D& v) {
+									Vertex2D vert(v);
+									vert.position.z += particle.active_index / static_cast<float>(particle_count);
+									return vert;
+								});
+
+							const auto& src_indices = INDICES;
+							std::transform(src_indices.begin(), src_indices.end(),
+								mapped_indices.begin() + particle.active_index * 6,
+								[&particle](unsigned int index) { return index + particle.active_index * 4; });
+						}
+					});
+				if (last_index > 0)
+				{
+					renderer_->begin2DRender(window.first);
+
+					vertex_buffer_.at(window.first).at(view.first).setup();
+					index_buffer_.at(window.first).at(view.first).setup();
+
+					texture_->bind();
+					renderer_->render(vertex_buffer_.at(window.first).at(view.first), index_buffer_.at(window.first).at(view.first), window.first, view.first, last_index * 6);
+
+					renderer_->end2DRender();
+
+				}
+			}
+		}
+		//updateParticles(dt);
+		//renderParticles();
 	}
 
 	void ParticleSystem::updateParticles(const Timing& dt)
@@ -65,13 +130,13 @@ namespace bv
 		{
 			for (auto& view : window.second)
 			{
-				for (auto& particle : view.second)
-				{
-					if (particle.active)
+				std::for_each(std::execution::par,
+					view.second.begin(), view.second.end(),
+					[dt](auto& particle)
 					{
-						particle.update(dt);
-					}
-				}
+						if (particle.active)
+							particle.update(dt);
+					});
 			}
 		}
 		

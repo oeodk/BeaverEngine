@@ -126,9 +126,8 @@ namespace bv
 			particle_properties_.velocity_variation = dir * particle_velocity_variation_;
 
 			particle_properties_.rotation_angle = Random::randomFloat() * 360;
-		}
-
 		ParticleSystem::getInstance().emitParticle(particle_properties_);
+		}
 	}
 
 	void ParticleEmitterComponent::emitSquare(unsigned int particle_count, const glm::vec3& direction)
@@ -184,9 +183,8 @@ namespace bv
 				particle_properties_.velocity_variation = direction * particle_velocity_variation_;
 			}
 			particle_properties_.rotation_angle = Random::randomFloat() * 360;
-		}
-
 		ParticleSystem::getInstance().emitParticle(particle_properties_);
+		}
 	}
 
 	void ParticleEmitterComponent::emitCircle(unsigned int particle_count, const glm::vec3& direction)
@@ -230,19 +228,18 @@ namespace bv
 			particle_properties_.position.z = position.z;
 
 			particle_properties_.rotation_angle = Random::randomFloat() * 360;
-		}
-
 		ParticleSystem::getInstance().emitParticle(particle_properties_);
+		}
 	}
 
 	void ParticleEmitterComponent::EmitPoint(unsigned int particle_count, const glm::vec3& direction)
 	{
 		particle_properties_.position = owner().getComponent<PositionComponent>()->getWorldPosition();
-		for (int i = 0; i< particle_count; i++)
+		for (int i = 0; i < particle_count; i++)
 		{
 			if (direction == NULL_VEC)
 			{
-				const glm::vec3 dir{ bv::Random::randomFloat() - 0.5, bv::Random::randomFloat() - 0.5 ,0 };
+				const glm::vec3 dir = glm::normalize(glm::vec3{ bv::Random::randomFloat() - 0.5, bv::Random::randomFloat() - 0.5 ,0 });
 				particle_properties_.velocity = dir * particle_velocity_;
 				particle_properties_.velocity_variation = dir * particle_velocity_variation_;
 			}
@@ -252,9 +249,9 @@ namespace bv
 				particle_properties_.velocity_variation = direction * particle_velocity_variation_;
 			}
 			particle_properties_.rotation_angle = Random::randomFloat() * 360;
+			ParticleSystem::getInstance().emitParticle(particle_properties_);
 		}
 
-		ParticleSystem::getInstance().emitParticle(particle_properties_);
 	}
 }
 

@@ -62,6 +62,7 @@ namespace bv
             {"lifespan_var"  , LIFESPAN_VARIATION},
             {"primitive"     , PRIMITIVE},
             {"velocity"      , VELOCITY},
+            {"velocity_var"  , VELOCITY_VARIATION},
             {"circle_radius" , PRIMITIVE_PARAMETER},
             {"square_size"   , PRIMITIVE_PARAMETER},
             {"fountain_angle", PRIMITIVE_PARAMETER},

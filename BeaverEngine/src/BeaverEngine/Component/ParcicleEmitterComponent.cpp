@@ -212,7 +212,7 @@ namespace bv
 		{
 			if (direction == NULL_VEC)
 			{
-				const glm::vec3 dir{ bv::Random::randomFloat() - 0.5, bv::Random::randomFloat() - 0.5 ,0 };
+				const glm::vec3 dir = glm::normalize(glm::vec3{ bv::Random::randomFloat() - 0.5, bv::Random::randomFloat() - 0.5 ,0 });
 				particle_properties_.velocity = dir * particle_velocity_;
 				particle_properties_.velocity_variation = dir * particle_velocity_variation_;
 			}

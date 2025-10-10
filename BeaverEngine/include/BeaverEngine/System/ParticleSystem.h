@@ -34,12 +34,16 @@ namespace bv
             void emitParticle(const ParticleProps& props, Window* window, View2D* view);
 
             void initializeView(Window* window, View2D* view);
+            void setPoolSize(int particle_pool_size)
+            {
+                pool_size_ = particle_pool_size;
+            }
         private:
             void updateParticles(const Timing& dt);
             void renderParticles();
         
             std::unordered_map<Window*, std::unordered_map<View2D*, std::vector<Particle>>> particles_;
-            std::unordered_map<Window*, std::unordered_map<View2D*, int>>  current_pool_index;
+            std::unordered_map<Window*, std::unordered_map<View2D*, uint32_t >>  current_pool_index;
 
             Renderer* renderer_{};
 
