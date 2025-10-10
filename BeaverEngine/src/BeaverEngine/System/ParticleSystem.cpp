@@ -35,7 +35,7 @@ namespace bv
 	void ParticleSystem::emitParticle(const ParticleProps& props, Window* window, View2D* view)
 	{
 		int& current_pool_index_ref = current_pool_index.at(window).at(view);
-		particles_.at(window).at(view).at(current_pool_index.at(window).at(view)).emit(props);
+		particles_.at(window).at(view).at(current_pool_index.at(window).at(view)).emit(props, texture_);
 		current_pool_index_ref = --current_pool_index_ref % particles_.at(window).at(view).size();
 	}
 

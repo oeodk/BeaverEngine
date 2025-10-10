@@ -7,6 +7,7 @@
 #include "BeaverEngine/Component/CircleColliderComponent.h"
 #include "BeaverEngine/Component/IntGridColliderComponent.h"
 #include "BeaverEngine/Component/LayerComponent.h"
+#include "BeaverEngine/Component/ParticleEmitterComponent.h"
 #include "BeaverEngine/Component/View2DComponent.h"
 #include "BeaverEngine/Component/WindowComponent.h"
 
@@ -19,6 +20,7 @@ namespace bv
 		Component::Register<CircleColliderComponent>();
 		Component::Register<IntGridColliderComponent>();
 		Component::Register<LayerComponent>();
+		Component::Register<ParticleEmitterComponent>();
 		Component::Register<PositionComponent>();
 		Component::Register<RectangleColliderComponent>();
 		Component::Register<SpriteComponent>();

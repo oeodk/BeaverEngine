@@ -114,8 +114,26 @@
   description:
     children:
     components:
+      Position:
+        x : 0
+        y : 0
+        z : 10
       TestEntitySpawnerComponent:
         path: "data/templates/TestEntity.yaml"
+      ParticleEmitter:
+        start_color: [1,0,0,1]
+        end_color: [0,0,1,0]
+        start_size : [10,10]
+        end_size: [1,1]
+        animation: "circle"
+        lifespan: 1
+        lifespan_var: 0.5
+        primitive: "square"
+        velocity: 0
+        velocity_var: 0
+        circle_radius: 25
+        emit_outer: true
+        
 - name : "SoloSprite"
   description:
     children:

@@ -23,17 +23,25 @@ namespace bv
 	public:
 		static void init()
 		{
-			s_RandomEngine.seed(std::random_device()());
+			random_engine.seed(std::random_device()());
+			normal_distribution = std::normal_distribution<float>(0.f);
 		}
 
 		static float randomFloat()
 		{
-			return (float)s_Distribution(s_RandomEngine) / (float)std::numeric_limits<uint32_t>::max();
+			return (float)uniform_distribution(random_engine) / (float)std::numeric_limits<uint32_t>::max();
+		}
+
+		static float randomNormal()
+		{
+			return normal_distribution(random_engine);
 		}
 
 	private:
-		static std::mt19937 s_RandomEngine;
-		static std::uniform_int_distribution<std::mt19937::result_type> s_Distribution;
+		inline static std::mt19937 random_engine;
+		inline static std::uniform_int_distribution<std::mt19937::result_type> uniform_distribution;
+		inline static std::normal_distribution<float> normal_distribution;
+
 	};
 }
 

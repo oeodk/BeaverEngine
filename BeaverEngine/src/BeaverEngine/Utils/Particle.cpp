@@ -3,7 +3,7 @@
 namespace bv
 {
 
-	void Particle::emit(const ParticleProps& props)
+	void bv::Particle::emit(const ParticleProps& props, std::shared_ptr<Texture2D> texture)
 	{
 		position = props.position;
 		rotation_angle = props.rotation_angle;
@@ -25,11 +25,36 @@ namespace bv
 		velocity.z += props.velocity_variation.z * (Random::randomFloat() - 0.5) * 2;
 
 		active = true;
+		if(props.animation_name == "")
+		{
+			texture_coords[0] = { 0.f, 0.f };
+			texture_coords[1] = { 1.f, 0.f };
+			texture_coords[2] = { 1.f, 1.f };
+			texture_coords[3] = { 0.f, 1.f };
+		}
+		else
+		{
+			float dt = 0;
+			FloatRect texture_rect{ texture->getSpriteCoordinate(props.animation_name, dt), texture->getSpriteSize(props.animation_name) };
+		
+			if (inv_texture_width == 0 && inv_texture_height == 0)
+			{
+				inv_texture_width = 1.f / texture->getWidth();
+				inv_texture_height = 1.f / texture->getHeight();
+			}
+			
+			texture_coords[0].x = texture_rect.pos.x * inv_texture_width;
+			texture_coords[1].y = 1 - texture_rect.pos.y * inv_texture_height;
 
-		texture_coords[0] = {0.f, 0.f};
-		texture_coords[1] = {1.f, 0.f};
-		texture_coords[2] = {1.f, 1.f};
-		texture_coords[3] = {0.f, 1.f};
+			texture_coords[1].x = texture_rect.pos.x * inv_texture_width;
+			texture_coords[0].y = 1 - (texture_rect.pos.y + texture_rect.size.y) * inv_texture_height;
+
+			texture_coords[2].x = (texture_rect.pos.x + texture_rect.size.x) * inv_texture_width;
+			texture_coords[3].y = 1 - (texture_rect.pos.y + texture_rect.size.y) * inv_texture_height;
+
+			texture_coords[3].x = (texture_rect.pos.x + texture_rect.size.x) * inv_texture_width;
+			texture_coords[2].y = 1 - texture_rect.pos.y * inv_texture_height;
+		}
 	}
 
 	void Particle::update(const Timing& dt)
