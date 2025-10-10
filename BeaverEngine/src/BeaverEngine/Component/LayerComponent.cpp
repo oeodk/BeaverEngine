@@ -103,38 +103,45 @@ namespace bv
 	void LayerComponent::display(Renderer* renderer, const Timing& dt)
 	{
 		std::vector<SpriteComponent*> sorted_sprite;
-		sorted_sprite.reserve(std::size(sprites_));
-		if(sort_sprites_)
+		if(!sprites_.empty())
 		{
-			std::sort(std::execution::par, sprites_.begin(), sprites_.end(),
-				[](const SpriteComponent* s1, const SpriteComponent* s2) {
-					return SpriteComponent::compareSpritesPosition(s2, s1);
+			sorted_sprite.reserve(std::size(sprites_));
+			if (sort_sprites_)
+			{
+				std::sort(std::execution::par, sprites_.begin(), sprites_.end(),
+					[](const SpriteComponent* s1, const SpriteComponent* s2) {
+						return SpriteComponent::compareSpritesPosition(s2, s1);
+					});
+			}
+			std::copy_if(sprites_.begin(), sprites_.end(), std::back_inserter(sorted_sprite),
+				[](const SpriteComponent* sprite) {
+					return sprite->enabled() && sprite->owner().active() && sprite->willRender();
 				});
+
+			const size_t sprite_count = std::size(sorted_sprite);
+
+			auto mapped_vertices = vertex_buffer_.mapVertices(0, 4 * sprite_count);
+			auto mapped_indices = index_buffer_.mapIndices(0, 6 * sprite_count);
+
+			float layer_z = owner().getComponent<PositionComponent>()->getWorldPosition().z;
+
+			auto range = std::views::iota(static_cast<size_t>(0), sprite_count);
+
+			std::for_each(std::execution::par, range.begin(), range.end(),
+				[&](int i) {
+					addSpriteToLayer(i, layer_z, sprite_count, sorted_sprite, mapped_vertices, mapped_indices);
+				});
+
+			if(sprite_count != 0)
+			{
+				vertex_buffer_.setup();
+				index_buffer_.setup();
+
+				texture_->bind();
+				renderer->render(vertex_buffer_, index_buffer_, window_to_render_.lock().get(), view_to_render_, sprite_count * 6);
+			}
+
 		}
-		std::copy_if(sprites_.begin(), sprites_.end(), std::back_inserter(sorted_sprite),
-			[](const SpriteComponent* sprite) {
-				return sprite->enabled() && sprite->owner().active() && sprite->willRender();
-			});
-
-		const size_t sprite_count = std::size(sorted_sprite);
-
-		auto mapped_vertices = vertex_buffer_.mapVertices(0, 4 * sprite_count);
-		auto mapped_indices = index_buffer_.mapIndices(0, 6 * sprite_count);
-
-		float layer_z = owner().getComponent<PositionComponent>()->getWorldPosition().z;
-
-		auto range = std::views::iota(static_cast<size_t>(0), sprite_count);
-
-		std::for_each(std::execution::par, range.begin(), range.end(),
-			[&](int i) {
-				addSpriteToLayer(i, layer_z, sprite_count, sorted_sprite, mapped_vertices, mapped_indices);
-			});
-		vertex_buffer_.setup();
-		index_buffer_.setup();
-
-		texture_->bind();
-		renderer->render(vertex_buffer_, index_buffer_, window_to_render_.lock().get(), view_to_render_, sprite_count * 6);
-		
 	}
 
 	void LayerComponent::initTexture(const Description& value, bool interpolate)
