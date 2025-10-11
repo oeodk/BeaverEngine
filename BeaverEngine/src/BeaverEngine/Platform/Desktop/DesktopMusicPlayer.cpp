@@ -29,6 +29,11 @@ namespace bv
 	{
 		ALint processed, state;
 
+		ALint looping = 0;
+		alGetSourcei(source_, AL_LOOPING, &looping);
+
+		alSourcei(source_, AL_LOOPING, AL_FALSE);
+
 		// clear error 
 		alGetError();
 		/* Get relevant source info */
@@ -52,8 +57,7 @@ namespace bv
 			 * back on the source */
 			slen = sf_readf_short(sndFile_, membuf_, BUFFER_SAMPLES);
 
-			ALint looping = 0;
-			alGetSourcei(source_, AL_LOOPING, &looping);
+			
 
 			if (slen == 0 && looping == AL_TRUE)  // End of file, restart from the beginning
 			{
@@ -90,6 +94,9 @@ namespace bv
 				throw("error restarting music playback");
 			}
 		}
+
+		alSourcei(source_, AL_LOOPING, looping);
+
 	}
 
 	void DesktopMusicPlayer::play(const AudioData& sound, const void* owner)
