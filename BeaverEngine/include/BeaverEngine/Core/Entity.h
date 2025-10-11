@@ -15,6 +15,8 @@ namespace bv
         void removeChild(EntityRef child);
         void removeChild(Entity& child) { removeChild(child.shared_from_this()); }
 
+        void removeChildren();
+
         void resolve()
         {
             for (auto& component : components_)

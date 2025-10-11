@@ -20,6 +20,17 @@ namespace bv
 		}
 	}
 
+	void Entity::removeChildren()
+	{
+		for (auto child : childrens_)
+		{
+			EntitySystem::remove(child);
+			child->parent_.reset();
+		}
+		childrens_.clear();
+		children_by_name_.clear();
+	}
+
 	Component* Entity::addComponent(std::string_view type, const ComponentDescription& init_value)
 	{
 		auto result = components_.emplace(type, Component::Create(type, *this));
