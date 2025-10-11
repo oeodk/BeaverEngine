@@ -36,8 +36,8 @@ namespace bv
         void setRelativePosition(float x, float y, float z);
 
         void move(const glm::vec3& new_pos) { move(new_pos.x, new_pos.y, new_pos.z); }
-        void move(const glm::vec2& new_pos) { move(new_pos.x, new_pos.y, position_.z); }
-        void move(float x, float y) { move(x, y, position_.z); }
+        void move(const glm::vec2& new_pos) { move(new_pos.x, new_pos.y, 0.f); }
+        void move(float x, float y) { move(x, y, 0.f); }
         void move(float x, float y, float z);
 
         const glm::vec3& getWorldPosition() const { return position_; }
