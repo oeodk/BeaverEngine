@@ -26,6 +26,7 @@ namespace bv
 		RenderDimension::Type dimension_;
 
 		Window* getWindow()const { return window_to_render_.lock().get(); }
+		bool render_last_ = false;
 	protected:
 		std::weak_ptr<Window> window_to_render_;
 	};

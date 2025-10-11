@@ -29,8 +29,14 @@ namespace bv
 		std::vector<DisplayComponent*> sorted_display_component(display_components_.begin(), display_components_.end());
 		std::sort(sorted_display_component.begin(), sorted_display_component.end(),
 			[](DisplayComponent* a, DisplayComponent* b) {
-				return a->owner().getComponent<PositionComponent>()->getWorldPosition()[2] <
-					b->owner().getComponent<PositionComponent>()->getWorldPosition()[2];
+				// If one of them should render last, handle that first
+				if (a->render_last_ != b->render_last_)
+					return !a->render_last_;  // 'false' (render_last_ == true) ¨ goes after
+
+				// Otherwise, sort by Z position
+				float za = a->owner().getComponent<PositionComponent>()->getWorldPosition()[2];
+				float zb = b->owner().getComponent<PositionComponent>()->getWorldPosition()[2];
+				return za < zb;
 			});
 		// Maybe sort based on transparency
 		for (auto& display_component : sorted_display_component)

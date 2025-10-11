@@ -45,7 +45,7 @@ namespace bv
 				{
 					bool interpolate = false;
 
-					if (init_value.parameters.contains("interpolate_texture") && init_value.parameters.at("interpolate_texture").as<bool>() == true)
+					if (init_value.parameters.contains("interpolateTexture") && init_value.parameters.at("interpolateTexture").as<bool>() == true)
 					{
 						interpolate = true;
 					}

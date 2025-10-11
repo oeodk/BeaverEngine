@@ -53,13 +53,14 @@ namespace bv
 
 		enum InitValue
 		{
-			WINDOW, VIEW, TEXTURE, INTERPOLATE_TEXTURE, SORT
+			WINDOW, VIEW, TEXTURE, INTERPOLATE_TEXTURE, SORT, RENDER_LAST
 		};
 		const std::map<std::string_view, InitValue> string_to_init_enum_map_ = {
 			{"window" , WINDOW},
 			{"view"   , VIEW},			
 			{"interpolateTexture", INTERPOLATE_TEXTURE},
 			{"texture", TEXTURE},
+			{"renderLast", RENDER_LAST},
 			{"sort", SORT}
 		};
 	};
