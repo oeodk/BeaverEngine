@@ -51,7 +51,12 @@ namespace bv
 			/* Read the next chunk of data, refill the buffer, and queue it
 			 * back on the source */
 			slen = sf_readf_short(sndFile_, membuf_, BUFFER_SAMPLES);
-			if (slen == 0)  // End of file, restart from the beginning
+
+			ALint looping = 0;
+			alGetSourcei(source_, AL_LOOPING, &looping);
+
+			if (slen == 0 && looping == AL_TRUE)  // End of file, restart from the beginning
+			{
 			{
 				sf_seek(sndFile_, 0, SEEK_SET);
 				slen = sf_readf_short(sndFile_, membuf_, BUFFER_SAMPLES);
