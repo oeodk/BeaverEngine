@@ -12,9 +12,12 @@ namespace bv
 
 	void Entity::removeChild(EntityRef child)
 	{
-		childrens_.erase(std::remove(childrens_.begin(), childrens_.end(), child), childrens_.end());
-		child->parent_.reset();
-		EntitySystem::remove(child);
+		if(child)
+		{
+			childrens_.erase(std::remove(childrens_.begin(), childrens_.end(), child), childrens_.end());
+			child->parent_.reset();
+			EntitySystem::remove(child);
+		}
 	}
 
 	Component* Entity::addComponent(std::string_view type, const ComponentDescription& init_value)
