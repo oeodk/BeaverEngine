@@ -94,6 +94,7 @@ namespace bv
 
 	void DesktopMusicPlayer::play(const AudioData& sound, const void* owner)
 	{
+		owner_ = owner;
 		keep_playing = true;
 		alSourcef(source_, AL_PITCH, sound.getPitch());
 		alSourcef(source_, AL_GAIN, sound.getGain());
