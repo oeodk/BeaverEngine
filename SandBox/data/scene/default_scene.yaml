@@ -29,7 +29,7 @@
     components:
       View2D:
         name : "main_view"
-        size : [1280,720]
+        size : [1280,360]
         center : [0,0]
         elevation : 100
         rotationAngle : 0

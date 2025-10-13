@@ -102,14 +102,19 @@ namespace bv
 			window = WindowSystem::getInstance().getWindow(window_name).lock();
 		}
 
-		glm::vec2 view_center_window_coord = { window->getWidth() / 2.f, window->getHeight() / 2.f };
-		view_center_window_coord += center_;
-		view_center_window_coord += glm::vec2{ window->getWidth() * viewport_pos_.x, window->getHeight() * viewport_pos_.y };
-		view_center_window_coord *= viewport_size_;
+		glm::vec2 window_size(window->getWidth(), window->getHeight());
 
-		glm::vec2 out = (window_position - view_center_window_coord) / viewport_size_;
-		out.y = -out.y;
-		return out;
+		glm::vec2 viewport_origin = window_size * viewport_pos_;     
+		glm::vec2 viewport_size_px = window_size * viewport_size_;  
+
+		glm::vec2 normalized = (window_position - viewport_origin) / viewport_size_px;
+
+		glm::vec2 ndc = normalized * 2.0f - 1.0f;
+		ndc.y = -ndc.y;
+
+		glm::vec2 world = center_ + ndc * (size_ * 0.5f);
+
+		return world;
 	}
 
 
