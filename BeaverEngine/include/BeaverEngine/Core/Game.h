@@ -28,12 +28,13 @@ namespace bv
 		}
 		InitFunction init_function_;
 		float fps_ = 60;
-
+		std::chrono::milliseconds framerate_ms_;
 		static bool& closeApplication()
 		{
 			static bool close{};
 			return close;
 		}
+
 	public :
 		Game() = default;
 		Game(const Game&) = default;
@@ -66,6 +67,9 @@ namespace bv
 
 
 		bool run();
+
+		void loopBody(std::chrono::steady_clock::time_point& old_time, unsigned int& frame, bool& close_application);
+
 	};
 }
 

@@ -13,7 +13,6 @@
 
 #include "BeaverEngine/Utils/Window.h"
 
-#include <glad/glad.h>
 #include <glm/gtc/quaternion.hpp>
 
 namespace bv

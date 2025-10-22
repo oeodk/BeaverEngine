@@ -68,14 +68,24 @@ target_include_directories(BeaverEngine PUBLIC ${CMAKE_SOURCE_DIR}/_deps/sdl2-sr
 # Link external libraries
 target_link_libraries(BeaverEngine
     PUBLIC
-        glfw
         glm
         yaml-cpp
 		glad
-		OpenAL::OpenAL
-		sndfile
-		SDL3-static
+		
 )
+
+# OpenAL
+if(BUILDING_WASM)
+    # Nothing to link; handled via -s USE_OPENAL=1
+else()
+    target_link_libraries(BeaverEngine 
+		PUBLIC 
+			OpenAL::OpenAL
+			sndfile
+			SDL3-static
+			glfw
+)
+endif()
 
 # Specify output directories
 set_target_properties(BeaverEngine PROPERTIES

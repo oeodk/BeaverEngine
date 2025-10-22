@@ -1,5 +1,7 @@
 #pragma once
-#include <glad/glad.h>
+#include "BeaverEngine/Platform/PlatformMacros.h"
+
+#include GL_HEADER
 #include <GLFW/glfw3.h>
 
 #include "BeaverEngine/Utils/Window.h"
