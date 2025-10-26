@@ -3,5 +3,6 @@ bin/
 *.user
 _deps/*
 !_deps/glad/
+_deps_web/
 build/
 build_web/
