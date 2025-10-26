@@ -17,14 +17,7 @@ namespace bv
 	
 
 	bool bv::Game::run()
-	{
-		EM_ASM({
-        console.log("Files in /:");
-        console.log(FS.readdir('/'));   // lists files and folders at root
-        console.log("Files in /data:");
-        console.log(FS.readdir('/data')); // lists preloaded data folder
-    });
-		
+	{	
 		PLATEFORM_INIT
 #ifndef SHIPPING
 		static bool path_defined = false;

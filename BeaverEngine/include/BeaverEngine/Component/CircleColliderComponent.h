@@ -6,9 +6,9 @@ namespace bv
     class RectangleColliderComponent;
     class IntGridColliderComponent;
 
-	class CircleColliderComponent
-		: public ColliderComponent
-	{
+    class CircleColliderComponent
+        : public ColliderComponent
+    {
     public:
         friend class RectangleColliderComponent;
         friend class IntGridColliderComponent;
@@ -26,7 +26,7 @@ namespace bv
         void setup(const ComponentDescription& init_value) override;
 
         void setRotationAngle(float angle) override;
-
+        void setRadius(float radius) { radius_ = radius; }
     private:
         bool collides(const RectangleColliderComponent& other) const override;
         bool collides(const CircleColliderComponent& other) const override;
@@ -34,5 +34,5 @@ namespace bv
 
         float radius_{};
         glm::vec2 true_center_{};
-	};
+    };
 }
