@@ -1,6 +1,9 @@
 #pragma once
+#include "BeaverEngine/Platform/PlatformMacros.h"
+#ifdef PLATFORM_DESKTOP
+
 #include "BeaverEngine/Utils/BufferImpl.h"
-#include <glad/glad.h>
+#include GL_HEADER
 #include "BeaverEngine/Core/Debug.h"
 namespace bv
 {
@@ -128,3 +131,4 @@ namespace bv
     };
 }
 
+#endif

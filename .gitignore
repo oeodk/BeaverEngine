@@ -4,3 +4,4 @@ bin/
 _deps/*
 !_deps/glad/
 build/
+build_web/

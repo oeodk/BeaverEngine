@@ -1,4 +1,7 @@
 #include "BeaverEngine/System/LogicSystem.h"
+
+#include "BeaverEngine/Platform/PlatformMacros.h"
+
 #include "BeaverEngine/Core/Entity.h"
 #include "BeaverEngine/Core/std.h"
 namespace bv
@@ -19,6 +22,7 @@ namespace bv
 			}
 		}
 
+#ifdef PARRALLEL_EXECUTION
 		std::for_each(std::execution::par,
 			parallelized_logic_components_.begin(), parallelized_logic_components_.end(),
 			[&](LogicComponent* logic_component) {
@@ -27,6 +31,15 @@ namespace bv
 					logic_component->updateLogic(dt);
 				}		
 			});
+#else
+		for (auto& logic_component : parallelized_logic_components_)
+		{
+			if (logic_component->enabled() && logic_component->owner().active())
+			{
+				logic_component->updateLogic(dt);
+			}
+		}
+#endif // PARRALLEL_EXECUTION
 	}
 	void LogicSystem::registerComponent(LogicComponent* logic_component, bool parallelize)
 	{

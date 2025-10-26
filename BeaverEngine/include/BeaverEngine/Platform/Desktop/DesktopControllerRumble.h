@@ -1,3 +1,6 @@
+#pragma once
+#include "BeaverEngine/Platform/PlatformMacros.h"
+#ifdef PLATFORM_DESKTOP
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_gamepad.h>
 #include "BeaverEngine/Core/KeyCode.h"
@@ -43,3 +46,4 @@ namespace bv
 	};
 }
 
+#endif

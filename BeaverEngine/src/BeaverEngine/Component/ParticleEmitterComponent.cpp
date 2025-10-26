@@ -2,7 +2,7 @@
 #include "BeaverEngine/Component/PositionComponent.h"
 #include "BeaverEngine/System/ParticleSystem.h"
 #include "BeaverEngine/Core/Entity.h"
-#include "BEaverEngine/Utils/Math.h"
+#include "BeaverEngine/Utils/Math.h"
 namespace bv
 {
 	void ParticleEmitterComponent::setup(const ComponentDescription& init_value)

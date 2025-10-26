@@ -1,0 +1,15 @@
+- name: "Layer"
+  description:
+    children:
+    components:
+      Position: 
+        x: 0
+        y: 0
+        z: 0
+      Layer: 
+        view: ""
+        window: ""
+        interpolateTexture: false
+        texture: ""
+      Sprite:
+        layer: ""

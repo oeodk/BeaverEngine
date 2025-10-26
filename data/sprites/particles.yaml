@@ -1,0 +1,13 @@
+- animation: "circle"
+  width: 50
+  height: 50
+  frame_count: 1
+  frame_dt: 0
+  start_coordinates: [0,0]
+
+- animation: "square"
+  width: 50
+  height: 50
+  frame_count: 1
+  frame_dt: 0
+  start_coordinates: [50,0]

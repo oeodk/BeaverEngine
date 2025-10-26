@@ -7,6 +7,10 @@
         title : "Sandbox"
         size : [1280,720]
         bgColor : [0,0,0,1] 
+        #resizable: false
+        #decorate: false
+        position: [0,0]
+        vsync: false
         
 - name : "MainView"
   description:
@@ -14,12 +18,25 @@
     components:
       View2D:
         name : "main_view"
-        size : [1280,720]
+        size : [1280,360]
         center : [0,0]
         elevation : 100
         rotationAngle : 0
         viewportPosition : [0,0]
         viewportSize : [1,1]
+- name : "EmptyLayer"
+  description:
+    children:
+    components:
+      Position:
+        x : 0
+        y : 0
+        z : 3
+      Layer: 
+        view: "main_view"
+        window: "main_window"
+        interpolateTexture: false
+        texture: "giant_spider.png"
 
 - name : "EntityLayerEntity"
   description:
@@ -71,53 +88,43 @@
         gridSize: 32
         mask: 1
         flag: 1
-        
-- name : "TestEntity"
+       
+- name : "TestEntitySpawner"
   description:
     children:
     components:
       Position:
         x : 0
         y : 0
-        z : 3
-      Sprite:
-        color: [1,1,1,1]
-        offset: [0,0]
-        size: [50,50]  
-        scale: [1,1]      
-        rotationAngle: 90
-        layer: "DecorationLayerEntity"
-      ColliderTestComponent:
-      RectangleCollider:
-        handler: "ColliderTestComponent"
-        mask: 1
-        flag: 1
-        size: [50, 50]
-            
-- name : "TestEntity2"
+        z : 10
+      TestEntitySpawnerComponent:
+        path: "data/templates/TestEntity.yaml"
+      ParticleEmitter:
+        start_color: [1,0,0,1]
+        end_color: [0,0,1,0]
+        start_size : [10,10]
+        end_size: [1,1]
+        animation: "circle"
+        lifespan: 60
+        lifespan_var: 0.5
+        primitive: "point"
+        velocity: 100
+        velocity_var: 50
+        
+- name : "SoloSprite"
   description:
     children:
     components:
       Position:
-        x : -200
+        x : 0
         y : 0
-        z : 0
-      Sprite:
+        z : 10
+      SpriteRenderer:
         color: [1,1,1,1]
         offset: [0,0]
         renderRectangle: [654,252,164,126]
         baseAnimation: "top_walk"
-        layer: "EntityLayerEntity"
-      ColliderTestComponent:
-      RectangleCollider:
-        handler: "ColliderTestComponent"
-        mask: 1
-        flag: 1
-        size: [164, 126]
-- name : "TestEntitySpawner"
-  description:
-    children:
-    components:
-      TestEntitySpawnerComponent:
-        path: "data/templates/TestEntity.yaml"
-    
+        view: "main_view"
+        window: "main_window"
+        interpolateTexture: false
+        texture: "giant_spider.png"

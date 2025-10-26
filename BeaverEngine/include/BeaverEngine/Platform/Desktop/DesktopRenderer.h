@@ -1,6 +1,7 @@
 #pragma once
+#include "BeaverEngine/Platform/PlatformMacros.h"
 #include "BeaverEngine/Core/Renderer.h"
-#include <glad/glad.h>
+#include GL_HEADER
 #include "BeaverEngine/Core/GlobalConstants.h"
 
 namespace bv

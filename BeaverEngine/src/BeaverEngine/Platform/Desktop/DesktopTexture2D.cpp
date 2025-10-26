@@ -1,3 +1,6 @@
+#include "BeaverEngine/Platform/PlatformMacros.h"
+#ifdef PLATFORM_DESKTOP
+
 #include "BeaverEngine/Platform/Desktop/DesktopTexture2D.h"
 #include "BeaverEngine/System/TextureSystem.h"
 
@@ -141,3 +144,5 @@ namespace bv
 		glBindTextureUnit(slot, texture_id_);
 	}
 }
+
+#endif

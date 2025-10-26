@@ -1,3 +1,6 @@
+#include "BeaverEngine/Platform/PlatformMacros.h"
+#ifdef PLATFORM_DESKTOP
+
 #include "BeaverEngine/Platform/Desktop/DesktopWindow.h"
 #include "BeaverEngine/System/WindowSystem.h"
 #include "BeaverEngine/Core/Scene.h"
@@ -261,3 +264,5 @@ namespace bv
 		properties.v_sync = enabled;
 	}
 }
+
+#endif

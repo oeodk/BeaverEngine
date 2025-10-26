@@ -47,35 +47,62 @@ add_library(BeaverEngine STATIC ${ENGINE_SOURCES} ${ENGINE_HEADERS})
 # Include directories
 target_include_directories(BeaverEngine PUBLIC include)
 
+if(BUILDING_WASM)
 # Include the yaml-cpp headers
-target_include_directories(BeaverEngine PUBLIC ${yaml-cpp_SOURCE_DIR}/include)
-# Specify GLM include directory (since it's a header-only library)
-target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/glm-src)
+	target_include_directories(BeaverEngine PUBLIC ${yaml-cpp_SOURCE_DIR}/include)
+	# Specify GLM include directory (since it's a header-only library)
+	target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/glm-src)
 
-# Specify GLFW include directory (assuming GLFW is built in the correct path)
-target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/glfw-src/include)
+	target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/libsndfile-src/include)
 
-target_include_directories(BeaverEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../_deps/glad/include)
+	target_include_directories(BeaverEngine PUBLIC ${CMAKE_SOURCE_DIR}/_deps/nlohmann-json-src/include)
 
-target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/openal-soft-src/include)
+	target_include_directories(BeaverEngine PUBLIC ${CMAKE_SOURCE_DIR}/_deps/sdl3-src/include)
+	target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/openal-soft-src/include)
 
-target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/libsndfile-src/include)
+else()
+	# Include the yaml-cpp headers
+	target_include_directories(BeaverEngine PUBLIC ${yaml-cpp_SOURCE_DIR}/include)
+	# Specify GLM include directory (since it's a header-only library)
+	target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/glm-src)
 
-target_include_directories(BeaverEngine PUBLIC ${CMAKE_SOURCE_DIR}/_deps/nlohmann-json-src/include)
+	# Specify GLFW include directory (assuming GLFW is built in the correct path)
+	target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/glfw-src/include)
 
-target_include_directories(BeaverEngine PUBLIC ${CMAKE_SOURCE_DIR}/_deps/sdl2-src/include)
+	target_include_directories(BeaverEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../_deps/glad/include)
+
+	target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/openal-soft-src/include)
+
+	target_include_directories(BeaverEngine PRIVATE ${CMAKE_SOURCE_DIR}/_deps/libsndfile-src/include)
+
+	target_include_directories(BeaverEngine PUBLIC ${CMAKE_SOURCE_DIR}/_deps/nlohmann-json-src/include)
+
+	target_include_directories(BeaverEngine PUBLIC ${CMAKE_SOURCE_DIR}/_deps/sdl3-src/include)
+endif()
+
+
 
 # Link external libraries
 target_link_libraries(BeaverEngine
     PUBLIC
-        glfw
         glm
         yaml-cpp
-		glad
-		OpenAL::OpenAL
+		nlohmann_json::nlohmann_json	
 		sndfile
-		SDL3-static
+)	
+
+# OpenAL
+if(BUILDING_WASM)
+
+else()
+    target_link_libraries(BeaverEngine 
+		PUBLIC 
+			glfw
+			glad
+			OpenAL::OpenAL
+			SDL3-static
 )
+endif()
 
 # Specify output directories
 set_target_properties(BeaverEngine PROPERTIES

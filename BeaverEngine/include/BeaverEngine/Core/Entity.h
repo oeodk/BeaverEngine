@@ -16,7 +16,7 @@ namespace bv
         void removeChild(Entity& child) { removeChild(child.shared_from_this()); }
 
         void removeChildren();
-
+        
         void resolve()
         {
             for (auto& component : components_)
@@ -27,7 +27,7 @@ namespace bv
 
         Component* addComponent(std::string_view type, const ComponentDescription& init_value);
         template<typename T>
-        typename T* addComponent(const typename T::init_values& initial_value)
+        T* addComponent(const typename T::init_values& initial_value)
         {
             auto result = components_.emplace(T::type, std::make_unique<T>(*this));
             auto iterator = result.first;

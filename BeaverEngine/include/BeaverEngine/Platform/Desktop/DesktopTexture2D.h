@@ -1,6 +1,10 @@
 #pragma once
+
+#include "BeaverEngine/Platform/PlatformMacros.h"
+#ifdef PLATFORM_DESKTOP
+#include "BeaverEngine/Platform/PlatformMacros.h"
 #include "BeaverEngine/Utils/Texture2D.h"
-#include <glad/glad.h>
+#include GL_HEADER
 
 namespace bv
 {
@@ -39,3 +43,4 @@ namespace bv
 	};
 }
 
+#endif

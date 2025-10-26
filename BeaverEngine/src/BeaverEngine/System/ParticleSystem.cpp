@@ -1,4 +1,7 @@
 #include "BeaverEngine/System/ParticleSystem.h"
+
+#include "BeaverEngine/Platform/PlatformMacros.h"
+
 #include "BeaverEngine/Core/Entity.h"
 #include "BeaverEngine/Core/Renderer.h"
 #include "BeaverEngine/Core/std.h"
@@ -82,29 +85,22 @@ namespace bv
 				auto mapped_indices = index_buffer_.at(window.first).at(view.first).mapIndices(0, 6 * particle_count);
 
 
+				
+
+#ifdef PARRALLEL_EXECUTION
 				std::for_each(std::execution::par,
 					view.second.begin(), view.second.end(),
 					[dt, &mapped_vertices, &mapped_indices, particle_count](Particle& particle)
 					{
-						if (particle.active)
-						{
-							particle.update(dt);
-
-							const auto& src_verts = particle.vertices;
-							std::transform(src_verts.begin(), src_verts.end(),
-								mapped_vertices.begin() + particle.active_index * 4,
-								[&particle, particle_count](const Vertex2D& v) {
-									Vertex2D vert(v);
-									vert.position.z += particle.active_index / static_cast<float>(particle_count);
-									return vert;
-								});
-
-							const auto& src_indices = INDICES;
-							std::transform(src_indices.begin(), src_indices.end(),
-								mapped_indices.begin() + particle.active_index * 6,
-								[&particle](unsigned int index) { return index + particle.active_index * 4; });
-						}
+						iterateInternal(particle, dt, mapped_vertices, mapped_indices, particle_count);
 					});
+#else
+				for (auto& particle : view.second)
+				{
+					iterateInternal(particle, dt, mapped_vertices, mapped_indices, particle_count);
+				}
+#endif
+					
 				if (last_index > 0)
 				{
 					renderer_->begin2DRender(window.first);
@@ -130,6 +126,8 @@ namespace bv
 		{
 			for (auto& view : window.second)
 			{
+
+#ifdef PARRALLEL_EXECUTION
 				std::for_each(std::execution::par,
 					view.second.begin(), view.second.end(),
 					[dt](auto& particle)
@@ -137,6 +135,15 @@ namespace bv
 						if (particle.active)
 							particle.update(dt);
 					});
+#else
+				for (auto& particle : view.second)
+				{
+					if (particle.active)
+						particle.update(dt);
+				}
+#endif // DEBUG
+
+				
 			}
 		}
 		
@@ -194,6 +201,27 @@ namespace bv
 
 				}
 			}
+		}
+	}
+	void ParticleSystem::iterateInternal(Particle& particle, const Timing& dt, std::span<Vertex2D>& mapped_vertices, std::span<unsigned int>& mapped_indices, size_t particle_count)
+	{
+		if (particle.active)
+		{
+			particle.update(dt);
+
+			const auto& src_verts = particle.vertices;
+			std::transform(src_verts.begin(), src_verts.end(),
+				mapped_vertices.begin() + particle.active_index * 4,
+				[&particle, particle_count](const Vertex2D& v) {
+					Vertex2D vert(v);
+					vert.position.z += particle.active_index / static_cast<float>(particle_count);
+					return vert;
+				});
+
+			const auto& src_indices = INDICES;
+			std::transform(src_indices.begin(), src_indices.end(),
+				mapped_indices.begin() + particle.active_index * 6,
+				[&particle](unsigned int index) { return index + particle.active_index * 4; });
 		}
 	}
 }
