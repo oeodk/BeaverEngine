@@ -21,6 +21,9 @@ namespace bv
 
         void emit(unsigned int particle_count, const glm::vec3& direction/* (0,0,0) for burst*/);
 
+        void setCircleRadius(float radius) { primitive_parameter_ = radius; }
+        void setSquareSize(float size) { primitive_parameter_ = size; }
+        void setFountainAngle(float angle) { primitive_parameter_ = angle; }
     private:
         enum EmitterPrimitive
         {

@@ -29,7 +29,7 @@ if("${CMAKE_SYSTEM_NAME}" STREQUAL "Emscripten")
 	set(BUILDING_WASM TRUE)
 	
 	option(BEAVER_ENGINE_BUILD_EXAMPLES "Build example projects" OFF)
-    option(BEAVER_ENGINE_BUILD_SANDBOX "Build sandbox projects" ON)
+    option(BEAVER_ENGINE_BUILD_SANDBOX "Build sandbox projects" OFF)
 	
 	set(LIBTYPE STATIC CACHE STRING "Build static OpenAL library" FORCE)
 	set(ALSOFT_UTILS OFF CACHE BOOL "Don't build OpenAL utilities" FORCE)
