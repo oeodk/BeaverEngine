@@ -1,3 +1,6 @@
+#include "BeaverEngine/Platform/PlatformMacros.h"
+#ifdef PLATFORM_DESKTOP
+
 #include "BeaverEngine/Platform/Desktop/DesktopBufferImpl.h"
 #include "BeaverEngine/Utils/Vertex.h"
 
@@ -18,3 +21,5 @@ template class bv::DesktopVertexBufferImpl<bv::Vertex2D>;
 template class bv::DesktopVertexBufferImpl<bv::Vertex3D>;
 template class bv::VertexBufferImpl<bv::Vertex2D>;
 template class bv::VertexBufferImpl<bv::Vertex3D>;
+
+#endif

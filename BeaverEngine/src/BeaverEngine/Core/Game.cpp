@@ -2,10 +2,13 @@
 #include "BeaverEngine/Platform/PlatformMacros.h"
 #include "BeaverEngine/BeaverEngine.h"
 #include "BeaverEngine/Core/Debug.h"
+#include "BeaverEngine/Core/GlobalConstants.h"
 #ifdef _WIN32
 #include <windows.h>
 #endif
-
+#if defined(__EMSCRIPTEN__)
+#include <emscripten.h>
+#endif
 namespace bv
 {
 	using namespace std::chrono_literals;
@@ -15,6 +18,14 @@ namespace bv
 
 	bool bv::Game::run()
 	{
+		EM_ASM({
+        console.log("Files in /:");
+        console.log(FS.readdir('/'));   // lists files and folders at root
+        console.log("Files in /data:");
+        console.log(FS.readdir('/data')); // lists preloaded data folder
+    });
+		
+		PLATEFORM_INIT
 #ifndef SHIPPING
 		static bool path_defined = false;
 		if(!path_defined)
@@ -46,7 +57,7 @@ namespace bv
 
 		addSystem<bv::EntitySystem>();
 
-		Scene::load(Descr::load("./data/scene/default_scene.yaml"));
+		Scene::load(Descr::load(bv::constants::SCENE_PATH + "default_scene.yaml"));
 
 		for (auto& system : systems_)
 		{
@@ -67,7 +78,8 @@ namespace bv
 		
 
 		unsigned int frame = 0;
-		MAIN_LOOP(old_time, frame, close_application, this, 
+		Game* game = this;
+		MAIN_LOOP(old_time, frame, close_application, game, 
 			loopBody(old_time, frame, close_application);
 		)
 
@@ -99,19 +111,5 @@ namespace bv
 		{
 			system->iterate({ dt, frame });
 		}
-
-#ifndef SHIPPING
-
-		auto current_time2 = std::chrono::high_resolution_clock::now();
-
-		auto dt2 = std::chrono::duration_cast<std::chrono::milliseconds>(current_time2 - old_time);
-
-		float count = dt2.count();
-		if (count != 0)
-		{
-			printf((std::to_string(int(count)) + " ms\n").c_str());
-			printf((std::to_string(int(1 / (count / 1000.f))) + " fps\n").c_str());
-		}
-#endif
 	}
 }

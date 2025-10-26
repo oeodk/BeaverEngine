@@ -1,7 +1,9 @@
 #include "BeaverEngine/Platform/PlatformMacros.h"
-#ifdef PLATFORM_DESKTOP
 
-#include "BeaverEngine/Platform/Desktop/DesktopWindow.h"
+#ifdef PLATFORM_WEB
+#include <emscripten/emscripten.h>
+
+#include "BeaverEngine/Platform/Web/WebWindow.h"
 #include "BeaverEngine/System/WindowSystem.h"
 #include "BeaverEngine/Core/Scene.h"
 #include "BeaverEngine/Core/Entity.h"
@@ -11,30 +13,49 @@
 #include "BeaverEngine/System/WindowSystem.h"
 namespace bv
 {
+		struct GLFWgamepadstate {
+		unsigned char buttons[16]; // approximate mapping
+		float axes[8];
+	};
+
+	// returns 1 if a gamepad is present, 0 otherwise
+	EM_JS(int, glfwGetGamepadStateWeb, (int jid, GLFWgamepadstate* state), {
+		const gamepads = navigator.getGamepads();
+		const gp = gamepads[jid] || null;
+		if (!gp) return 0;
+
+		for (let i = 0; i < gp.buttons.length && i < 16; i++)
+			HEAPU8[state + i] = gp.buttons[i].pressed ? 1 : 0;
+
+		for (let i = 0; i < gp.axes.length && i < 8; i++)
+			HEAPF32[(state >> 2) + 16 + i] = gp.axes[i]; // offset after buttons
+
+		return 1;
+	});
+
 	// Prevent multiple initialisation of glfw is multiple window are created
 	static bool glfw_init = false;
-	static bool glad_init = false;
 
 	std::shared_ptr<Window> Window::create(const WindowProperties& props)
 	{
-		return std::make_shared<DesktopWindow>(props);
+		return std::make_shared<WebWindow>(props);
 	}
 
-	DesktopWindow::DesktopWindow(const WindowProperties& props)
+	WebWindow::WebWindow(const WindowProperties& props)
 	{
 		init(props);
 	}
 
 	void closeEventCallback(GLFWwindow* window)
 	{
-		DesktopWindow::Properties* properties = static_cast<DesktopWindow::Properties*>(glfwGetWindowUserPointer(window));
+		WebWindow::Properties* properties = static_cast<WebWindow::Properties*>(glfwGetWindowUserPointer(window));
 
 		WindowSystem::getInstance().closeWindow(properties->self->getName());
 	}
 
 	void resizeEventCallback(GLFWwindow* window, int width, int height)
 	{
-		DesktopWindow::Properties* properties = static_cast<DesktopWindow::Properties*>(glfwGetWindowUserPointer(window));
+		WebWindow::Properties* properties = static_cast<WebWindow::Properties*>(glfwGetWindowUserPointer(window));
 		properties->width = width;
 		properties->height = height;
 	}
@@ -57,7 +78,7 @@ namespace bv
 
 	void focusChangeEventCallback(GLFWwindow* window, int focused)
 	{
-		DesktopWindow::Properties* properties = static_cast<DesktopWindow::Properties*>(glfwGetWindowUserPointer(window));
+		WebWindow::Properties* properties = static_cast<WebWindow::Properties*>(glfwGetWindowUserPointer(window));
 		properties->is_focused = focused;
 	}
 
@@ -66,7 +87,7 @@ namespace bv
 		InputSystem::getInstance().setMouseScrollValue(yoffset);
 	}
 
-	void DesktopWindow::init(const WindowProperties& props)
+	void WebWindow::init(const WindowProperties& props)
 	{
 		name_ = props.name;
 
@@ -78,7 +99,7 @@ namespace bv
 		properties.self = this;
 		if (!glfw_init)
 		{
-			glfwInit();
+			//glfwInit();
 			glfw_init = true;
 
 			const auto& monitor_size_ = WindowSystem::getInstance().getMonitorSize();
@@ -109,22 +130,12 @@ namespace bv
 		GLFWwindow* shared_window = nullptr;
 		if (props.shared != nullptr)
 		{
-			shared_window = dynamic_cast<DesktopWindow*>(props.shared)->window_;
+			shared_window = dynamic_cast<WebWindow*>(props.shared)->window_;
 
 		}
 		window_ = glfwCreateWindow(properties.width, properties.height, properties.title.c_str(), NULL, shared_window);
 		glfwMakeContextCurrent(window_);
-		setVSync(props.vsync);
-
-		if (!glad_init)
-		{
-			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-			{
-				printf("GLAD loading error");
-				return;
-			}
-			glad_init = true;
-		}
+		//setVSync(props.vsync);
 
 		setPosition(props.position.x, props.position.y);
 
@@ -135,29 +146,9 @@ namespace bv
 		glfwSetMouseButtonCallback(window_, mouseButtonEventCallback);
 		glfwSetScrollCallback(window_, scrollEventCallback);
 		glfwSetWindowFocusCallback(window_, focusChangeEventCallback);
-
-		glCreateVertexArrays(1, &vao_2d_);
-		glBindVertexArray(vao_2d_);
-
-		glEnableVertexAttribArray(0);
-		glVertexAttribFormat(0, 3, GL_FLOAT, GL_FALSE, offsetof(Vertex2D, position));
-		glVertexAttribBinding(0, 0); // Link attribute 0 to binding index 0
-
-		// Attribute 1: Texture Coordinates (vec2)
-		glEnableVertexAttribArray(1);
-		glVertexAttribFormat(1, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex2D, texture_coords));
-		glVertexAttribBinding(1, 0); // Link attribute 1 to binding index 0
-		
-		// Attribute 2: Color (vec4)
-		glEnableVertexAttribArray(2);
-		glVertexAttribFormat(2, 4, GL_FLOAT, GL_FALSE, offsetof(Vertex2D, color));
-		glVertexAttribBinding(2, 0); // Link attribute 2 to binding index 0
-
-		// Unbind the VAO (optional)
-		glBindVertexArray(0);
 	}
 
-	void DesktopWindow::updateGamepadInputs() const
+	void WebWindow::updateGamepadInputs() const
 	{
 		auto& input_system = InputSystem::getInstance();
 
@@ -165,7 +156,7 @@ namespace bv
 		{
 			GLFWgamepadstate state;
 
-			if (glfwGetGamepadState(joystick_id, &state))
+			if (glfwGetGamepadStateWeb(joystick_id, &state))
 			{
 				for (int i = 0; i < 15 ; i++)
 				{
@@ -189,31 +180,31 @@ namespace bv
 		}
 	}
 
-	DesktopWindow::~DesktopWindow()
+	WebWindow::~WebWindow()
 	{
 		if(open)
 			shutdown();
 	}
 
-	void DesktopWindow::shutdown()
+	void WebWindow::shutdown()
 	{
 		open = false;
 		glfwDestroyWindow(window_);
 	}
 
-	void DesktopWindow::setPosition(int x, int y)
+	void WebWindow::setPosition(int x, int y)
 	{
 		position_.x = x;
 		position_.y = y;
 		glfwSetWindowPos(window_, -(properties.width / 2.f) + monitor_center_.x + position_.x, -(properties.height / 2.f) + monitor_center_.y - position_.y);
 	}
 
-	void DesktopWindow::move(int dx, int dy)
+	void WebWindow::move(int dx, int dy)
 	{
 		setPosition(position_.x + dx, position_.y + dy);
 	}
 
-	void DesktopWindow::onUpdate()
+	void WebWindow::onUpdate()
 	{
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window_);
@@ -226,7 +217,7 @@ namespace bv
 		cleared_ = false;
 	}
 
-	void DesktopWindow::clear()
+	void WebWindow::clear()
 	{
 		if(!cleared_)
 		{
@@ -236,22 +227,21 @@ namespace bv
 		}
 	}
 
-	void DesktopWindow::beginRender2d() const
+	void WebWindow::beginRender2d() const
 	{
-		glBindVertexArray(vao_2d_);
 	}
 
-	void DesktopWindow::setBackgroundColor(const glm::vec4& color)
+	void WebWindow::setBackgroundColor(const glm::vec4& color)
 	{
 		properties.background_color = color;
 	}
 
-	const glm::vec4& DesktopWindow::getBackgroundColor() const
+	const glm::vec4& WebWindow::getBackgroundColor() const
 	{
 		return properties.background_color;
 	}
 
-	void DesktopWindow::setVSync(bool enabled)
+	void WebWindow::setVSync(bool enabled)
 	{
 		if (enabled)
 		{

@@ -1,5 +1,7 @@
 #include "BeaverEngine/Component/LayerComponent.h"
 
+#include "BeaverEngine/Platform/PlatformMacros.h"
+
 #include "BeaverEngine/Core/Entity.h"
 #include "BeaverEngine/Core/Renderer.h"
 #include "BeaverEngine/Core/GlobalConstants.h"
@@ -111,10 +113,19 @@ namespace bv
 			sorted_sprite.reserve(std::size(sprites_));
 			if (sort_sprites_)
 			{
+#ifdef PARRALLEL_EXECUTION
 				std::sort(std::execution::par, sprites_.begin(), sprites_.end(),
 					[](const SpriteComponent* s1, const SpriteComponent* s2) {
 						return SpriteComponent::compareSpritesPosition(s2, s1);
 					});
+#else
+				std::sort(sprites_.begin(), sprites_.end(),
+					[](const SpriteComponent* s1, const SpriteComponent* s2) {
+						return SpriteComponent::compareSpritesPosition(s2, s1);
+					});
+#endif // PARRALLEL_EXECUTION
+
+				
 			}
 			std::copy_if(sprites_.begin(), sprites_.end(), std::back_inserter(sorted_sprite),
 				[](const SpriteComponent* sprite) {
@@ -128,12 +139,18 @@ namespace bv
 
 			float layer_z = owner().getComponent<PositionComponent>()->getWorldPosition().z;
 
+#ifdef PARRALLEL_EXECUTION
 			auto range = std::views::iota(static_cast<size_t>(0), sprite_count);
-
 			std::for_each(std::execution::par, range.begin(), range.end(),
 				[&](int i) {
 					addSpriteToLayer(i, layer_z, sprite_count, sorted_sprite, mapped_vertices, mapped_indices);
 				});
+#else
+			for (int i = 0; i < sprite_count; i++)
+			{
+				addSpriteToLayer(i, layer_z, sprite_count, sorted_sprite, mapped_vertices, mapped_indices);
+			}
+#endif
 
 			if(sprite_count != 0)
 			{

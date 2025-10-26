@@ -1,7 +1,7 @@
 #include "BeaverEngine/Platform/Desktop/DesktopSoundBuffer.h"
 #include <sndfile.h>
 #include <inttypes.h>
-#include <AL\alext.h>
+//#include <AL\alext.h>
 
 namespace bv
 {
@@ -38,12 +38,12 @@ namespace bv
 		else if (sfinfo.channels == 3)
 		{
 			if (sf_command(sndfile, SFC_WAVEX_GET_AMBISONIC, NULL, 0) == SF_AMBISONIC_B_FORMAT)
-				format = AL_FORMAT_BFORMAT2D_16;
+				format = 0x20022;
 		}
 		else if (sfinfo.channels == 4)
 		{
 			if (sf_command(sndfile, SFC_WAVEX_GET_AMBISONIC, NULL, 0) == SF_AMBISONIC_B_FORMAT)
-				format = AL_FORMAT_BFORMAT3D_16;
+				format = 0x20032;
 		}
 		if (!format)
 		{

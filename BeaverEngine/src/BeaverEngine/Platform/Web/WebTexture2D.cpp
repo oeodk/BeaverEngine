@@ -1,7 +1,7 @@
 #include "BeaverEngine/Platform/PlatformMacros.h"
-#ifdef PLATFORM_DESKTOP
+#ifdef PLATFORM_WEB
 
-#include "BeaverEngine/Platform/Desktop/DesktopTexture2D.h"
+#include "BeaverEngine/Platform/Web/WebTexture2D.h"
 #include "BeaverEngine/System/TextureSystem.h"
 
 #include "BeaverEngine/Core/TypeDef.h"
@@ -11,12 +11,12 @@ namespace bv
 {
 	std::shared_ptr<Texture2D> Texture2D::create(const TextureSpecification& specification)
 	{
-		return std::make_shared<DesktopTexture2D>(specification);
+		return std::make_shared<WebTexture2D>(specification);
 	}
 
 	std::shared_ptr<Texture2D> Texture2D::create(std::string_view path, bool interpolate)
 	{
-		return std::make_shared<DesktopTexture2D>(path, interpolate);
+		return std::make_shared<WebTexture2D>(path, interpolate);
 	}
 
 	static GLenum imageFormatToGLDataFormat(ImageFormat format)
@@ -40,23 +40,39 @@ namespace bv
 		return 0;
 	}
 
-	DesktopTexture2D::DesktopTexture2D(const TextureSpecification& specification)
+	WebTexture2D::WebTexture2D(const TextureSpecification& specification)
 		: specification_(specification), width_(specification.width), height_(specification.height)
 	{
 		international_format_ = imageFormatToGLInternalFormat(specification.format);
 		data_format_ = imageFormatToGLDataFormat(specification.format);
 
-		glCreateTextures(GL_TEXTURE_2D, 1, &texture_id_);
-		glTextureStorage2D(texture_id_, 1, international_format_, width_, width_);
+		glGenTextures(1, &texture_id_);
 
-		glTextureParameteri(texture_id_, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTextureParameteri(texture_id_, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glBindTexture(GL_TEXTURE_2D, texture_id_);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glTextureParameteri(texture_id_, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTextureParameteri(texture_id_, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		// Configures the way the texture repeats (if it does at all)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexImage2D(
+				GL_TEXTURE_2D,
+				0,                // mip level
+				GL_RGBA,      // internal format (e.g. GL_RGBA)
+				width_,
+				height_,
+				0,                // border must be 0
+				GL_RGBA,      // same as above
+				GL_UNSIGNED_BYTE,
+				nullptr           // no initial data yet
+			);
+		if(specification.generate_mips)
+		{
+			glGenerateMipmap(GL_TEXTURE_2D);
+		}
 	}
 
-	DesktopTexture2D::DesktopTexture2D(std::string_view path, bool interpolate)
+	WebTexture2D::WebTexture2D(std::string_view path, bool interpolate)
 	{
 		path_ = std::string(path);
 		int width, height, channels;
@@ -94,20 +110,29 @@ namespace bv
 				interpolation = GL_LINEAR;
 			}
 
-			_ASSERT(international_format & data_format, "Format not supported!");
+			glGenTextures(1, &texture_id_);
+	
+			glBindTexture(GL_TEXTURE_2D, texture_id_);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, interpolation);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, interpolation);
 
-			glCreateTextures(GL_TEXTURE_2D, 1, &texture_id_);
-			//int mip_levels = 1 + std::floor(std::log2(std::max(width_, height_)));
-			glTextureStorage2D(texture_id_, 1, international_format, width_, height_);
-
-			glTextureParameteri(texture_id_, GL_TEXTURE_MIN_FILTER, interpolation);
-			glTextureParameteri(texture_id_, GL_TEXTURE_MAG_FILTER, interpolation);
-
-			glTextureParameteri(texture_id_, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTextureParameteri(texture_id_, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-			glTextureSubImage2D(texture_id_, 0, 0, 0, width_, height_, data_format, GL_UNSIGNED_BYTE, data);
-			glGenerateTextureMipmap(texture_id_);
+			// Configures the way the texture repeats (if it does at all)
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexImage2D(
+				GL_TEXTURE_2D,
+				0,                // mip level
+				data_format,      // internal format (e.g. GL_RGBA)
+				width_,
+				height_,
+				0,                // border must be 0
+				data_format,      // same as above
+				GL_UNSIGNED_BYTE,
+				nullptr           // no initial data yet
+			);
+			
+			glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width_, height_, data_format, GL_UNSIGNED_BYTE, data);
+			glGenerateMipmap(GL_TEXTURE_2D);
 
 			stbi_image_free(data);
 
@@ -125,23 +150,23 @@ namespace bv
 		}
 	}
 
-	DesktopTexture2D::~DesktopTexture2D()
+	WebTexture2D::~WebTexture2D()
 	{
 		TextureSystem::getInstance().texture2dRemoved(getPath());
 
 		glDeleteTextures(1, &texture_id_);
 	}
 
-	void DesktopTexture2D::setData(void* data, unsigned int size)
+	void WebTexture2D::setData(void* data, unsigned int size)
 	{
 		uint32_t bpp = data_format_ == GL_RGBA ? 4 : 3;
-		_ASSERT(size == width_ * height_* bpp, "Data must be entire texture!");
-		glTextureSubImage2D(texture_id_, 0, 0, 0, width_, height_, data_format_, GL_UNSIGNED_BYTE, data);
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width_, height_, data_format_, GL_UNSIGNED_BYTE, data);
 	}
 
-	void DesktopTexture2D::bind(unsigned int slot) const
+	void WebTexture2D::bind(unsigned int slot) const
 	{
-		glBindTextureUnit(slot, texture_id_);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture_id_);
 	}
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "BeaverEngine/Platform/PlatformMacros.h"
-#ifdef PLATFORM_DESKTOP
+
+#ifdef PLATFORM_WEB
 
 #include GL_HEADER
 #include <GLFW/glfw3.h>
@@ -9,7 +10,7 @@
 
 namespace bv
 {
-    class DesktopWindow :
+    class WebWindow :
         public Window
     {
     public :
@@ -25,13 +26,13 @@ namespace bv
             Window* self;
         };
 
-        DesktopWindow(const WindowProperties& props);
-        DesktopWindow(const DesktopWindow&) = default;
-        DesktopWindow(DesktopWindow&&) = default;
-        DesktopWindow& operator=(const DesktopWindow&) = default;
-        DesktopWindow& operator=(DesktopWindow&&) = default;
+        WebWindow(const WindowProperties& props);
+        WebWindow(const WebWindow&) = default;
+        WebWindow(WebWindow&&) = default;
+        WebWindow& operator=(const WebWindow&) = default;
+        WebWindow& operator=(WebWindow&&) = default;
 
-        virtual ~DesktopWindow();
+        virtual ~WebWindow();
 
         void beginRender2d() const override;
 
@@ -73,7 +74,6 @@ namespace bv
         bool open{true};
 
         GLFWwindow* window_;
-        GLuint vao_2d_;
 
     protected:
         glm::vec2 getMousePosition() const override

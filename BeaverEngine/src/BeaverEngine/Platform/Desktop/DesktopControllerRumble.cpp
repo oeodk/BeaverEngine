@@ -1,3 +1,5 @@
+#include "BeaverEngine/Platform/PlatformMacros.h"
+#ifdef PLATFORM_DESKTOP
 #include <BeaverEngine/Platform/Desktop/DesktopControllerRumble.h>
 
 namespace bv
@@ -8,3 +10,5 @@ namespace bv
 	}
 
 }
+
+#endif

@@ -3,11 +3,13 @@ project(BeaverEngine VERSION 1.0 LANGUAGES CXX)
 
 # Detect Emscripten (WebAssembly) build
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Emscripten")
+    add_compile_definitions("__EMSCRIPTEN__")
+
+
     message(STATUS "🔶 Building for WebAssembly with Emscripten")
     # Use Emscripten toolchain
     set(CMAKE_TOOLCHAIN_FILE C:/Users/gonon/Downloads/emsdk-main/emsdk-main/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake)
-
-    # Make output an HTML app instead of a native binary
+	
     set(CMAKE_EXECUTABLE_SUFFIX ".html")
 
     # Optional: If you use SDL for input/audio (instead of GLFW)
@@ -29,7 +31,10 @@ if("${CMAKE_SYSTEM_NAME}" STREQUAL "Emscripten")
 	option(BEAVER_ENGINE_BUILD_EXAMPLES "Build example projects" OFF)
     option(BEAVER_ENGINE_BUILD_SANDBOX "Build sandbox projects" ON)
 	
-	
+	set(LIBTYPE STATIC CACHE STRING "Build static OpenAL library" FORCE)
+	set(ALSOFT_UTILS OFF CACHE BOOL "Don't build OpenAL utilities" FORCE)
+	set(ALSOFT_EXAMPLES OFF CACHE BOOL "Don't build OpenAL examples" FORCE)
+	set(ALSOFT_TESTS OFF CACHE BOOL "Don't build OpenAL tests" FORCE)
 else()
     set(BUILDING_WASM FALSE)
 	option(BEAVER_ENGINE_BUILD_EXAMPLES "Build example projects" ON)
@@ -99,20 +104,6 @@ if(NOT BUILDING_WASM)
 
 	FetchContent_MakeAvailable(openal)
 
-	# LIBSNDFILE
-	FetchContent_Declare(
-		sndfile
-		GIT_REPOSITORY https://github.com/libsndfile/libsndfile.git
-		GIT_TAG master
-		SOURCE_DIR ${DEPS_DIR}/sndfile-src
-		BINARY_DIR ${DEPS_DIR}/sndfile-build
-	)
-	set(BUILD_PROGRAMS OFF CACHE BOOL "Disable building command-line programs for libsndfile")
-	set(BUILD_EXAMPLES OFF CACHE BOOL "Disable building example programs for libsndfile")
-	set(BUILD_TESTING OFF CACHE BOOL "Disable building testing for libsndfile")
-
-	FetchContent_MakeAvailable(sndfile)
-
 	get_property(OPENAL_TARGETS DIRECTORY ${openal_SOURCE_DIR} PROPERTY BUILDSYSTEM_TARGETS)
 	message(STATUS "OpenAL Targets: ${OPENAL_TARGETS}")
 	
@@ -153,6 +144,8 @@ if(NOT BUILDING_WASM)
 	)
 	FetchContent_MakeAvailable(SDL3-static)
 endif()
+
+
 
 message(STATUS "🔶 Building GLM")
 
@@ -209,7 +202,24 @@ FetchContent_MakeAvailable(nlohmann-json)
 #    BINARY_DIR ${DEPS_DIR}/freetype-build
 #)
 #FetchContent_MakeAvailable(freetype)
+message(STATUS "🔶 Building LIBSNDFILE")
+# LIBSNDFILE
+set(BUILD_TESTING OFF CACHE BOOL "Disable test for sndfile" FORCE)
+set(ENABLE_TESTING OFF CACHE BOOL "Disable testing for sndfile" FORCE)
+set(ENABLE_EXTERNAL_LIBS OFF CACHE BOOL "" FORCE)
+set(BUILD_PROGRAMS OFF CACHE BOOL "" FORCE)
+FetchContent_Declare(
+	sndfile
+	GIT_REPOSITORY https://github.com/libsndfile/libsndfile.git
+	GIT_TAG master
+	SOURCE_DIR ${DEPS_DIR}/sndfile-src
+	BINARY_DIR ${DEPS_DIR}/sndfile-build
+)
+set(BUILD_PROGRAMS OFF CACHE BOOL "Disable building command-line programs for libsndfile")
+set(BUILD_EXAMPLES OFF CACHE BOOL "Disable building example programs for libsndfile")
+set(BUILD_TESTING OFF CACHE BOOL "Disable building testing for libsndfile")
 
+FetchContent_MakeAvailable(sndfile)
 
 # Define the base output directory
 set(BASE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin)
@@ -257,7 +267,6 @@ add_compile_definitions(
 )
 
 
-
 if(NOT BUILDING_WASM)
 	# Glad
 	add_subdirectory(_deps/glad)
@@ -265,19 +274,39 @@ endif()
 # Add subdirectories
 add_subdirectory(BeaverEngine)
 
-if(NOT BUILDING_WASM)
-	target_compile_options(BeaverEngine PRIVATE
-		"-s USE_GLFW=3"
-		"-s USE_OPENAL=1"
-		"-s ALLOW_MEMORY_GROWTH=1"
-		"-s FULL_ES3=1"
-		"-s WASM=1"
-		"--preload-file data@/data"
-		"-pthread"
-		"-s USE_PTHREADS=1"
-		"-s PROXY_TO_PTHREAD=1"
-		"-s PTHREAD_POOL_SIZE=4"
-	)
+if(BUILDING_WASM)
+
+message(STATUS "🔶CMAKE_SYSTEM_NAME = ${CMAKE_SYSTEM_NAME}🔶")
+# linker options only
+	target_compile_definitions(BeaverEngine PUBLIC SHIPPING)
+    # Emscripten compile-time flags
+    target_compile_options(BeaverEngine PRIVATE
+        "-sUSE_GLFW=3"
+        "-sUSE_SDL=2"
+        "-lopenal"
+        "-sALLOW_MEMORY_GROWTH=1"
+        "-sFULL_ES3=1"
+		#"-sASSERTIONS=2"
+		#"-gsource-map"
+		#"-DEMANGLE_SUPPORT=1"
+		#"-g4"
+        "-O2"
+    )
+
+    # Emscripten link-time flags
+    target_link_options(BeaverEngine PRIVATE
+        "-sUSE_GLFW=3"
+        "-sUSE_SDL=2"
+        "-lopenal"
+        "-sALLOW_MEMORY_GROWTH=1"
+        "-sFULL_ES3=1"
+        "-sWASM=1"
+		#"-sASSERTIONS=2"
+		#"-gsource-map"
+		#"-DEMANGLE_SUPPORT=1"
+		#"-g4"
+        "-O2"
+    )
 endif()
 
 if(BEAVER_ENGINE_BUILD_EXAMPLES)
@@ -287,4 +316,37 @@ endif()
 
 if(BEAVER_ENGINE_BUILD_SANDBOX)
 	add_subdirectory(SandBox)
+	
+	if(BUILDING_WASM)
+
+    # Emscripten compile-time flags
+    target_compile_options(SandBox PRIVATE
+        "-sUSE_GLFW=3"
+        "-sUSE_SDL=2"
+        "-lopenal"
+        "-sALLOW_MEMORY_GROWTH=1"
+        "-sFULL_ES3=1"
+		#"-sASSERTIONS=2"
+		#"-gsource-map"
+		#"-DEMANGLE_SUPPORT=1"
+		#"-g4"
+        "-O2"
+    )
+
+    # Emscripten link-time flags
+    target_link_options(SandBox PRIVATE
+        "-sUSE_GLFW=3"
+        "-sUSE_SDL=2"
+        "-lopenal"
+        "-sALLOW_MEMORY_GROWTH=1"
+        "-sFULL_ES3=1"
+        "-sWASM=1"
+		"--preload-file=${CMAKE_SOURCE_DIR}/data@/data"
+		#"-sASSERTIONS=2"
+		#"-gsource-map"
+		#"-DEMANGLE_SUPPORT=1"
+		#"-g4"
+        "-O2"
+    )
+	endif()
 endif()

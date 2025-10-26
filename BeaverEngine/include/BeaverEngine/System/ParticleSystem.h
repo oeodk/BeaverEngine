@@ -6,9 +6,9 @@
 #include "BeaverEngine/Utils/Texture2D.h"
 #include "BeaverEngine/Utils/Vertex.h"
 
-#include <BeaverENgine/System/WindowSystem.h>
-#include <BeaverENgine/System/ViewSystem.h>
-#include <BeaverENgine/System/TextureSystem.h>
+#include <BeaverEngine/System/WindowSystem.h>
+#include <BeaverEngine/System/ViewSystem.h>
+#include <BeaverEngine/System/TextureSystem.h>
 
 namespace bv
 {
@@ -54,6 +54,8 @@ namespace bv
 
             static constexpr std::array<unsigned int, 6> INDICES = { 0,1,2,0,2,3 };
             int pool_size_{};
+
+            inline static void iterateInternal(Particle& particle, const Timing& dt, std::span<Vertex2D>& mapped_vertices, std::span<unsigned int>& mapped_indices, size_t particle_count);
     };
 }
 

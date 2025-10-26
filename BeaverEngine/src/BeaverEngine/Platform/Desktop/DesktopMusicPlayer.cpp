@@ -1,6 +1,6 @@
 #include "BeaverEngine/Platform/Desktop/DesktopMusicPlayer.h"
 #include "BeaverEngine/Utils/AudioData.h"
-#include <AL\alext.h>
+//#include <AL\alext.h>
 
 namespace bv
 {
@@ -130,12 +130,12 @@ namespace bv
 		else if (sfinfo_.channels == 3)
 		{
 			if (sf_command(sndFile_, SFC_WAVEX_GET_AMBISONIC, NULL, 0) == SF_AMBISONIC_B_FORMAT)
-				format_ = AL_FORMAT_BFORMAT2D_16;
+				format_ = 0x20022;
 		}
 		else if (sfinfo_.channels == 4)
 		{
 			if (sf_command(sndFile_, SFC_WAVEX_GET_AMBISONIC, NULL, 0) == SF_AMBISONIC_B_FORMAT)
-				format_ = AL_FORMAT_BFORMAT3D_16;
+				format_ = 0x20032;
 		}
 		if (!format_)
 		{

@@ -2,11 +2,12 @@
 #include <BeaverEngine/Component/LogicComponent.h>
 #include <BeaverEngine/Component/CollisionComponent.h>
 
-
+namespace bv
+{
+	class ColliderComponent;
+}
 namespace sandbox
 {
-	class bv::ColliderComponent;
-
 	class TestComponent :
 		public bv::LogicComponent, public bv::CollisionComponent
 	{

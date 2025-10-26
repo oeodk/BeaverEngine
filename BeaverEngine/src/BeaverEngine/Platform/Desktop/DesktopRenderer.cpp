@@ -1,3 +1,5 @@
+#include "BeaverEngine/Platform/PlatformMacros.h"
+
 #include "BeaverEngine/Platform/Desktop/DesktopRenderer.h"
 #include <glm/gtc/type_ptr.hpp>
 #include "BeaverEngine/Core/GlobalConstants.h"
@@ -22,7 +24,7 @@ namespace bv
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-			loadShader(shader_program_2d_, constants::SHADERS_PATH + "Desktop/2d_render.vert", constants::SHADERS_PATH + "Desktop/2d_render.frag");
+			loadShader(shader_program_2d_, constants::SHADERS_PATH + SHADER_PLATEFORM + "2d_render.vert", constants::SHADERS_PATH + SHADER_PLATEFORM + "2d_render.frag");
 
 			uniforms_location_2d_.insert({ "u_projection_view", 0 });
 			uniforms_location_2d_.at("u_projection_view") = glGetUniformLocation(shader_program_2d_, "u_projection_view");

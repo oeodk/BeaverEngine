@@ -1,26 +1,25 @@
 #pragma once
+#include "BeaverEngine/Platform/PlatformMacros.h"
+#ifdef PLATFORM_WEB
 
-#include "BeaverEngine/Platform/PlatformMacros.h"
-#ifdef PLATFORM_DESKTOP
-#include "BeaverEngine/Platform/PlatformMacros.h"
 #include "BeaverEngine/Utils/Texture2D.h"
 #include GL_HEADER
 
 namespace bv
 {
-	class DesktopTexture2D :
+	class WebTexture2D :
 		public Texture2D
 	{
 	public:
-		DesktopTexture2D(const TextureSpecification& specification);
-		DesktopTexture2D(std::string_view path, bool interpolate);
+		WebTexture2D(const TextureSpecification& specification);
+		WebTexture2D(std::string_view path, bool interpolate);
 
-		DesktopTexture2D(const DesktopTexture2D&) = default;
-		DesktopTexture2D(DesktopTexture2D&&) = default;
-		DesktopTexture2D& operator=(const DesktopTexture2D&) = default;
-		DesktopTexture2D& operator=(DesktopTexture2D&&) = default;
+		WebTexture2D(const WebTexture2D&) = default;
+		WebTexture2D(WebTexture2D&&) = default;
+		WebTexture2D& operator=(const WebTexture2D&) = default;
+		WebTexture2D& operator=(WebTexture2D&&) = default;
 
-		virtual ~DesktopTexture2D();
+		virtual ~WebTexture2D();
 
 		const TextureSpecification& getSpecification() const override { return specification_; }
 		unsigned int getWidth() const override { return width_; }

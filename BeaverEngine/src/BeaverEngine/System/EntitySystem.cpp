@@ -1,4 +1,4 @@
-#include "BeaverEngine/system/EntitySystem.h"
+#include "BeaverEngine/System/EntitySystem.h"
 #include "BeaverEngine/Core/Entity.h"
 #include "BeaverEngine/Core/Scene.h"
 
