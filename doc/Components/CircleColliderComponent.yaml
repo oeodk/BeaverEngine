@@ -1,0 +1,8 @@
+# require PositionComponent
+CircleCollider:
+  handler: "PlayerProjectile" # Facultative, Component of the same entity inheriting the class CollisionComponent (handle the collision event)
+  mask: 1                     # The collision layer interracting with this component
+  flag: 1                     # The collision layer containing this collider
+  radius: 5                   # The radius of the collider
+  offset: [0,0]               # Facultative (default [0,0]),The offset with the position
+  rotationAngle: 0            # Facultative (default 0),The rotation of the collider

@@ -1,0 +1,9 @@
+Window:
+  name : "name"       # The name of the window in the program
+  title : "tile"      # The text appearing at the top of the window
+  size : [1280,720]   # The size of the window in pixels
+  bgColor : [0,0,0,1] # the background color in float [0,1] range
+  resizable: true     # Facultative (default true),Is the window resizable 
+  decorate: false     # Falcultative (default true), Does the window have a decorator (the top bar)
+  position: [0,0]     # Falcultative (default [0,0]),The position of the window ([0,0] is the center of the screen)
+  vsync: true         # Falcultative (default true), Is VSync enabled

@@ -56,21 +56,21 @@ namespace bv
             PRIMITIVE, VELOCITY, VELOCITY_VARIATION, PRIMITIVE_PARAMETER, EMIT_OUTER, EMIT_RADIAL
         };
         const std::map<std::string_view, InitValue> string_to_init_enum_map_ = {
-            {"start_color"   , START_BEGIN},
-            {"end_color"     , END_COLOR},
-            {"start_size"    , START_SIZE},
-            {"end_size"      , END_SIZE},
+            {"startColor"   , START_BEGIN},
+            {"endColor"     , END_COLOR},
+            {"startSize"    , START_SIZE},
+            {"endSize"      , END_SIZE},
             {"animation"     , ANIMATION},
             {"lifespan"      , LIFESPAN},
-            {"lifespan_var"  , LIFESPAN_VARIATION},
+            {"lifespanVar"  , LIFESPAN_VARIATION},
             {"primitive"     , PRIMITIVE},
             {"velocity"      , VELOCITY},
-            {"velocity_var"  , VELOCITY_VARIATION},
-            {"circle_radius" , PRIMITIVE_PARAMETER},
-            {"square_size"   , PRIMITIVE_PARAMETER},
-            {"fountain_angle", PRIMITIVE_PARAMETER},
-            {"emit_outer"    , EMIT_OUTER},
-            {"emit_radial"   , EMIT_RADIAL}
+            {"velocityVar"  , VELOCITY_VARIATION},
+            {"circleRadius" , PRIMITIVE_PARAMETER},
+            {"squareSize"   , PRIMITIVE_PARAMETER},
+            {"fountainAngle", PRIMITIVE_PARAMETER},
+            {"emitOuter"    , EMIT_OUTER},
+            {"emitRadial"   , EMIT_RADIAL}
         };
 
         void emitFountain(unsigned int particle_count, const glm::vec3& direction);

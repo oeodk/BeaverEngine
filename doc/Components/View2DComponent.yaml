@@ -1,0 +1,8 @@
+View2D:
+  name : "main_view"       # Name of the view in the program
+  size : [1280,720]        # Size of the view
+  center : [0,0]           # Facultative (default [0,0]), Center of the view in the world
+  elevation : 100          # Facultative (default [0,0]), Height if the view (elements rendered in the view can have a z of [0,elevation])
+  rotationAngle : 0        # Facultative (default 0), Rotation angle of the view
+  viewportPosition : [0,0] # Facultative (default [0,0]), position of the viewport in the window both values range from 0 to 1 (0% of the window to 100% of the window) ([0,0] is the top left corner of the view)
+  viewportSize : [1,1]     # Facultative (default [1,1]), proportion of the window that the view use  range from 0 to 1 ((0% of the window to 100% of the window)

@@ -25,7 +25,7 @@ namespace bv
 			offset_.y = init_value.parameters.at("offset")[1].as<float>();
 		}
 
-		if (init_value.parameters.contains("rotation_angle"))
+		if (init_value.parameters.contains("rotationAngle"))
 		{
 			rotation_angle_ = init_value.parameters.at("rotation_angle").as<float>();
 		}

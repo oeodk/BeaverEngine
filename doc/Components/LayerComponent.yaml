@@ -1,0 +1,8 @@
+# require PositionComponent (the z coordinate of the position is the height of the layer)
+Layer: 
+  view: "" # Facultative (default the main view of the game (1st declared)) View to use to render the layer
+  window: "" # Facultative (default the main window of the game (1st declared)) Window to use to render the layer
+  interpolateTexture: false # Facultative (default false), interpolate the texture when scaling
+  texture: "texture.png" # The name of the texture (in the sprites folder)(can also be a path from the data folder ("data/custom/.../texture.png))
+  renderLast: false # Facultative (default false), does the layer render after everything else
+  sort: true # Facultative (default true), are the sprite in the layer sorted (sprite with the higher y are drawn last)

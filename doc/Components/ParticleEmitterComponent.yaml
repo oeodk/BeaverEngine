@@ -1,0 +1,19 @@
+# require PositionComponent
+ParticleEmitter:
+  startColor: [1,1,1,1] # The color of the particle when spawned
+  endColor: [0,0,0,0] # Facultative (default startColor), the color the particle fade to
+  startSize : [10,10]  # The size of the particle when spawned
+  endSize: [1,1] # Facultative (default startSize), the size the particle has when it die
+  animation: "" # Facultatice (default the whole sprite), the animation to use from the particle.yaml file in sprite
+  lifespan: 60 # The lifespan of de particle in second
+  lifespanVar: 0.5 # Facultatice (default 0), the variation of the lifespan in second (lifespan = lifespan +/- lifespanVar)
+  velocity: 100 # The velocity of the particle in px/s
+  velocityVar: 50 # Facultatice (default 0), the variation of the velocity in second (velocity = velocity +/- velocityVar)
+  emitOuter: false # Facultatice (default false), are the particle emited from the whole shape or only the outer line 
+  emitRadial: true # Facultatice (default true), does the particle move away from the position component or in a specific direction
+  
+  primitive: "point" # Primitive shape to use, the possible values are "point", "circle", "square", "fountain"
+  circleRadius: 10 # The radius of the circle (ONLY USE WITH primitive: "circle")
+  squareSize: 10 # The sides size of the square (ONLY USE WITH primitive: "square")
+  fountainAngle: 10 # The spread angle of the fountain (ONLY USE WITH primitive: "fountain")
+        

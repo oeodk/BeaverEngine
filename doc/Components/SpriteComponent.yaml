@@ -1,0 +1,10 @@
+# require PositionComponent
+Sprite:
+  color: [1,1,1,1] # Facultative (default [1,1,1,1]),the color in float [0,1] range
+  layer: "ProjectileLayer" # Name of the Layer component to use (component containting the texture of the sprite)(for dedicated texture use SpriteRendererComponent)
+  baseAnimation: "" # Facultative, Animation to use (name from the texture animation file)
+  size: [100,100] # Facultative (the default is the size of the texture of animation), size of the sprite in pixel
+  scale: [1,1] # Facultative (default [1,1]), scale of the sprite
+  offset: [0,0] # Facultative (default [0,0]), offset from the position component
+  renderRectangle: [0,0,1,1]  # Facultative (default whole texture / defined by the animation), portion of the texture to use 1st two values are the start position (top left of the rectangle), the other values are the size of the rectangle in pixels
+  rotationAngle: 0  # Facultative (default 0), the angle of the sprite
