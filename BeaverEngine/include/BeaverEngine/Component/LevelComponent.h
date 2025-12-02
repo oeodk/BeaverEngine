@@ -22,7 +22,6 @@ namespace bv
 		const std::string& getLevelName() const { return level_name_; }
 
 	protected:
-		Array2D<int> collision_grid;
 		unsigned int level_height_{}, level_width_{};
 		std::string level_name_;
 

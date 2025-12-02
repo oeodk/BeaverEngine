@@ -1,30 +1,9 @@
-#pragma once
-#include "BeaverEngine/Component/Component.h"
-#include "BeaverEngine/Component/CollisionComponent.h"
-#include "BeaverEngine/Utils/Array2D.h"
-
-#include "BeaverEngine/Core/std.h"
-namespace bv
-{
-	class LevelComponent
-		: public CollisionComponent
-	{
-	public :
-		LevelComponent(Entity& owner) : Component(owner) {}
-		LevelComponent(const LevelComponent&) = default;
-		LevelComponent& operator=(const LevelComponent&) = default;
-		LevelComponent(LevelComponent&&) = default;
-		LevelComponent& operator=(LevelComponent&&) = default;
-
-		unsigned int getLevelWidth() const { return level_width_; }
-		unsigned int getLevelHeight() const { return level_height_; }
-
-		const std::string& getLevelName() const { return level_name_; }
-
-	protected:
-		Array2D<int> collision_grid;
-		unsigned int level_height_{}, level_width_{};
-		std::string level_name_;
-
-	};
-}
+# require PositionComponent
+# load a simple export level from the LDtk level editor (https://ldtk.io/) (made for LDtk 1.5.3, older and newer version might have issues)
+LdtkLevel:
+  folderPath: "Level_0"    # Folder containing the level from the data/levels folder
+  window: "main_window"    # Facultative (default main window), The window where the level is rendered
+  view: "main_view"        # Facultative (default main view), The view used to render the levle
+  customLayerHeight: true  # Does this level use custom height for the layers, if false the _composite layer is loaded, else see bellow
+  Tiles: 0                 # Load the layer named Tiles with 0 for height
+  Decoration: 5            # Load the layer named Decoration with 5 for height
